@@ -24,6 +24,6 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
   </servlet-mapping>
 
   <welcome-file-list>
-  	<welcome-file>clueless.jsp</welcome-file>
+  	<welcome-file>join.jsp</welcome-file>
   </welcome-file-list>
 </web-app>

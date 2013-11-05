@@ -24,7 +24,7 @@ public class ClueLessController {
 		this.clueLessService = clueLessService;
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="join")
+	@RequestMapping(method=RequestMethod.POST, params="action=join")
 	@ResponseBody
 	public ClueLessModel joinClueLess(HttpSession session, @RequestParam("player") String player) {
 		return this.clueLessService.joinClueLess(session.getId(), player);
@@ -36,7 +36,7 @@ public class ClueLessController {
 		return this.clueLessService.getClueLess();
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="leave")
+	@RequestMapping(method=RequestMethod.POST, params="action=leave")
 	@ResponseBody
 	public ClueLessModel leaveClueLess(HttpSession session) {
 		return this.clueLessService.leaveClueLess(session.getId());
