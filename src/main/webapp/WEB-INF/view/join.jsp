@@ -36,6 +36,8 @@
 		<h2>Players:</h2>
 		<div id="currentPlayers" style="color:blue"></div>
 		
+		<br>
+		
 		<button id="playClueLess" disabled>Play ClueLess</button>
 		<p>Minimum 3 players needed.</p>
 	</div>
@@ -62,7 +64,7 @@
 			
 			// Begin game
 			$("#playClueLess").click(function() {
-				window.location.href = "http://localhost:8080/ClueLess/";
+				window.location.href = "/ClueLess/";
 			});
 			
 			// Poll continuously poll server every 2 seconds for updated game state

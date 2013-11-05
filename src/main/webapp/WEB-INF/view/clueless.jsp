@@ -22,6 +22,9 @@
 	
 		<h1>ClueLess</h1>
 		
+		<br>
+		<button id="leaveGame">Leave Game</button>
+		
 	</div>
 	
 	
@@ -30,6 +33,18 @@
 		$(document).ready(function() {
 			
 			poll();
+			
+			// Leave game
+			$("#leaveGame").click(function() {
+				$.ajax({type: "POST",
+						url: "${pageContext.request.contextPath}/v1",
+						data: "action=leave",
+						success: function(response) {
+							window.location.href = "/ClueLess/join";
+						},
+						dataType: "json"
+					});
+			});
 			
 			// Poll continuously poll server every 2 seconds for updated game state
 			function poll() {
