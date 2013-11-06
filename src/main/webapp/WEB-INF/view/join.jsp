@@ -24,17 +24,17 @@
 		<p>Welcome to the game of ClueLess!</p>
 		
 		<h2>Choose to play as:</h2>
-		<input type="radio" name="player" id="Miss Scarlet" value="Miss Scarlet" checked>Miss Scarlet<br>
+		<input type="radio" name="player" id="Miss Scarlet" value="Miss Scarlet">Miss Scarlet<br>
 		<input type="radio" name="player" id="Colonel Mustard" value="Colonel Mustard">Colonel Mustard<br>
 		<input type="radio" name="player" id="Mrs. White" value="Mrs. White">Mrs. White<br>
 		<input type="radio" name="player" id="Mr. Green" value="Mr. Green">Mr. Green<br>
 		<input type="radio" name="player" id="Mrs. Peacock" value="Mrs. Peacock">Mrs. Peacock<br>
 		<input type="radio" name="player" id="Professor Plum" value="Professor Plum">Professor Plum<br>
 		<button id="joinGame">Join Game</button>
-		<div id="joinGameResponse" style="color:green"></div>
+		<div id="joinGameResponse"></div>
 		
 		<h2>Players:</h2>
-		<div id="currentPlayers" style="color:blue"></div>
+		<textarea id="currentPlayers" rows="6"></textarea>
 		
 		<br>
 		
@@ -52,14 +52,18 @@
 			// Join game
 			$("#joinGame").click(function() {
 				var player = $("input:radio[name=player]:checked").val();
-				$.ajax({type: "POST",
-						url: "${pageContext.request.contextPath}/v1",
-						data: "action=join" + "&player=" + player,
-						success: function(response) {
-							$("#joinGameResponse").text("You will play as " + player + ".");
-						},
-						dataType: "json"
-					});
+				if (typeof player != "undefined") {
+					$.ajax({type: "POST",
+							url: "${pageContext.request.contextPath}/v1",
+							data: "action=join" + "&player=" + player,
+							success: function(response) {
+								$("#joinGameResponse").text("You will play as " + player + ".").css("color", "green");
+							},
+							dataType: "json"
+						});
+				} else {
+					$("#joinGameResponse").text("You must select a character to play.").css("color", "red");
+				}
 			});
 			
 			// Begin game
@@ -76,11 +80,11 @@
 			    			success: function(response){
 			    				$("input:radio[name=player]").removeAttr("disabled");
 			    				$.each(response["players"], function(id, name) {
-									display = display + name + ", ";
+									display = display + name + "\n";
 									document.getElementById(name).disabled=true;
 								});
-			    				$("input:radio[name=player]:not(:disabled):first").attr("checked", true);
-								$("#currentPlayers").text(display);
+			    				//$("input:radio[name=player]:not(:disabled):first").attr("checked", true);
+								$("#currentPlayers").text(display).css("color", "green");
 								if (response.gameReady===true) {
 									$("#playClueLess").removeAttr("disabled");
 									$("p").hide();
