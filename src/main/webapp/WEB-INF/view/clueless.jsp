@@ -46,7 +46,7 @@
 					});
 			});
 			
-			// Poll continuously poll server every 2 seconds for updated game state
+			// Poll continuously poll server every second for updated game state
 			function poll() {
 				setTimeout(function() {
 			    	$.ajax({url: "${pageContext.request.contextPath}/v1",
@@ -58,7 +58,7 @@
 			  				complete: poll, 
 			  				timeout: 30000 
 			  			});
-				}, 2000);
+				}, 1000);
 			};
 			
 		});

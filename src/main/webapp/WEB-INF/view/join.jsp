@@ -47,7 +47,7 @@
 	
 		$(document).ready(function() {
 			
-			poll();
+			poll();			
 			
 			// Join game
 			$("#joinGame").click(function() {
@@ -67,7 +67,7 @@
 				window.location.href = "/ClueLess/";
 			});
 			
-			// Poll continuously poll server every 2 seconds for updated game state
+			// Poll continuously poll server every second for updated game state
 			function poll() {
 				var display = "";
 				setTimeout(function() {
@@ -79,6 +79,7 @@
 									display = display + name + ", ";
 									document.getElementById(name).disabled=true;
 								});
+			    				$("input:radio[name=player]:not(:disabled):first").attr("checked", true);
 								$("#currentPlayers").text(display);
 								if (response.gameReady===true) {
 									$("#playClueLess").removeAttr("disabled");
@@ -89,7 +90,7 @@
 			  				complete: poll, 
 			  				timeout: 30000 
 			  			});
-				}, 2000);
+				}, 1000);
 			};
 			
 		});

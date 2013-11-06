@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.clueless.service;
 
 import org.springframework.stereotype.Service;
@@ -8,8 +5,8 @@ import org.springframework.stereotype.Service;
 import com.clueless.model.ClueLessModel;
 
 /**
+ * The ClueLessServiceImpl implements the ClueLessService interface. All the actual game logic code is here.
  * @author nshih
- *
  */
 @Service
 public class ClueLessServiceImpl implements ClueLessService {

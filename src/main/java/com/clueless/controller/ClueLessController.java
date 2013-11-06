@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.clueless.model.ClueLessModel;
 import com.clueless.service.ClueLessService;
 
+/**
+ * The ClueLessController is the interface between the client and the game logic. Requests sent from
+ * the client are mapped to methods here which are then passed to the ClueLessService for processing.
+ * @author nshih
+ */
 @Controller
 @RequestMapping("v1")
 public class ClueLessController {

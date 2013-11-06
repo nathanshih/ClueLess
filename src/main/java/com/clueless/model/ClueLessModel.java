@@ -2,15 +2,27 @@ package com.clueless.model;
 
 import java.util.HashMap;
 
+/**
+ * The ClueLessModel is the repository for the game state data. The ClueLessModel is returned back to
+ * the client as a JSON body which contains all the information needed for the client to update its state.
+ * @author nshih
+ */
 public class ClueLessModel {
 
 	private static final ClueLessModel instance = new ClueLessModel();
 	
-	private HashMap<String, String> players = new HashMap<String, String>();
-	private boolean gameReady = false;
+	private HashMap<String, String> players;
+	private boolean gameReady;
 
-	private ClueLessModel() {}
+	private ClueLessModel() {
+		players = new HashMap<String, String>();
+		gameReady = false;
+	}
 	
+	/**
+	 * Returns the ClueLessModel game state as a singleton.
+	 * @return ClueLessModel
+	 */
 	public static ClueLessModel getInstance() {
 		return instance;
 	}
