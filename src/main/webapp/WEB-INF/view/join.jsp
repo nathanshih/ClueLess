@@ -34,7 +34,7 @@
 		<div id="joinGameResponse"></div>
 		
 		<h2>Players:</h2>
-		<textarea id="currentPlayers" rows="6"></textarea>
+		<textarea id="currentPlayers" rows="6" readonly></textarea>
 		
 		<br>
 		
@@ -83,7 +83,6 @@
 									display = display + name + "\n";
 									document.getElementById(name).disabled=true;
 								});
-			    				//$("input:radio[name=player]:not(:disabled):first").attr("checked", true);
 								$("#currentPlayers").text(display).css("color", "green");
 								if (response.gameReady===true) {
 									$("#playClueLess").removeAttr("disabled");
