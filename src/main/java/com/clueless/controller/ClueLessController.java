@@ -20,8 +20,7 @@ import com.clueless.service.ClueLessService;
 @Controller
 @RequestMapping("v1")
 public class ClueLessController {
-	
-	
+		
 	ClueLessService clueLessService;
 
 	@Autowired

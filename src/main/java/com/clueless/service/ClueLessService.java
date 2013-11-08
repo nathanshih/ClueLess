@@ -22,7 +22,7 @@ public interface ClueLessService {
 	 * @return ClueLessModel
 	 */
 	public ClueLessModel joinClueLess(String sessionId, String player);
-	
+		
 	/**
 	 * This removes a client from the current ClueLess game session.
 	 * @param sessionId The client's session ID.

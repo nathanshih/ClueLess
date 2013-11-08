@@ -11,12 +11,13 @@ public class ClueLessModel {
 
 	private static final ClueLessModel instance = new ClueLessModel();
 	
-	private HashMap<String, String> players;
 	private boolean gameReady;
-
+	private String whoseTurn;
+	private HashMap<String, Player> players;
+	
 	private ClueLessModel() {
-		players = new HashMap<String, String>();
 		gameReady = false;
+		players = new HashMap<String, Player>();
 	}
 	
 	/**
@@ -27,27 +28,27 @@ public class ClueLessModel {
 		return instance;
 	}
 	
-	public HashMap<String, String> getPlayers() {
-		return this.players;
-	}
-
-	public void setActivePlayers(HashMap<String, String> players) {
-		this.players = players;
-	}
-	
-	public void addPlayer(String sessionId, String player) {
-		this.players.put(sessionId, player);
-	}
-	
-	public void removePlayer(String sessionId) {
-		this.players.remove(sessionId);
-	}
-
 	public boolean isGameReady() {
 		return gameReady;
 	}
 
 	public void setGameReady(boolean gameReady) {
 		this.gameReady = gameReady;
+	}
+
+	public String getWhoseTurn() {
+		return whoseTurn;
+	}
+
+	public void setWhoseTurn(String whoseTurn) {
+		this.whoseTurn = whoseTurn;
+	}
+	
+	public HashMap<String, Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(HashMap<String, Player> playerss) {
+		this.players = playerss;
 	}
 }

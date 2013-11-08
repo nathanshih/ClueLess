@@ -39,7 +39,9 @@
 		<br>
 		
 		<button id="playClueLess" disabled>Play ClueLess</button>
-		<p>Minimum 3 players needed.</p>
+		<div id=req1 style="color:red">Minimum 3 players needed.</div>
+		<div id=req2 style="color:red">Miss Scarlet needs to be picked.</div>
+		
 	</div>
 	
 	
@@ -73,20 +75,23 @@
 			
 			// Poll continuously poll server every second for updated game state
 			function poll() {
-				var display = "";
 				setTimeout(function() {
 			    	$.ajax({url: "${pageContext.request.contextPath}/v1",
 			    			type: "GET",
 			    			success: function(response){
-			    				$("input:radio[name=player]").removeAttr("disabled");
-			    				$.each(response["players"], function(id, name) {
-									display = display + name + "\n";
-									document.getElementById(name).disabled=true;
+			    				resetUI(); 
+			    				var selectedPlayers = "";
+			    				$.each(response["players"], function(sessionId, player) {
+			    					selectedPlayers = selectedPlayers + player.name + "\n";
+									document.getElementById(player.name).disabled=true;
 								});
-								$("#currentPlayers").text(display).css("color", "green");
-								if (response.gameReady===true) {
-									$("#playClueLess").removeAttr("disabled");
-									$("p").hide();
+								$("#currentPlayers").text(selectedPlayers).css("color", "green");
+								if (document.getElementById("Miss Scarlet").disabled == true) {
+									$("#req2").hide();
+								}
+								if (response.gameReady == true) {
+									$("#req1").hide();
+									$("#playClueLess").prop("disabled", false);
 								}
 			  				}, 
 			  				dataType: "json", 
@@ -94,6 +99,13 @@
 			  				timeout: 30000 
 			  			});
 				}, 1000);
+			};
+			
+			function resetUI() {
+				$("input:radio[name=player]").removeAttr("disabled");
+				$("#playClueLess").prop("disabled", true);
+				$("#req1").show();
+				$("#req2").show();
 			};
 			
 		});
