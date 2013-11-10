@@ -29,4 +29,14 @@ public interface ClueLessService {
 	 * @return ClueLessModel
 	 */
 	public ClueLessModel leaveClueLess(String sessionId);
+	
+	/**
+	 * This initializes a new ClueLess game by performing these operations:<br>
+	 * 1. Randomly distributes each weapon in each room with only one weapon per room.<br> 
+	 * 2. Shuffles the deck.<br>
+	 * 3. Generates the solution by picking one card of each type: weapon, suspect, room.<br>
+	 * 4. Deals the remainings cards to all players.
+	 * @return ClueLessModel
+	 */
+	public ClueLessModel initClueLess();
 }

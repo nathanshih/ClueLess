@@ -1,4 +1,4 @@
-package com.clueless.model;
+package com.clueless.domain;
 
 import java.util.ArrayList;
 

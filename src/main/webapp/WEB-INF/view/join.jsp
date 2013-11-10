@@ -70,7 +70,12 @@
 			
 			// Begin game
 			$("#playClueLess").click(function() {
-				window.location.href = "/ClueLess/";
+				$.ajax({type: "POST",
+					url: "${pageContext.request.contextPath}/v1",
+					data: "action=init",
+					success: window.location.href = "/ClueLess/",
+					dataType: "json"
+				});
 			});
 			
 			// Poll continuously poll server every second for updated game state

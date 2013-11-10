@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import org.springframework.stereotype.Service;
 
+import com.clueless.domain.Player;
 import com.clueless.model.ClueLessModel;
-import com.clueless.model.Player;
 
 /**
  * The ClueLessServiceImpl implements the ClueLessService interface. All the actual game logic code is here.
@@ -63,5 +63,15 @@ public class ClueLessServiceImpl implements ClueLessService {
 		}
 		this.clueLessModel.setWhoseTurn(null);
 		return false;
+	}
+
+	@Override
+	public ClueLessModel initClueLess() {
+		//TODO: randomly put 6 weapons in 9 rooms no more than one per room
+		//TODO: shuffle cards
+		//TODO: generate solution using 3 cards one of each type: room, suspect, weapon
+		//TODO: deal remaining cards to all players
+		
+		return this.clueLessModel;
 	}
 }

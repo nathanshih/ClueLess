@@ -45,4 +45,10 @@ public class ClueLessController {
 	public ClueLessModel leaveClueLess(HttpSession session) {
 		return this.clueLessService.leaveClueLess(session.getId());
 	}
+	
+	@RequestMapping(method=RequestMethod.POST, params="action=init")
+	@ResponseBody
+	public ClueLessModel initClueLess() {
+		return this.clueLessService.initClueLess();
+	}
 }

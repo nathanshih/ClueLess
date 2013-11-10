@@ -1,0 +1,117 @@
+{
+    "gameReady": false,
+    "whoseTurn": "D1C28DDA1CC6884EE32C547ED71970CE",
+    "players": {
+        "D1C28DDA1CC6884EE32C547ED71970CE": {
+            "name": "Miss Scarlet",
+            "cardsInHand": [],
+            "canDisprove": true,
+            "failedAccusation": false,
+            "location": "hallway2"
+        },
+        "32C547ED71970CED1C28DDA1CC6884EE": {
+            "name": "Mr. Green",
+            "cardsInHand": [],
+            "canDisprove": false,
+            "failedAccusation": false,
+            "location": "study"
+        }
+    },
+    "rooms": {
+        "study": {
+            "currentPlayers": ["32C547ED71970CED1C28DDA1CC6884EE"],
+            "currentWeapons": [],
+            "adjacentTo":[]
+        },
+        "hall": {}
+    },
+    "hallways": {
+        "hallway1": {
+            "occupiedBy": null,
+            "adjacentTo": [
+                "study",
+                "hall"
+            ]
+        },
+        "hallway2": {
+            "player": "D1C28DDA1CC6884EE32C547ED71970CE",
+            "adjacentTo": [
+                "hall",
+                "lounge"
+            ]
+        },
+        "hallway3": {
+            "occupiedBy": null,
+            "adjacentTo": [
+                "study",
+                "library"
+            ]
+        },
+        "hallway4": {
+            "occupiedBy": null,
+            "adjacentTo": [
+                "hall",
+                "billiardRoom"
+            ]
+        },
+        "hallway5": {
+            "occupiedBy": null,
+            "adjacentTo": [
+                "lounge",
+                "diningRoom"
+            ]
+        },
+        "hallway6": {
+            "occupiedBy": null,
+            "adjacentTo": [
+                "library",
+                "billiardRoom"
+            ]
+        },
+        "hallway7": {
+            "occupiedBy": null,
+            "adjacentTo": [
+                "billiardRoom",
+                "diningRoom"
+            ]
+        },
+        "hallway8": {
+            "occupiedBy": null,
+            "adjacentTo": [
+                "library",
+                "conservatory"
+            ]
+        },
+        "hallway9": {
+            "occupiedBy": null,
+            "adjacentTo": [
+                "billiardRoom",
+                "ballroom"
+            ]
+        },
+        "hallway10": {
+            "occupiedBy": null,
+            "adjacentTo": [
+                "diningRoom",
+                "kitchen"
+            ]
+        },
+        "hallway11": {
+            "occupiedBy": null,
+            "adjacentTo": [
+                "conservatory",
+                "ballroom"
+            ]
+        },
+        "hallway12": {
+            "occupiedBy": null,
+            "adjacentTo": [
+                "ballroom",
+                "kitchen"
+            ]
+        }
+    },
+    "solution": {
+        "cards": []
+    }
+}
