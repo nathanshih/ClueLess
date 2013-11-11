@@ -4,6 +4,21 @@ import java.util.ArrayList;
 
 public class Hallway {
 	
+	public static final int TOTAL = 12; // 12 hallways
+	
+	public static final String HALLWAY1 = "hallway1";
+	public static final String HALLWAY2 = "hallway2";
+	public static final String HALLWAY3 = "hallway3";
+	public static final String HALLWAY4 = "hallway4";
+	public static final String HALLWAY5 = "hallway5";
+	public static final String HALLWAY6 = "hallway6";
+	public static final String HALLWAY7 = "hallway7";
+	public static final String HALLWAY8 = "hallway8";
+	public static final String HALLWAY9 = "hallway9";
+	public static final String HALLWAY10 = "hallway10";
+	public static final String HALLWAY11 = "hallway11";
+	public static final String HALLWAY12 = "hallway12";
+	
 	private String occupiedBy;
 	private ArrayList<String> adjacentTo;
 	

@@ -7,12 +7,22 @@ package com.clueless.model;
  */
 public class SuggestionModel {
 
+	private static final SuggestionModel instance = new SuggestionModel();
+	
 	private String makingSuggestion;
 	private String disprovingSuggestion;
 	private String whichCard;
 	
-	public SuggestionModel() {
+	private SuggestionModel() {
 		
+	}
+	
+	/**
+	 * Returns the SuggestionModel as a singleton.
+	 * @return SuggestionModel
+	 */
+	public static SuggestionModel getInstance() {
+		return instance;
 	}
 
 	public String getMakingSuggestion() {

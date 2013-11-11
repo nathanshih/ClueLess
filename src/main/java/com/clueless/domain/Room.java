@@ -4,14 +4,26 @@ import java.util.ArrayList;
 
 public class Room {
 
+	public static final int TOTAL = 9; // 9 rooms
+	
+	public static final String STUDY = "study";
+	public static final String HALL = "hall";
+	public static final String LOUNGE = "lounge";
+	public static final String LIBRARY = "library";
+	public static final String BILLIARD_ROOM = "billardRoom";
+	public static final String DINING_ROOM = "diningRoom";
+	public static final String CONSERVATORY = "conservatory";
+	public static final String BALLROOM = "ballroom";
+	public static final String KITCHEN = "kitchen";
+	
 	private ArrayList<String> currentPlayers;
 	private ArrayList<String> currentWeapons;
 	private ArrayList<String> adjacentTo;
 	
 	public Room() {
-		currentPlayers = new ArrayList<String>(6); // at most 6 players
-		currentWeapons = new ArrayList<String>(6); // only 6 weapons
-		adjacentTo = new ArrayList<String>(4);
+		currentPlayers = new ArrayList<String>(Player.TOTAL); // at most 6 players
+		currentWeapons = new ArrayList<String>(Weapon.TOTAL); // only 6 weapons
+		adjacentTo = new ArrayList<String>(4); // at most 4 areas
 	}
 	
 	/**
@@ -21,8 +33,8 @@ public class Room {
 	 * @param adjacentTo3
 	 */
 	public Room(String adjacentTo1, String adjacentTo2, String adjacentTo3) {
-		currentPlayers = new ArrayList<String>(6);
-		currentWeapons = new ArrayList<String>(6);
+		currentPlayers = new ArrayList<String>(Player.TOTAL);
+		currentWeapons = new ArrayList<String>(Weapon.TOTAL);
 		adjacentTo = new ArrayList<String>(3);
 		
 		adjacentTo.add(adjacentTo1);
@@ -38,9 +50,9 @@ public class Room {
 	 * @param adjacentTo4
 	 */
 	public Room(String adjacentTo1, String adjacentTo2, String adjacentTo3, String adjacentTo4) {
-		currentPlayers = new ArrayList<String>(6);
-		currentWeapons = new ArrayList<String>(6);
-		adjacentTo = new ArrayList<String>(3);
+		currentPlayers = new ArrayList<String>(Player.TOTAL);
+		currentWeapons = new ArrayList<String>(Weapon.TOTAL);
+		adjacentTo = new ArrayList<String>(4);
 		
 		adjacentTo.add(adjacentTo1);
 		adjacentTo.add(adjacentTo2);

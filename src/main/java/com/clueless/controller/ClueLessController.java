@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.clueless.model.ClueLessModel;
+import com.clueless.model.SolutionModel;
+import com.clueless.model.SuggestionModel;
 import com.clueless.service.ClueLessService;
 
 /**
@@ -49,6 +51,32 @@ public class ClueLessController {
 	@RequestMapping(method=RequestMethod.POST, params="action=init")
 	@ResponseBody
 	public ClueLessModel initClueLess() {
-		return this.clueLessService.initClueLess();
+		return this.clueLessService.dealCards();
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, params="action=move")
+	@ResponseBody
+	public ClueLessModel movePlayer(HttpSession session, @RequestParam("location") String location) {
+		return this.clueLessService.movePlayer(session.getId(), location);
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, params="action=suggestion")
+	@ResponseBody
+	public SuggestionModel makeSuggestion(HttpSession session, @RequestParam("room") String room,
+			@RequestParam("suspect") String suspect, @RequestParam("weapon") String weapon) {
+		return this.clueLessService.makeSuggestion(session.getId(), room, suspect, weapon);
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, params="action=accusation")
+	@ResponseBody
+	public SolutionModel makeAccusation(HttpSession session, @RequestParam("room") String room,
+			@RequestParam("suspect") String suspect, @RequestParam("weapon") String weapon) {
+		return this.clueLessService.makeAccusation(session.getId(), room, suspect, weapon);
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, params="action=endTurn")
+	@ResponseBody
+	public ClueLessModel endTurn(HttpSession session) {
+		return this.clueLessService.endTurn(session.getId());
 	}
 }
