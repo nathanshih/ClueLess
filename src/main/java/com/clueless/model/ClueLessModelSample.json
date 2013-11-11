@@ -7,18 +7,21 @@
             "canDisprove": false,
             "failedAccusation": false,
             "location": "conservatory"
+            "cardsInHand": [] // This is shown in the sample only and will be hidden during runtime.
         },
         "AE461C72FADFD522F17E120A1489D2B0": {
             "name": "Colonel Mustard",
             "canDisprove": false,
             "failedAccusation": false,
             "location": "hallway10"
+            "cardsInHand": [] // This is shown in the sample only and will be hidden during runtime.
         },
         "36058AB6001C2CE690B444492D666730": {
             "name": "Mr. Green",
             "canDisprove": false,
             "failedAccusation": false,
             "location": "hall"
+            "cardsInHand": [] // This is shown in the sample only and will be hidden during runtime.
         }
     },
     "rooms": {
