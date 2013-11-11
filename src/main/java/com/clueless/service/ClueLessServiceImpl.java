@@ -40,11 +40,10 @@ public class ClueLessServiceImpl implements ClueLessService {
 		solutionModel = SolutionModel.getInstance();
 		suggestionModel = SuggestionModel.getInstance();
 		deck = new ArrayList<Card>(Card.TOTAL);
-		players = new HashMap<String, Player>(Player.TOTAL);
-		rooms = new HashMap<String, Room>(Room.TOTAL);
-		hallways = new HashMap<String, Hallway>(Hallway.TOTAL);
+		players = clueLessModel.getPlayers();
+		rooms = clueLessModel.getRooms();
+		hallways = clueLessModel.getHallways();
 		roomKeys = new ArrayList<String>(rooms.keySet());
-		weaponList = new Weapon().getWeaponList();
 		
 		// initialize rooms
 		initRooms();
@@ -162,8 +161,6 @@ public class ClueLessServiceImpl implements ClueLessService {
 		rooms.put(Room.CONSERVATORY, new Room(Hallway.HALLWAY8, Room.LOUNGE, Hallway.HALLWAY11));
 		rooms.put(Room.BALLROOM, new Room(Hallway.HALLWAY11, Hallway.HALLWAY9, Hallway.HALLWAY12));
 		rooms.put(Room.KITCHEN, new Room(Hallway.HALLWAY12, Room.STUDY, Hallway.HALLWAY10));
-		
-		this.clueLessModel.setRooms(rooms);
 	}
 	
 	private void initHallways() {
@@ -179,13 +176,18 @@ public class ClueLessServiceImpl implements ClueLessService {
 		hallways.put(Hallway.HALLWAY10, new Hallway(Room.DINING_ROOM, Room.KITCHEN));
 		hallways.put(Hallway.HALLWAY11, new Hallway(Room.CONSERVATORY, Room.BALLROOM));
 		hallways.put(Hallway.HALLWAY12, new Hallway(Room.BALLROOM, Room.KITCHEN));
-		
-		this.clueLessModel.setHallways(hallways);
 	}
 	
 	private void distributeWeapons() {
-		Collections.shuffle(roomKeys);
+		weaponList = new ArrayList<String>(Weapon.TOTAL); // at most 6 weapons
+		weaponList.add(Weapon.ROPE);
+		weaponList.add(Weapon.LEAD_PIPE);
+		weaponList.add(Weapon.KNIFE);
+		weaponList.add(Weapon.WRENCH);
+		weaponList.add(Weapon.CANDLESTICK);
+		weaponList.add(Weapon.REVOLVER);		
 		Collections.shuffle(weaponList);
+		Collections.shuffle(roomKeys);		
 		for (int i = 0; i < 6; i++) {
 			Room room = rooms.get(roomKeys.get(i));
 			room.addWeapon(weaponList.get(i));
