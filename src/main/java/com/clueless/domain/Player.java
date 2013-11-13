@@ -8,29 +8,31 @@ public class Player {
 	
 	public static final int TOTAL = 6; // 6 players
 	
-	public static final String MISS_SCARLET = "missScarlet";
-	public static final String COLONEL_MUSTARD = "colonelMustard";
-	public static final String PROFESSOR_PLUM = "professorPlum";
-	public static final String MR_GREEN = "mrGreen";
-	public static final String MRS_WHITE = "mrsWhite";
-	public static final String MRS_PEACOCK = "mrsPeacock";
+	public static final String MISS_SCARLET = "Miss Scarlet";
+	public static final String COLONEL_MUSTARD = "Colonel Mustard";
+	public static final String PROFESSOR_PLUM = "Professor Plum";
+	public static final String MR_GREEN = "Mr. Green";
+	public static final String MRS_WHITE = "Mrs. White";
+	public static final String MRS_PEACOCK = "Mrs. Peacock";
 	
 	private String name;
 	private ArrayList<Card> cardsInHand;
 	private boolean canDisprove;
 	private boolean failedAccusation;
 	private String location;
+	private ArrayList<String> movableLocations;
 	
 	public Player(String name) {
 		this.setName(name);
 		cardsInHand = new ArrayList<Card>();
 		canDisprove = false;
 		setFailedAccusation(false);
+		movableLocations = new ArrayList<String>(4); // at most 4 movable locations (ex. the Billard Room)
 	}
 	
-	public Player(String name, ArrayList<Card> cards) {
+	public Player(String name, String location) {
 		this.setName(name);
-		this.cardsInHand = cards;
+		this.location = location;
 	}
 	
 	public String getName() {
@@ -72,5 +74,21 @@ public class Player {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public ArrayList<String> getMovableLocations() {
+		return movableLocations;
+	}
+
+	public void setMovableLocations(ArrayList<String> movableLocations) {
+		this.movableLocations = movableLocations;
+	}
+	
+	public void addMovableLocation(String location) {
+		this.movableLocations.add(location);
+	}
+	
+	public void clearMovableLocations() {
+		this.movableLocations.clear();
 	}
 }

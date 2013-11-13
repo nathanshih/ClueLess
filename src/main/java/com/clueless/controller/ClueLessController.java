@@ -4,11 +4,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.clueless.domain.Card;
 import com.clueless.model.ClueLessModel;
 import com.clueless.model.SolutionModel;
 import com.clueless.model.SuggestionModel;
@@ -65,6 +67,12 @@ public class ClueLessController {
 	public SuggestionModel makeSuggestion(HttpSession session, @RequestParam("room") String room,
 			@RequestParam("suspect") String suspect, @RequestParam("weapon") String weapon) {
 		return this.clueLessService.makeSuggestion(session.getId(), room, suspect, weapon);
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, params="action=disprove")
+	@ResponseBody
+	public SuggestionModel disproveSuggestion(HttpSession session, @RequestBody Card card) {
+		return this.clueLessService.disproveSuggestion(session.getId(), card);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=accusation")

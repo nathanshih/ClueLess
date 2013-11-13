@@ -1,5 +1,6 @@
 package com.clueless.service;
 
+import com.clueless.domain.Card;
 import com.clueless.model.ClueLessModel;
 import com.clueless.model.SolutionModel;
 import com.clueless.model.SuggestionModel;
@@ -55,6 +56,14 @@ public interface ClueLessService {
 	 * @return SuggestionModel
 	 */
 	public SuggestionModel makeSuggestion(String sessionId, String room, String suspect, String weapon);
+	
+	/**
+	 * Allows a player to disprove a suggestion by showing a card matching the suggestion.
+	 * @param sessionId session ID of player disproving the suggestion
+	 * @param card a card to disprove the suggestion
+	 * @return SuggestionModel
+	 */
+	public SuggestionModel disproveSuggestion(String sessionId, Card card);
 	
 	/**
 	 * Allows a player to make an accuestion. Information needed are the room, suspect, and weapon used to commit the crime.

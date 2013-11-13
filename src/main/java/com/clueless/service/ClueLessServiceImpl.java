@@ -1,6 +1,7 @@
 package com.clueless.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
@@ -43,14 +44,13 @@ public class ClueLessServiceImpl implements ClueLessService {
 		players = clueLessModel.getPlayers();
 		rooms = clueLessModel.getRooms();
 		hallways = clueLessModel.getHallways();
-		roomKeys = new ArrayList<String>(rooms.keySet());
 		
 		// initialize rooms
 		initRooms();
 
 		// initialize hallways
 		initHallways();
-		
+			
 		// randomly put 6 weapons in 9 rooms no more than one per room
 		distributeWeapons();
 		
@@ -70,26 +70,48 @@ public class ClueLessServiceImpl implements ClueLessService {
 
 	@Override
 	public ClueLessModel joinClueLess(String sessionId, String player) {
-		//HashMap<String, Player> players = this.clueLessModel.getPlayers();
-		players.put(sessionId, new Player(player));
-		this.clueLessModel.setPlayers(players);
+		Player newPlayer = new Player(player);
+		
+		// set each player's specific start location
+		switch(player) {
+			case Player.COLONEL_MUSTARD:
+				newPlayer.addMovableLocation(Hallway.HALLWAY5);
+				break;
+			case Player.MISS_SCARLET:
+				newPlayer.addMovableLocation(Hallway.HALLWAY2);
+				break;
+			case Player.MR_GREEN:
+				newPlayer.addMovableLocation(Hallway.HALLWAY11);
+				break;
+			case Player.MRS_PEACOCK:
+				newPlayer.addMovableLocation(Hallway.HALLWAY8);
+				break;
+			case Player.MRS_WHITE:
+				newPlayer.addMovableLocation(Hallway.HALLWAY12);
+				break;
+			case Player.PROFESSOR_PLUM:
+				newPlayer.addMovableLocation(Hallway.HALLWAY3);
+				break;
+		}
+		
+		players.put(sessionId, newPlayer);
 		boolean hasMissScarletJoined = checkMissScarletJoinStatus();
 		if (players.size() >= 3 && hasMissScarletJoined) {
 			this.clueLessModel.setGameReady(true);
 		}
-		
+
 		return this.clueLessModel;
 	}
 
 	@Override
 	public ClueLessModel leaveClueLess(String sessionId) {
-		//HashMap<String, Player> players = this.clueLessModel.getPlayers();
+		Player player = players.get(sessionId);
+		removePlayerFromLocation(sessionId, player.getLocation());
 		players.remove(sessionId);
 		boolean hasMissScarletJoined = checkMissScarletJoinStatus();
 		if (players.size() < 3 || hasMissScarletJoined == false) {
 			this.clueLessModel.setGameReady(false);
 		}
-		this.clueLessModel.setPlayers(players);
 		
 		return this.clueLessModel;
 	}
@@ -99,7 +121,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 		
 		// check to make sure other clients do not call this method twice
 		if (!cardsDealt) {
-	
+			
 			//TODO: deal remaining cards to all players
 			cardsDealt = true;
 		}
@@ -109,8 +131,33 @@ public class ClueLessServiceImpl implements ClueLessService {
 
 	@Override
 	public ClueLessModel movePlayer(String sessionId, String location) {
-		// TODO Auto-generated method stub
-		return null;
+		Player player = players.get(sessionId);
+		String previousLocation = player.getLocation();
+		
+		// move player to hallway
+		if (hallways.containsKey(location)) {
+			Hallway hallway = hallways.get(location);
+			hallway.setOccupiedBy(sessionId);
+			player.setLocation(location);
+				
+			removePlayerFromLocation(sessionId, previousLocation);	
+			updatePlayerMovableLocations();
+			
+			return this.clueLessModel;
+			
+		// move player to room
+		} else if (rooms.containsKey(location)) {
+			Room room = rooms.get(location);
+			room.addPlayer(sessionId);
+			player.setLocation(location);
+			
+			removePlayerFromLocation(sessionId, previousLocation);
+			updatePlayerMovableLocations();
+			
+			return this.clueLessModel;
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -120,6 +167,12 @@ public class ClueLessServiceImpl implements ClueLessService {
 		return null;
 	}
 
+	@Override
+	public SuggestionModel disproveSuggestion(String sessionId, Card card) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public SolutionModel makeAccusation(String sessionId, String room,
 			String suspect, String weapon) {
@@ -139,7 +192,6 @@ public class ClueLessServiceImpl implements ClueLessService {
 	 * @return true if Miss Scarlet has joined otherwise false 
 	 */
 	private boolean checkMissScarletJoinStatus() {
-		HashMap<String, Player> players = this.clueLessModel.getPlayers();
 		for (String key : players.keySet()) {
 			Player player = players.get(key);
 			if (player.getName().equals("Miss Scarlet")) {
@@ -161,6 +213,8 @@ public class ClueLessServiceImpl implements ClueLessService {
 		rooms.put(Room.CONSERVATORY, new Room(Hallway.HALLWAY8, Room.LOUNGE, Hallway.HALLWAY11));
 		rooms.put(Room.BALLROOM, new Room(Hallway.HALLWAY11, Hallway.HALLWAY9, Hallway.HALLWAY12));
 		rooms.put(Room.KITCHEN, new Room(Hallway.HALLWAY12, Room.STUDY, Hallway.HALLWAY10));
+		
+		roomKeys = new ArrayList<String>(rooms.keySet());
 	}
 	
 	private void initHallways() {
@@ -211,14 +265,23 @@ public class ClueLessServiceImpl implements ClueLessService {
 		Card room = new Card(Card.TYPE_ROOM,r);
 		for (int i = 0; i < deck.size(); i++) {
 			Card card = deck.get(i);
+			
+			// remove weapon card for solution
 			if (card.getType() == weapon.getType() && card.getValue() == weapon.getValue()) {
 				deck.remove(card);
+				continue;
 			}
+			
+			// remove suspect card for solution
 			if (card.getType() == suspect.getType() && card.getValue() == suspect.getValue()) {
 				deck.remove(card);
+				continue;
 			}
+			
+			// remove room card for solution
 			if (card.getType() == room.getType() && card.getValue() == room.getValue()) {
 				deck.remove(card);
+				continue;
 			}
 			deck.trimToSize();
 		}
@@ -226,5 +289,56 @@ public class ClueLessServiceImpl implements ClueLessService {
 		solutionModel.setWeapon(weapon.getDesc());
 		solutionModel.setSuspect(suspect.getDesc());
 		solutionModel.setRoom(room.getDesc());
+	}
+	
+	private void removePlayerFromLocation(String sessionId, String location) {
+		// remove previous location if player was previously in a room
+		if (rooms.containsKey(location)) {
+			Room room = rooms.get(location);
+			room.removePlayer(sessionId);
+			rooms.put(location, room);
+		}
+
+		// remove previous location if player was previously in a hallway
+		if (hallways.containsKey(location)) {
+			Hallway hallway = hallways.get(location);
+			hallway.setOccupiedBy(null);
+		}
+	}
+	
+	private void updatePlayerMovableLocations() {
+		Collection<Player> allPlayers = players.values();
+		String location;
+		ArrayList<String> adjacentAreas;
+		for (Player player : allPlayers) {
+			player.clearMovableLocations();			
+			location = player.getLocation();
+
+			// player in hallway
+			if (hallways.containsKey(location)) {
+				Hallway hallway = hallways.get(location);
+				adjacentAreas = hallway.getAdjacentTo();
+				for (String area : adjacentAreas) {
+					player.addMovableLocation(area);
+				}
+				continue;
+				
+			// player in room
+			} else if (rooms.containsKey(location)) {
+				Room room = rooms.get(location);
+				adjacentAreas = room.getAdjacentTo();
+				for (String area : adjacentAreas) {
+					if (hallways.containsKey(area)) {
+						Hallway adjacentHallway = hallways.get(area);
+						if (adjacentHallway.getOccupiedBy() == null) {
+							player.addMovableLocation(area);
+						}
+					} else {
+						player.addMovableLocation(area);
+					}
+				}
+				continue;
+			}
+		}
 	}
 }

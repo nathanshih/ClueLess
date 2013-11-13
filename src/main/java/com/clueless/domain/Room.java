@@ -73,13 +73,7 @@ public class Room {
 	}
 	
 	public void removePlayer(String player) {
-		int i = 0;
-		for (String currentPlayer : this.currentPlayers) {
-			if (currentPlayer.equals(player)) {
-				this.currentPlayers.remove(i);
-			}
-			i++;
-		}
+		this.currentPlayers.remove(player);
 	}
 	
 	public ArrayList<String> getCurrentWeapons() {
@@ -95,13 +89,7 @@ public class Room {
 	}
 	
 	public void removeWeapon(String weapon) {
-		int i = 0;
-		for (String currentWeapon : this.currentWeapons) {
-			if (currentWeapon.equals(weapon)) {
-				this.currentWeapons.remove(i);
-			}
-			i++;
-		}
+		this.currentPlayers.remove(weapon);
 	}
 
 	public ArrayList<String> getAdjacentTo() {
