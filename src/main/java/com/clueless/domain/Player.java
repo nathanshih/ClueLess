@@ -68,6 +68,14 @@ public class Player {
 		this.failedAccusation = failedAccusation;
 	}
 
+	public void addCard(Card card) {
+		cardsInHand.add(card);
+	}
+	
+	public void removeCard(Card card) {
+		cardsInHand.remove(card);
+	}
+	
 	public String getLocation() {
 		return location;
 	}

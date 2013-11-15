@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 	private HashMap<String, Hallway> hallways;
 	ArrayList<String> roomKeys;
 	ArrayList<String> weaponList;
+	ArrayList<String> playerKeys;
 	
 	private boolean cardsDealt;
 	
@@ -44,6 +46,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 		players = clueLessModel.getPlayers();
 		rooms = clueLessModel.getRooms();
 		hallways = clueLessModel.getHallways();
+		playerKeys = new ArrayList<String>(Player.TOTAL);
 		
 		// initialize rooms
 		initRooms();
@@ -65,7 +68,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 	
 	@Override
 	public ClueLessModel getClueLess() {
-		return this.clueLessModel;
+		return clueLessModel;
 	}
 
 	@Override
@@ -95,12 +98,13 @@ public class ClueLessServiceImpl implements ClueLessService {
 		}
 		
 		players.put(sessionId, newPlayer);
+		playerKeys.add(sessionId);
 		boolean hasMissScarletJoined = checkMissScarletJoinStatus();
 		if (players.size() >= 3 && hasMissScarletJoined) {
-			this.clueLessModel.setGameReady(true);
+			clueLessModel.setGameReady(true);
 		}
 
-		return this.clueLessModel;
+		return clueLessModel;
 	}
 
 	@Override
@@ -110,10 +114,10 @@ public class ClueLessServiceImpl implements ClueLessService {
 		players.remove(sessionId);
 		boolean hasMissScarletJoined = checkMissScarletJoinStatus();
 		if (players.size() < 3 || hasMissScarletJoined == false) {
-			this.clueLessModel.setGameReady(false);
+			clueLessModel.setGameReady(false);
 		}
 		
-		return this.clueLessModel;
+		return clueLessModel;
 	}
 
 	@Override
@@ -122,11 +126,22 @@ public class ClueLessServiceImpl implements ClueLessService {
 		// check to make sure other clients do not call this method twice
 		if (!cardsDealt) {
 			
-			//TODO: deal remaining cards to all players
+			//deal remaining cards to all players
+			int playerIndex = 0;
+			for (int i = 0; i < deck.size(); i++) {
+				Card card = deck.get(i);
+				if (playerIndex == playerKeys.size()) {
+					playerIndex = 0;
+				}
+				Player player = players.get(playerKeys.get(playerIndex));
+				player.addCard(card);
+				playerIndex++;
+			}
+			
 			cardsDealt = true;
 		}
 		
-		return this.clueLessModel;
+		return clueLessModel;
 	}
 
 	@Override
@@ -143,7 +158,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 			removePlayerFromLocation(sessionId, previousLocation);	
 			updatePlayerMovableLocations();
 			
-			return this.clueLessModel;
+			return clueLessModel;
 			
 		// move player to room
 		} else if (rooms.containsKey(location)) {
@@ -154,7 +169,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 			removePlayerFromLocation(sessionId, previousLocation);
 			updatePlayerMovableLocations();
 			
-			return this.clueLessModel;
+			return clueLessModel;
 		} else {
 			return null;
 		}
@@ -182,8 +197,23 @@ public class ClueLessServiceImpl implements ClueLessService {
 
 	@Override
 	public ClueLessModel endTurn(String sessionId) {
-		// TODO Auto-generated method stub
-		return null;
+		for (int i = 0; i < playerKeys.size(); i++) {
+			if (sessionId == playerKeys.get(i)) {
+				
+				// if next player the first player in the array
+				if (i == (playerKeys.size() - 1)) {
+					clueLessModel.setWhoseTurn(playerKeys.get(0));
+					continue;
+					
+				// get next player
+				} else {
+					i++;
+					clueLessModel.setWhoseTurn(playerKeys.get(i));
+					continue;
+				}
+			}
+		}
+		return clueLessModel;
 	}
 	
 	/**
@@ -192,14 +222,13 @@ public class ClueLessServiceImpl implements ClueLessService {
 	 * @return true if Miss Scarlet has joined otherwise false 
 	 */
 	private boolean checkMissScarletJoinStatus() {
-		for (String key : players.keySet()) {
-			Player player = players.get(key);
-			if (player.getName().equals("Miss Scarlet")) {
-				this.clueLessModel.setWhoseTurn(key);
+		for (Map.Entry<String, Player> entry : players.entrySet()) {
+			if (entry.getValue().getName().equals(Player.MISS_SCARLET)) {
+				clueLessModel.setWhoseTurn(entry.getKey());
 				return true;
 			}
 		}
-		this.clueLessModel.setWhoseTurn(null);
+		clueLessModel.setWhoseTurn(null);
 		return false;
 	}
 	

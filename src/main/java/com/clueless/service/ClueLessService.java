@@ -76,9 +76,9 @@ public interface ClueLessService {
 	public SolutionModel makeAccusation(String sessionId, String room, String suspect, String weapon);
 	
 	/**
-	 * Allows a player to end their turn.
+	 * Allows a player to end their turn and sets whose turn to the next player.
 	 * @param sessionId session ID of player ending their turn
-	 * @return
+	 * @return ClueLessModel
 	 */
 	public ClueLessModel endTurn(String sessionId);
 }
