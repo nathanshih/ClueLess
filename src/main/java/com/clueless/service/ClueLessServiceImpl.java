@@ -1,7 +1,6 @@
 package com.clueless.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -336,17 +335,17 @@ public class ClueLessServiceImpl implements ClueLessService {
 	}
 	
 	private void updatePlayerMovableLocations() {
-		Collection<Player> allPlayers = players.values();
 		String location;
 		ArrayList<String> adjacentAreas;
-		for (Player player : allPlayers) {
-			player.clearMovableLocations();			
+		for (Map.Entry<String, Player> entry : players.entrySet()) {
+			Player player = entry.getValue();		
 			location = player.getLocation();
 
 			// player in hallway
 			if (hallways.containsKey(location)) {
 				Hallway hallway = hallways.get(location);
 				adjacentAreas = hallway.getAdjacentTo();
+				player.clearMovableLocations();
 				for (String area : adjacentAreas) {
 					player.addMovableLocation(area);
 				}
@@ -356,6 +355,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 			} else if (rooms.containsKey(location)) {
 				Room room = rooms.get(location);
 				adjacentAreas = room.getAdjacentTo();
+				player.clearMovableLocations();	
 				for (String area : adjacentAreas) {
 					if (hallways.containsKey(area)) {
 						Hallway adjacentHallway = hallways.get(area);
