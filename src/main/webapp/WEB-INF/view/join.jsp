@@ -73,7 +73,7 @@
 				$.ajax({type: "POST",
 					url: "${pageContext.request.contextPath}/v1",
 					data: "action=init",
-					success: window.location.href = "/ClueLess/",
+					success: window.location.href = "/ClueLess/play",
 					dataType: "json"
 				});
 			});
