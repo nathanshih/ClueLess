@@ -3,7 +3,7 @@
     "whoseTurn": "3D9EE97E233AA1BB7C670BF5D375B8B8",
     "players": {
         "3D9EE97E233AA1BB7C670BF5D375B8B8": {
-            "name": "Miss Scarlet",
+            "suspect": "Miss Scarlet",
             "canDisprove": false,
             "failedAccusation": false,
             "location": "conservatory"
@@ -15,7 +15,7 @@
             ] 
         },
         "AE461C72FADFD522F17E120A1489D2B0": {
-            "name": "Colonel Mustard",
+            "suspect": "Colonel Mustard",
             "canDisprove": false,
             "failedAccusation": false,
             "location": "hallway10"
@@ -26,7 +26,7 @@
             ]
         },
         "36058AB6001C2CE690B444492D666730": {
-            "name": "Mr. Green",
+            "suspect": "Mr. Green",
             "canDisprove": false,
             "failedAccusation": false,
             "location": "hall"
@@ -40,8 +40,9 @@
     },
     "rooms": {
         "conservatory": {
-            "currentPlayers": ["3D9EE97E233AA1BB7C670BF5D375B8B8"],
-            "currentWeapons": [],
+            "tokens": [
+            	"Miss Scarlet"
+            ],
             "adjacentTo": [
                 "hallway8",
                 "lounge",
@@ -49,9 +50,9 @@
             ]
         },
         "hall": {
-            "currentPlayers": ["36058AB6001C2CE690B444492D666730"],
-            "currentWeapons": [
-                "knife"
+            "tokens": [
+                "knife",
+                "Mr. Green"
             ],
             "adjacentTo": [
                 "hallway1",
@@ -60,8 +61,7 @@
             ]
         },
         "diningRoom": {
-            "currentPlayers": [],
-            "currentWeapons": [
+            "tokens": [
                 "leadPipe"
             ],
             "adjacentTo": [
@@ -71,8 +71,7 @@
             ]
         },
         "library": {
-            "currentPlayers": [],
-            "currentWeapons": [
+            "tokens": [
                 "wrench"
             ],
             "adjacentTo": [
@@ -82,8 +81,7 @@
             ]
         },
         "lounge": {
-            "currentPlayers": [],
-            "currentWeapons": [
+            "tokens": [
                 "candlestick"
             ],
             "adjacentTo": [
@@ -93,8 +91,7 @@
             ]
         },
         "study": {
-            "currentPlayers": [],
-            "currentWeapons": [
+            "tokens": [
                 "revolver"
             ],
             "adjacentTo": [
@@ -104,8 +101,7 @@
             ]
         },
         "kitchen": {
-            "currentPlayers": [],
-            "currentWeapons": [
+            "tokens": [
                 "rope"
             ],
             "adjacentTo": [
@@ -115,8 +111,7 @@
             ]
         },
         "ballroom": {
-            "currentPlayers": [],
-            "currentWeapons": [],
+            "tokens": [],
             "adjacentTo": [
                 "hallway11",
                 "hallway9",
@@ -124,8 +119,7 @@
             ]
         },
         "billardRoom": {
-            "currentPlayers": [],
-            "currentWeapons": [],
+            "tokens": [],
             "adjacentTo": [
                 "hallway4",
                 "hallway6",
@@ -136,84 +130,84 @@
     },
     "hallways": {
         "hallway10": {
-            "occupiedBy": "AE461C72FADFD522F17E120A1489D2B0",
+            "token": "Colonel Mustard",
             "adjacentTo": [
                 "diningRoom",
                 "kitchen"
             ]
         },
         "hallway7": {
-            "occupiedBy": null,
+            "token": null,
             "adjacentTo": [
                 "billardRoom",
                 "diningRoom"
             ]
         },
         "hallway6": {
-            "occupiedBy": null,
+            "token": null,
             "adjacentTo": [
                 "library",
                 "billardRoom"
             ]
         },
         "hallway12": {
-            "occupiedBy": null,
+            "token": null,
             "adjacentTo": [
                 "ballroom",
                 "kitchen"
             ]
         },
         "hallway9": {
-            "occupiedBy": null,
+            "token": null,
             "adjacentTo": [
                 "billardRoom",
                 "ballroom"
             ]
         },
         "hallway11": {
-            "occupiedBy": null,
+            "token": null,
             "adjacentTo": [
                 "conservatory",
                 "ballroom"
             ]
         },
         "hallway8": {
-            "occupiedBy": null,
+            "token": null,
             "adjacentTo": [
                 "library",
                 "conservatory"
             ]
         },
         "hallway4": {
-            "occupiedBy": null,
+            "token": null,
             "adjacentTo": [
                 "hall",
                 "billardRoom"
             ]
         },
         "hallway5": {
-            "occupiedBy": null,
+            "token": null,
             "adjacentTo": [
                 "lounge",
                 "diningRoom"
             ]
         },
         "hallway2": {
-            "occupiedBy": null,
+            "token": null,
             "adjacentTo": [
                 "hall",
                 "lounge"
             ]
         },
         "hallway3": {
-            "occupiedBy": null,
+            "token": null,
             "adjacentTo": [
                 "study",
                 "library"
             ]
         },
         "hallway1": {
-            "occupiedBy": null,
+            "token": null,
             "adjacentTo": [
                 "study",
                 "hall"
