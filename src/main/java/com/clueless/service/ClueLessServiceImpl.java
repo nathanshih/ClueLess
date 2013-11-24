@@ -103,7 +103,9 @@ public class ClueLessServiceImpl implements ClueLessService {
 		}
 		
 		players.put(sessionId, newPlayer);
-		playerKeys.add(sessionId);
+		if (!playerKeys.contains(sessionId)) {
+			playerKeys.add(sessionId);
+		}
 		boolean hasMissScarletJoined = checkMissScarletJoinStatus();
 		if (players.size() >= 3 && hasMissScarletJoined) {
 			clueLessModel.setGameReady(true);

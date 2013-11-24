@@ -2,6 +2,8 @@ package com.clueless.domain;
 
 import java.util.ArrayList;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class Hallway {
 	
 	public static final int TOTAL = 12; // 12 hallways
@@ -46,6 +48,7 @@ public class Hallway {
 		this.token = token;
 	}
 	
+	@JsonIgnore
 	public ArrayList<String> getAdjacentTo() {
 		return adjacentTo;
 	}

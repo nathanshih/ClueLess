@@ -2,6 +2,8 @@ package com.clueless.domain;
 
 import java.util.ArrayList;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class Room {
 
 	public static final int TOTAL = 9; // 9 rooms
@@ -76,6 +78,7 @@ public class Room {
 		this.tokens.remove(token);
 	}
 
+	@JsonIgnore
 	public ArrayList<String> getAdjacentTo() {
 		return adjacentTo;
 	}
