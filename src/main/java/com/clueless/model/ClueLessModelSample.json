@@ -7,7 +7,26 @@
             "canDisprove": false,
             "failedAccusation": false,
             "location": "conservatory"
-            "cardsInHand": [], // This is shown in the sample only and will be hidden during runtime.
+            "cardsInHand": [
+                {
+                    "desc": "Colonel Mustard"
+                },
+                {
+                    "desc": "Conservatory"
+                },
+                {
+                    "desc": "Study"
+                },
+                {
+                    "desc": "Mrs. White"
+                },
+                {
+                    "desc": "Mr. Green"
+                },
+                {
+                    "desc": "Library"
+                }
+            ],
             "movableLocations": [
                 "hallway8",
                 "lounge",
@@ -19,7 +38,26 @@
             "canDisprove": false,
             "failedAccusation": false,
             "location": "hallway10"
-            "cardsInHand": [], // This is shown in the sample only and will be hidden during runtime.
+            "cardsInHand": [
+                {
+                    "desc": "Miss Scarlet"
+                },
+                {
+                    "desc": "Ballroom"
+                },
+                {
+                    "desc": "Knife"
+                },
+                {
+                    "desc": "Lounge"
+                },
+                {
+                    "desc": "Candlestick"
+                },
+                {
+                    "desc": "Hall"
+                }
+            ],
             "movableLocations": [
                 "diningRoom",
                 "kitchen"
@@ -30,7 +68,26 @@
             "canDisprove": false,
             "failedAccusation": false,
             "location": "hall"
-            "cardsInHand": [], // This is shown in the sample only and will be hidden during runtime.
+            "cardsInHand": [
+                {
+                    "desc": "Wrench"
+                },
+                {
+                    "desc": "Kitchen"
+                },
+                {
+                    "desc": "Revolver"
+                },
+                {
+                    "desc": "Pipe"
+                },
+                {
+                    "desc": "Mrs. Peacock"
+                },
+                {
+                    "desc": "Billiard Room"
+                }
+            ],
             "movableLocations": [
                 "hallway1",
                 "hallway2",

@@ -87,8 +87,8 @@
 			    				resetUI(); 
 			    				var selectedPlayers = "";
 			    				$.each(response["players"], function(sessionId, player) {
-			    					selectedPlayers = selectedPlayers + player.name + "\n";
-									document.getElementById(player.name).disabled=true;
+			    					selectedPlayers = selectedPlayers + player.suspect + "\n";
+									document.getElementById(player.suspect).disabled=true;
 								});
 								$("#currentPlayers").text(selectedPlayers).css("color", "green");
 								if (document.getElementById("Miss Scarlet").disabled == true) {

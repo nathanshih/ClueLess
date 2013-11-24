@@ -16,13 +16,13 @@ public class Room {
 	public static final String BALLROOM = "ballroom";
 	public static final String KITCHEN = "kitchen";
 	
-	private ArrayList<String> currentPlayers;
-	private ArrayList<String> currentWeapons;
+	// private ArrayList<String> currentPlayers;
+	private ArrayList<String> tokens;
 	private ArrayList<String> adjacentTo;
 	
 	public Room() {
-		currentPlayers = new ArrayList<String>(Player.TOTAL); // at most 6 players
-		currentWeapons = new ArrayList<String>(Weapon.TOTAL); // only 6 weapons
+		//currentPlayers = new ArrayList<String>(Player.TOTAL); // at most 6 players
+		tokens = new ArrayList<String>(Token.TOTAL);
 		adjacentTo = new ArrayList<String>(4); // at most 4 areas
 	}
 	
@@ -33,8 +33,8 @@ public class Room {
 	 * @param adjacentTo3
 	 */
 	public Room(String adjacentTo1, String adjacentTo2, String adjacentTo3) {
-		currentPlayers = new ArrayList<String>(Player.TOTAL);
-		currentWeapons = new ArrayList<String>(Weapon.TOTAL);
+		//currentPlayers = new ArrayList<String>(Player.TOTAL);
+		tokens = new ArrayList<String>(Token.TOTAL);
 		adjacentTo = new ArrayList<String>(3);
 		
 		adjacentTo.add(adjacentTo1);
@@ -50,8 +50,8 @@ public class Room {
 	 * @param adjacentTo4
 	 */
 	public Room(String adjacentTo1, String adjacentTo2, String adjacentTo3, String adjacentTo4) {
-		currentPlayers = new ArrayList<String>(Player.TOTAL);
-		currentWeapons = new ArrayList<String>(Weapon.TOTAL);
+		//currentPlayers = new ArrayList<String>(Player.TOTAL);
+		tokens = new ArrayList<String>(Token.TOTAL);
 		adjacentTo = new ArrayList<String>(4);
 		
 		adjacentTo.add(adjacentTo1);
@@ -60,36 +60,20 @@ public class Room {
 		adjacentTo.add(adjacentTo4);
 	}
 
-	public ArrayList<String> getCurrentPlayers() {
-		return currentPlayers;
+	public ArrayList<String> getTokens() {
+		return tokens;
 	}
 
-	public void setCurrentPlayers(ArrayList<String> currentPlayers) {
-		this.currentPlayers = currentPlayers;
-	}
-
-	public void addPlayer(String player) {
-		this.currentPlayers.add(player);
+	public void setTokens(ArrayList<String> tokens) {
+		this.tokens = tokens;
 	}
 	
-	public void removePlayer(String player) {
-		this.currentPlayers.remove(player);
+	public void addToken(String token) {
+		this.tokens.add(token);
 	}
 	
-	public ArrayList<String> getCurrentWeapons() {
-		return currentWeapons;
-	}
-
-	public void setCurrentWeapons(ArrayList<String> currentWeapons) {
-		this.currentWeapons = currentWeapons;
-	}
-	
-	public void addWeapon(String weapon) {
-		this.currentWeapons.add(weapon);
-	}
-	
-	public void removeWeapon(String weapon) {
-		this.currentPlayers.remove(weapon);
+	public void removeToken(String token) {
+		this.tokens.remove(token);
 	}
 
 	public ArrayList<String> getAdjacentTo() {

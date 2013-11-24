@@ -18,13 +18,13 @@ public interface ClueLessService {
 	public ClueLessModel getClueLess();
 	
 	/**
-	 * This joins a new client to the current ClueLess game session. The session ID and name of the ClueLess character
-	 * are linked together so that the server knows which ClueLess character is being played by which client.
+	 * This joins a new client to the current ClueLess game session. The session ID and name of the ClueLess suspect
+	 * are linked together so that the server knows which ClueLess suspect is being played by which client.
 	 * @param sessionId session ID of client joining game
-	 * @param player name of the character joining the game (i.e., Mr. Green, Miss Scarlet)
+	 * @param suspect name of the suspect to be played (i.e., Mr. Green, Miss Scarlet)
 	 * @return ClueLessModel
 	 */
-	public ClueLessModel joinClueLess(String sessionId, String player);
+	public ClueLessModel joinClueLess(String sessionId, String suspect);
 		
 	/**
 	 * This removes a client from the current ClueLess game session.
@@ -34,10 +34,12 @@ public interface ClueLessService {
 	public ClueLessModel leaveClueLess(String sessionId);
 	
 	/**
-	 * Deals the remainings cards (after cards for the solution have been picked and removed from the deck) to all players.
+	 * This initializes the game of ClueLess by performing these actions:
+	 * <br>1. Deals the remaining cards (after cards for the solution have been picked and removed from the deck) to all players.
+	 * <br>2. Sets the playedBy field in the suspect tokens to the session ID of the player controlling it.
 	 * @return ClueLessModel
 	 */
-	public ClueLessModel dealCards();
+	public ClueLessModel initClueLess();
 	
 	/**
 	 * Moves a player to a new location.

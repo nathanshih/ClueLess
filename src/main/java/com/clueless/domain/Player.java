@@ -2,48 +2,36 @@ package com.clueless.domain;
 
 import java.util.ArrayList;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 public class Player {
 	
-	public static final int TOTAL = 6; // 6 players
-	
-	public static final String MISS_SCARLET = "Miss Scarlet";
-	public static final String COLONEL_MUSTARD = "Colonel Mustard";
-	public static final String PROFESSOR_PLUM = "Professor Plum";
-	public static final String MR_GREEN = "Mr. Green";
-	public static final String MRS_WHITE = "Mrs. White";
-	public static final String MRS_PEACOCK = "Mrs. Peacock";
-	
-	private String name;
+	private String suspect;
 	private ArrayList<Card> cardsInHand;
 	private boolean canDisprove;
 	private boolean failedAccusation;
 	private String location;
 	private ArrayList<String> movableLocations;
 	
-	public Player(String name) {
-		this.setName(name);
+	public Player(String suspect) {
+		this.setSuspect(suspect);
 		cardsInHand = new ArrayList<Card>();
 		canDisprove = false;
 		setFailedAccusation(false);
 		movableLocations = new ArrayList<String>(4); // at most 4 movable locations (ex. the Billard Room)
 	}
 	
-	public Player(String name, String location) {
-		this.setName(name);
+	public Player(String suspect, String location) {
+		this.setSuspect(suspect);
 		this.location = location;
 	}
 	
-	public String getName() {
-		return name;
+	public String getSuspect() {
+		return suspect;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setSuspect(String suspect) {
+		this.suspect = suspect;
 	}	
-	
-	@JsonIgnore
+
 	public ArrayList<Card> getCardsInHand() {
 		return cardsInHand;
 	}
@@ -98,5 +86,10 @@ public class Player {
 	
 	public void clearMovableLocations() {
 		this.movableLocations.clear();
+	}
+	
+	@Override
+	public String toString() {
+		return suspect;
 	}
 }
