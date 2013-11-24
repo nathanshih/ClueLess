@@ -18,6 +18,8 @@
     </style>
   </head>
   <body>
+  
+<canvas id="boardCanvas" width="725" height="646" style="background: url(http://i.imgur.com/xFkG89v.png) no-repeat center center;"></canvas>
 	
 	<div id="container">
 	
@@ -28,13 +30,11 @@
 		
 	</div>
 	
-	
 	<script type="text/javascript">
 	
 		$(document).ready(function() {
-			
 			poll();
-			
+			drawTokens();
 			// Leave game
 			$("#leaveGame").click(function() {
 				$.ajax({type: "POST",
@@ -48,7 +48,8 @@
 			});
 			
 			// Poll continuously poll server every second for updated game state
-			function poll() {
+			function poll() {	
+				drawTokens();
 				setTimeout(function() {
 			    	$.ajax({url: "${pageContext.request.contextPath}/v1",
 			    			type: "GET",
@@ -65,8 +66,16 @@
 			  				timeout: 30000 
 			  		});
 				}, 1000);
+				
 			};
+			//function turn() {	};
 			
+			function drawTokens( ) {
+					var c=document.getElementById("boardCanvas");
+		    		var ctx=c.getContext("2d");
+		    		ctx.fillStyle="#FF00FF";
+		    		ctx.fillRect(0,0,150,75);
+			};
 		});
 	
 	</script>
