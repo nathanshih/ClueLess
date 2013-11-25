@@ -19,7 +19,15 @@
   <body>
   
 <canvas id="boardCanvas" width="725" height="646" style="background: url(http://i.imgur.com/xFkG89v.png) no-repeat center center;"></canvas>
-	
+
+	<form>
+  		<div id="radio">
+    		<input type="radio" id="move" name="radio"><label for="move">Move</label>
+    		<input type="radio" id="suggest" name="radio"><label for="suggest">Suggest</label>
+    		<input type="radio" id="accuse" name="radio"><label for="accuse">Accuse</label>
+  	</div>
+	</form>
+	<input type="submit" value="End Turn">	
 	<div id="container">
 	
 		<h1>ClueLess</h1>
@@ -28,9 +36,9 @@
 		<button id="leaveGame">Leave Game</button>
 		
 	</div>
-	
 	<script type="text/javascript">
 	
+	var tokenSize=50;
 		$(document).ready(function() {
 			poll();
 			drawTokens();
@@ -68,7 +76,7 @@
 					var c=document.getElementById("boardCanvas");
 		    		var ctx=c.getContext("2d");
 		    		ctx.fillStyle="#FF00FF";
-		    		ctx.fillRect(0,0,150,75);
+		    		ctx.fillRect(0,0,tokenSize,tokenSize);
 			};
 		});
 	
