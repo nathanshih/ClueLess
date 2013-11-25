@@ -1,5 +1,7 @@
 package com.clueless.domain;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class Card {
 	
 	public static final int NUM_SUSPECTS = 6;
@@ -50,6 +52,7 @@ public class Card {
 		this.setDesc(toString());
 	}
 
+	@JsonIgnore
 	public int getType() {
 		return type;
 	}
@@ -58,6 +61,7 @@ public class Card {
 		this.type = type;
 	}
 
+	@JsonIgnore
 	public int getValue() {
 		return value;
 	}
@@ -74,6 +78,7 @@ public class Card {
 		this.desc = desc;
 	}
 
+	@Override
 	public String toString() {
 		String desc = null;
 		

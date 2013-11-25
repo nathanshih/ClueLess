@@ -2,6 +2,8 @@ package com.clueless.domain;
 
 import java.util.ArrayList;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class Hallway {
 	
 	public static final int TOTAL = 12; // 12 hallways
@@ -19,7 +21,7 @@ public class Hallway {
 	public static final String HALLWAY11 = "hallway11";
 	public static final String HALLWAY12 = "hallway12";
 	
-	private String occupiedBy;
+	private String token;
 	private ArrayList<String> adjacentTo;
 	
 	public Hallway() {
@@ -38,14 +40,15 @@ public class Hallway {
 		this.adjacentTo.add(adjacentTo2);
 	}
 
-	public String getOccupiedBy() {
-		return occupiedBy;
+	public String getToken() {
+		return token;
 	}
 
-	public void setOccupiedBy(String occupiedBy) {
-		this.occupiedBy = occupiedBy;
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
+	@JsonIgnore
 	public ArrayList<String> getAdjacentTo() {
 		return adjacentTo;
 	}

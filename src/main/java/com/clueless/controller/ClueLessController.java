@@ -34,8 +34,8 @@ public class ClueLessController {
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=join")
 	@ResponseBody
-	public ClueLessModel joinClueLess(HttpSession session, @RequestParam("player") String player) {
-		return clueLessService.joinClueLess(session.getId(), player);
+	public ClueLessModel joinClueLess(HttpSession session, @RequestParam("player") String suspect) {
+		return clueLessService.joinClueLess(session.getId(), suspect);
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
@@ -53,7 +53,7 @@ public class ClueLessController {
 	@RequestMapping(method=RequestMethod.POST, params="action=init")
 	@ResponseBody
 	public ClueLessModel initClueLess() {
-		return clueLessService.dealCards();
+		return clueLessService.initClueLess();
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=move")

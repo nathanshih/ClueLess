@@ -6,20 +6,58 @@
             "suspect": "Miss Scarlet",
             "canDisprove": false,
             "failedAccusation": false,
-            "location": "conservatory"
-            "cardsInHand": [], // This is shown in the sample only and will be hidden during runtime.
+            "location": "conservatory",
+            "cardsInHand": [
+                {
+                    "desc": "Colonel Mustard"
+                },
+                {
+                    "desc": "Conservatory"
+                },
+                {
+                    "desc": "Study"
+                },
+                {
+                    "desc": "Mrs. White"
+                },
+                {
+                    "desc": "Mr. Green"
+                },
+                {
+                    "desc": "Library"
+                }
+            ],
             "movableLocations": [
                 "hallway8",
                 "lounge",
                 "hallway11"
-            ] 
+            ]
         },
         "AE461C72FADFD522F17E120A1489D2B0": {
             "suspect": "Colonel Mustard",
             "canDisprove": false,
             "failedAccusation": false,
-            "location": "hallway10"
-            "cardsInHand": [], // This is shown in the sample only and will be hidden during runtime.
+            "location": "hallway10",
+            "cardsInHand": [
+                {
+                    "desc": "Miss Scarlet"
+                },
+                {
+                    "desc": "Ballroom"
+                },
+                {
+                    "desc": "Knife"
+                },
+                {
+                    "desc": "Lounge"
+                },
+                {
+                    "desc": "Candlestick"
+                },
+                {
+                    "desc": "Hall"
+                }
+            ],
             "movableLocations": [
                 "diningRoom",
                 "kitchen"
@@ -29,8 +67,27 @@
             "suspect": "Mr. Green",
             "canDisprove": false,
             "failedAccusation": false,
-            "location": "hall"
-            "cardsInHand": [], // This is shown in the sample only and will be hidden during runtime.
+            "location": "hall",
+            "cardsInHand": [
+                {
+                    "desc": "Wrench"
+                },
+                {
+                    "desc": "Kitchen"
+                },
+                {
+                    "desc": "Revolver"
+                },
+                {
+                    "desc": "Pipe"
+                },
+                {
+                    "desc": "Mrs. Peacock"
+                },
+                {
+                    "desc": "Billiard Room"
+                }
+            ],
             "movableLocations": [
                 "hallway1",
                 "hallway2",
@@ -41,177 +98,83 @@
     "rooms": {
         "conservatory": {
             "tokens": [
-            	"Miss Scarlet"
-            ],
-            "adjacentTo": [
-                "hallway8",
-                "lounge",
-                "hallway11"
+                "Miss Scarlet"
             ]
         },
         "hall": {
             "tokens": [
                 "knife",
                 "Mr. Green"
-            ],
-            "adjacentTo": [
-                "hallway1",
-                "hallway2",
-                "hallway4"
             ]
         },
         "diningRoom": {
             "tokens": [
-                "leadPipe"
-            ],
-            "adjacentTo": [
-                "hallway5",
-                "hallway7",
-                "hallway10"
+                "rope"
             ]
         },
         "library": {
             "tokens": [
                 "wrench"
-            ],
-            "adjacentTo": [
-                "hallway3",
-                "hallway6",
-                "hallway8"
             ]
         },
         "lounge": {
-            "tokens": [
-                "candlestick"
-            ],
-            "adjacentTo": [
-                "hallway2",
-                "conservatory",
-                "hallway5"
-            ]
+            "tokens": []
         },
         "study": {
             "tokens": [
-                "revolver"
-            ],
-            "adjacentTo": [
-                "hallway1",
-                "hallway3",
-                "kitchen"
+                "candlestick"
             ]
         },
         "kitchen": {
             "tokens": [
-                "rope"
-            ],
-            "adjacentTo": [
-                "hallway12",
-                "study",
-                "hallway10"
+                "revolver"
             ]
         },
         "ballroom": {
-            "tokens": [],
-            "adjacentTo": [
-                "hallway11",
-                "hallway9",
-                "hallway12"
+            "tokens": [
+                "leadPipe"
             ]
         },
         "billardRoom": {
-            "tokens": [],
-            "adjacentTo": [
-                "hallway4",
-                "hallway6",
-                "hallway7",
-                "hallway9"
-            ]
+            "tokens": []
         }
     },
     "hallways": {
         "hallway10": {
-            "token": "Colonel Mustard",
-            "adjacentTo": [
-                "diningRoom",
-                "kitchen"
-            ]
+            "token": "Colonel Mustard"
         },
         "hallway7": {
-            "token": null,
-            "adjacentTo": [
-                "billardRoom",
-                "diningRoom"
-            ]
+            "token": null
         },
         "hallway6": {
-            "token": null,
-            "adjacentTo": [
-                "library",
-                "billardRoom"
-            ]
+            "token": null
         },
         "hallway12": {
-            "token": null,
-            "adjacentTo": [
-                "ballroom",
-                "kitchen"
-            ]
+            "token": null
         },
         "hallway9": {
-            "token": null,
-            "adjacentTo": [
-                "billardRoom",
-                "ballroom"
-            ]
+            "token": null
         },
         "hallway11": {
-            "token": null,
-            "adjacentTo": [
-                "conservatory",
-                "ballroom"
-            ]
+            "token": null
         },
         "hallway8": {
-            "token": null,
-            "adjacentTo": [
-                "library",
-                "conservatory"
-            ]
+            "token": null
         },
         "hallway4": {
-            "token": null,
-            "adjacentTo": [
-                "hall",
-                "billardRoom"
-            ]
+            "token": null
         },
         "hallway5": {
-            "token": null,
-            "adjacentTo": [
-                "lounge",
-                "diningRoom"
-            ]
+            "token": null
         },
         "hallway2": {
-            "token": null,
-            "adjacentTo": [
-                "hall",
-                "lounge"
-            ]
+            "token": null
         },
         "hallway3": {
-            "token": null,
-            "adjacentTo": [
-                "study",
-                "library"
-            ]
+            "token": null
         },
         "hallway1": {
-            "token": null,
-            "adjacentTo": [
-                "study",
-                "hall"
-            ]
+            "token": null
         }
     }
 }

@@ -11,14 +11,16 @@ import org.springframework.stereotype.Service;
 import com.clueless.domain.Card;
 import com.clueless.domain.Hallway;
 import com.clueless.domain.Player;
+import com.clueless.domain.SuspectToken;
 import com.clueless.domain.Room;
-import com.clueless.domain.Weapon;
+import com.clueless.domain.Token;
+import com.clueless.domain.WeaponToken;
 import com.clueless.model.ClueLessModel;
 import com.clueless.model.SolutionModel;
 import com.clueless.model.SuggestionModel;
 
 /**
- * The ClueLessServiceImpl implements the ClueLessService interface. All the actual game logic code is here.
+ * The ClueLessServiceImpl implements the ClueLessService interface. All the game logic code is here.
  * @author nshih
  */
 @Service
@@ -32,10 +34,11 @@ public class ClueLessServiceImpl implements ClueLessService {
 	private HashMap<String, Room> rooms;
 	private HashMap<String, Hallway> hallways;
 	ArrayList<String> roomKeys;
-	ArrayList<String> weaponList;
+	ArrayList<WeaponToken> weaponTokens;
+	ArrayList<SuspectToken> suspectTokens;
 	ArrayList<String> playerKeys;
 	
-	private boolean cardsDealt;
+	private boolean isClueLessInitialized;
 	
 	public ClueLessServiceImpl() {
 		clueLessModel = ClueLessModel.getInstance();
@@ -45,16 +48,19 @@ public class ClueLessServiceImpl implements ClueLessService {
 		players = clueLessModel.getPlayers();
 		rooms = clueLessModel.getRooms();
 		hallways = clueLessModel.getHallways();
-		playerKeys = new ArrayList<String>(Player.TOTAL);
+		playerKeys = new ArrayList<String>(SuspectToken.TOTAL);
 		
 		// initialize rooms
-		initRooms();
+		createRooms();
 
 		// initialize hallways
-		initHallways();
+		createHallways();
 			
 		// randomly put 6 weapons in 9 rooms no more than one per room
-		distributeWeapons();
+		distributeWeaponTokens();
+		
+		// initialize suspect tokens
+		createSuspectTokens();
 		
 		//create deck
 		createDeck();
@@ -62,7 +68,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 		// generate solution using 3 cards one of each type: room, suspect, weapon
 		generateSolution();
 		
-		cardsDealt = false;
+		isClueLessInitialized = false;
 	}
 	
 	@Override
@@ -71,33 +77,35 @@ public class ClueLessServiceImpl implements ClueLessService {
 	}
 
 	@Override
-	public ClueLessModel joinClueLess(String sessionId, String player) {
-		Player newPlayer = new Player(player);
+	public ClueLessModel joinClueLess(String sessionId, String suspect) {
+		Player newPlayer = new Player(suspect);
 		
 		// set each player's specific start location
-		switch(player) {
-			case Player.COLONEL_MUSTARD:
+		switch(suspect) {
+			case SuspectToken.COLONEL_MUSTARD:
 				newPlayer.addMovableLocation(Hallway.HALLWAY5);
 				break;
-			case Player.MISS_SCARLET:
+			case SuspectToken.MISS_SCARLET:
 				newPlayer.addMovableLocation(Hallway.HALLWAY2);
 				break;
-			case Player.MR_GREEN:
+			case SuspectToken.MR_GREEN:
 				newPlayer.addMovableLocation(Hallway.HALLWAY11);
 				break;
-			case Player.MRS_PEACOCK:
+			case SuspectToken.MRS_PEACOCK:
 				newPlayer.addMovableLocation(Hallway.HALLWAY8);
 				break;
-			case Player.MRS_WHITE:
+			case SuspectToken.MRS_WHITE:
 				newPlayer.addMovableLocation(Hallway.HALLWAY12);
 				break;
-			case Player.PROFESSOR_PLUM:
+			case SuspectToken.PROFESSOR_PLUM:
 				newPlayer.addMovableLocation(Hallway.HALLWAY3);
 				break;
 		}
 		
 		players.put(sessionId, newPlayer);
-		playerKeys.add(sessionId);
+		if (!playerKeys.contains(sessionId)) {
+			playerKeys.add(sessionId);
+		}
 		boolean hasMissScarletJoined = checkMissScarletJoinStatus();
 		if (players.size() >= 3 && hasMissScarletJoined) {
 			clueLessModel.setGameReady(true);
@@ -108,9 +116,13 @@ public class ClueLessServiceImpl implements ClueLessService {
 
 	@Override
 	public ClueLessModel leaveClueLess(String sessionId) {
-		Player player = players.get(sessionId);
-		removePlayerFromLocation(sessionId, player.getLocation());
 		players.remove(sessionId);
+		for (SuspectToken suspectToken : suspectTokens) {
+			if (suspectToken.getPlayedBy().equals(sessionId)) {
+				suspectToken.setPlayedBy(null);
+				break;
+			}
+		}
 		boolean hasMissScarletJoined = checkMissScarletJoinStatus();
 		if (players.size() < 3 || hasMissScarletJoined == false) {
 			clueLessModel.setGameReady(false);
@@ -120,12 +132,12 @@ public class ClueLessServiceImpl implements ClueLessService {
 	}
 
 	@Override
-	public ClueLessModel dealCards() {
+	public ClueLessModel initClueLess() {
 		
 		// check to make sure other clients do not call this method twice
-		if (!cardsDealt) {
+		if (!isClueLessInitialized) {
 			
-			//deal remaining cards to all players
+			// deal remaining cards to all players
 			int playerIndex = 0;
 			for (int i = 0; i < deck.size(); i++) {
 				Card card = deck.get(i);
@@ -137,7 +149,21 @@ public class ClueLessServiceImpl implements ClueLessService {
 				playerIndex++;
 			}
 			
-			cardsDealt = true;
+			// sets suspect tokens to their players
+			for (Map.Entry<String, Player> entry : players.entrySet()) {
+				Player player = entry.getValue();
+				findMatchingToken: {
+					for (SuspectToken suspectToken : suspectTokens) {
+						if (suspectToken.getTokenName().equals(player.getSuspect())) {
+							suspectToken.setPlayedBy(entry.getKey());
+							break findMatchingToken;
+						}
+					}
+				}
+			}
+
+			
+			isClueLessInitialized = true;
 		}
 		
 		return clueLessModel;
@@ -146,32 +172,18 @@ public class ClueLessServiceImpl implements ClueLessService {
 	@Override
 	public ClueLessModel movePlayer(String sessionId, String location) {
 		Player player = players.get(sessionId);
-		String previousLocation = player.getLocation();
+		player.setLocation(location);
 		
-		// move player to hallway
-		if (hallways.containsKey(location)) {
-			Hallway hallway = hallways.get(location);
-			hallway.setOccupiedBy(sessionId);
-			player.setLocation(location);
-				
-			removePlayerFromLocation(sessionId, previousLocation);	
-			updatePlayerMovableLocations();
-			
-			return clueLessModel;
-			
-		// move player to room
-		} else if (rooms.containsKey(location)) {
-			Room room = rooms.get(location);
-			room.addPlayer(sessionId);
-			player.setLocation(location);
-			
-			removePlayerFromLocation(sessionId, previousLocation);
-			updatePlayerMovableLocations();
-			
-			return clueLessModel;
-		} else {
-			return null;
+		for (SuspectToken suspectToken : suspectTokens) {
+			if (suspectToken.getTokenName().equals(player.getSuspect())) {
+				moveToken(suspectToken, location);
+				break;
+			}
 		}
+		
+		updatePlayerMovableLocations();
+		
+		return clueLessModel;
 	}
 
 	@Override
@@ -222,7 +234,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 	 */
 	private boolean checkMissScarletJoinStatus() {
 		for (Map.Entry<String, Player> entry : players.entrySet()) {
-			if (entry.getValue().getName().equals(Player.MISS_SCARLET)) {
+			if (entry.getValue().getSuspect().equals(SuspectToken.MISS_SCARLET)) {
 				clueLessModel.setWhoseTurn(entry.getKey());
 				return true;
 			}
@@ -231,7 +243,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 		return false;
 	}
 	
-	private void initRooms() {
+	private void createRooms() {
 		rooms.put(Room.STUDY, new Room(Hallway.HALLWAY1, Hallway.HALLWAY3, Room.KITCHEN));
 		rooms.put(Room.HALL, new Room(Hallway.HALLWAY1, Hallway.HALLWAY2, Hallway.HALLWAY4));
 		rooms.put(Room.LOUNGE, new Room(Hallway.HALLWAY2, Room.CONSERVATORY, Hallway.HALLWAY5));
@@ -245,7 +257,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 		roomKeys = new ArrayList<String>(rooms.keySet());
 	}
 	
-	private void initHallways() {
+	private void createHallways() {
 		hallways.put(Hallway.HALLWAY1, new Hallway(Room.STUDY, Room.HALL));
 		hallways.put(Hallway.HALLWAY2, new Hallway(Room.HALL, Room.LOUNGE));
 		hallways.put(Hallway.HALLWAY3, new Hallway(Room.STUDY, Room.LIBRARY));
@@ -260,20 +272,30 @@ public class ClueLessServiceImpl implements ClueLessService {
 		hallways.put(Hallway.HALLWAY12, new Hallway(Room.BALLROOM, Room.KITCHEN));
 	}
 	
-	private void distributeWeapons() {
-		weaponList = new ArrayList<String>(Weapon.TOTAL); // at most 6 weapons
-		weaponList.add(Weapon.ROPE);
-		weaponList.add(Weapon.LEAD_PIPE);
-		weaponList.add(Weapon.KNIFE);
-		weaponList.add(Weapon.WRENCH);
-		weaponList.add(Weapon.CANDLESTICK);
-		weaponList.add(Weapon.REVOLVER);		
-		Collections.shuffle(weaponList);
+	private void distributeWeaponTokens() {
+		weaponTokens = new ArrayList<WeaponToken>(WeaponToken.TOTAL); // at most 6 weapons
+		weaponTokens.add(new WeaponToken(WeaponToken.ROPE));
+		weaponTokens.add(new WeaponToken(WeaponToken.LEAD_PIPE));
+		weaponTokens.add(new WeaponToken(WeaponToken.KNIFE));
+		weaponTokens.add(new WeaponToken(WeaponToken.WRENCH));
+		weaponTokens.add(new WeaponToken(WeaponToken.CANDLESTICK));
+		weaponTokens.add(new WeaponToken(WeaponToken.REVOLVER));		
+		Collections.shuffle(weaponTokens);
 		Collections.shuffle(roomKeys);		
 		for (int i = 0; i < 6; i++) {
 			Room room = rooms.get(roomKeys.get(i));
-			room.addWeapon(weaponList.get(i));
+			room.addToken(weaponTokens.get(i).getTokenName());
 		}
+	}
+	
+	private void createSuspectTokens() {
+		suspectTokens = new ArrayList<SuspectToken>(SuspectToken.TOTAL);
+		suspectTokens.add(new SuspectToken(SuspectToken.COLONEL_MUSTARD));
+		suspectTokens.add(new SuspectToken(SuspectToken.MISS_SCARLET));
+		suspectTokens.add(new SuspectToken(SuspectToken.MR_GREEN));
+		suspectTokens.add(new SuspectToken(SuspectToken.MRS_PEACOCK));
+		suspectTokens.add(new SuspectToken(SuspectToken.MRS_WHITE));
+		suspectTokens.add(new SuspectToken(SuspectToken.PROFESSOR_PLUM));
 	}
 	
 	private void createDeck() {
@@ -319,21 +341,6 @@ public class ClueLessServiceImpl implements ClueLessService {
 		solutionModel.setRoom(room.getDesc());
 	}
 	
-	private void removePlayerFromLocation(String sessionId, String location) {
-		// remove previous location if player was previously in a room
-		if (rooms.containsKey(location)) {
-			Room room = rooms.get(location);
-			room.removePlayer(sessionId);
-			rooms.put(location, room);
-		}
-
-		// remove previous location if player was previously in a hallway
-		if (hallways.containsKey(location)) {
-			Hallway hallway = hallways.get(location);
-			hallway.setOccupiedBy(null);
-		}
-	}
-	
 	private void updatePlayerMovableLocations() {
 		String location;
 		ArrayList<String> adjacentAreas;
@@ -359,7 +366,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 				for (String area : adjacentAreas) {
 					if (hallways.containsKey(area)) {
 						Hallway adjacentHallway = hallways.get(area);
-						if (adjacentHallway.getOccupiedBy() == null) {
+						if (adjacentHallway.getToken() == null) {
 							player.addMovableLocation(area);
 						}
 					} else {
@@ -367,6 +374,34 @@ public class ClueLessServiceImpl implements ClueLessService {
 					}
 				}
 				continue;
+			}
+		}
+	}
+	
+	private void moveToken(Token token, String location) {
+		String previousLocation = token.getLocation();
+		token.setLocation(location);
+		
+		// moving to hallway	
+		if (hallways.containsKey(location)) {
+			Hallway hallway = hallways.get(location);
+			hallway.setToken(token.getTokenName());		
+		} 
+	
+		// moving to a room
+		if (rooms.containsKey(location)) {
+			Room room = rooms.get(location);
+			room.addToken(token.getTokenName());
+ 		}	
+		
+		// remove token from previous location
+		if (previousLocation != null) {
+			if (rooms.containsKey(previousLocation)) {
+				Room previousRoom = rooms.get(previousLocation);
+				previousRoom.removeToken(token.getTokenName());
+			} else {
+				Hallway previousHallway = hallways.get(previousLocation);
+				previousHallway.setToken(null);
 			}
 		}
 	}

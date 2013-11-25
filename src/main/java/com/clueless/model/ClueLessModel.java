@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.clueless.domain.Hallway;
 import com.clueless.domain.Player;
 import com.clueless.domain.Room;
+import com.clueless.domain.SuspectToken;
 
 /**
  * The ClueLessModel is the repository for the game state data. The ClueLessModel is returned back to
@@ -23,7 +24,7 @@ public class ClueLessModel {
 	
 	private ClueLessModel() {
 		gameReady = false;
-		players = new HashMap<String, Player>(Player.TOTAL);
+		players = new HashMap<String, Player>(SuspectToken.TOTAL);
 		rooms = new HashMap<String, Room>(Room.TOTAL);
 		hallways = new HashMap<String, Hallway>(Hallway.TOTAL);
 	}
