@@ -22,11 +22,39 @@
 
 	<form>
   		<div id="radio">
-    		<input type="radio" id="move" name="radio"><label for="move">Move</label>
+    		<input type="radio" id="move" name="radio" onclick="toggle_visibility('locations');"><label for="move">Move</label>
     		<input type="radio" id="suggest" name="radio"><label for="suggest">Suggest</label>
     		<input type="radio" id="accuse" name="radio"><label for="accuse">Accuse</label>
-  	</div>
+  		</div>
 	</form>
+	
+	<div id="locations" class="alist" style="display:none;">
+      <ul>
+        <li>Study</li>
+        <li>hallway 1</li>
+        <li>Hall</li>
+        <li>hallway 2</li>
+        <li>Lounge</li>
+        <li>hallway 3</li>
+        <li>hallway 4</li>
+        <li>hallway 5</li>
+        <li>Library</li>
+        <li>hallway 6</li>
+        <li>Billiard Room</li>
+        <li>hallway 7</li>
+        <li>Dining Room</li>
+        <li>hallway 8</li>
+        <li>hallway 9</li>
+        <li>hallway 10</li>
+        <li>Conservatory</li>
+        <li>hallway 11</li>
+        <li>Ballroom</li>
+        <li>hallway 12</li>
+        <li>Kitchen</li>
+        <li>
+      </ul>
+    </div>
+    
 	<input type="submit" value="End Turn">	
 	<div id="container">
 	
@@ -78,6 +106,19 @@
 		    		ctx.fillStyle="#FF00FF";
 		    		ctx.fillRect(0,0,tokenSize,tokenSize);
 			};
+			
+			function toggle_visibility(id) {
+		    	var thelist = document.getElementsByClassName("alist");
+		    	for (var i = 0; i < thelist.length; i++) {
+		    		thelist[i].style.display = 'none';
+		    	}
+		    	var e = document.getElementById(id);
+		    	if(e.style.display == 'block') {
+		    		e.style.display = 'none';
+		    	} else {
+		    		e.style.display = 'block';
+		    	}
+		    }
 		});
 	
 	</script>
