@@ -19,6 +19,12 @@ import com.clueless.model.ClueLessModel;
 import com.clueless.model.SolutionModel;
 import com.clueless.model.SuggestionModel;
 
+/* TODO If all of the exits are blocked (i.e., there are people in all of the hallways) and you are not in
+one of the corner rooms (with a secret passage), and you weren’t moved to the room by
+another player making a suggestion, you lose your turn (except for maybe making an
+accusation).
+*/
+
 /**
  * The ClueLessServiceImpl implements the ClueLessService interface. All the game logic code is here.
  * @author nshih
@@ -190,6 +196,11 @@ public class ClueLessServiceImpl implements ClueLessService {
 	public SuggestionModel makeSuggestion(String sessionId, String room,
 			String suspect, String weapon) {
 		// TODO Auto-generated method stub
+		
+		// TODO If you were moved to the room by another player making a suggestion, you may, if
+		// you wish, stay in that room and make a suggestion. Otherwise you may move
+		// through a doorway or take a secret passage as described above.
+		
 		return null;
 	}
 
@@ -202,14 +213,24 @@ public class ClueLessServiceImpl implements ClueLessService {
 	@Override
 	public SolutionModel makeAccusation(String sessionId, String room,
 			String suspect, String weapon) {
-		// TODO Auto-generated method stub
-		return null;
+		if (room.equals(solutionModel.getRoom()) 
+			&& suspect.equals(solutionModel.getSuspect()) 
+			&& weapon.equals(solutionModel.getWeapon())) {
+			solutionModel.setSolvedBy(sessionId);
+		} else {
+			Player player = players.get(sessionId);
+			player.setFailedAccusation(true);
+		}
+		
+		return solutionModel;
 	}
 
 	@Override
 	public ClueLessModel endTurn(String sessionId) {
 		for (int i = 0; i < playerKeys.size(); i++) {
 			if (sessionId == playerKeys.get(i)) {
+				
+				// TODO add check to skip over a player that has failed an accusation
 				
 				// if next player the first player in the array
 				if (i == (playerKeys.size() - 1)) {
