@@ -39,10 +39,8 @@ public class ClueLessServiceImpl implements ClueLessService {
 	HashMap<String, Player> players;
 	private HashMap<String, Room> rooms;
 	private HashMap<String, Hallway> hallways;
-	ArrayList<String> roomKeys;
 	ArrayList<WeaponToken> weaponTokens;
 	ArrayList<SuspectToken> suspectTokens;
-	ArrayList<String> playerKeys;
 	
 	private boolean isClueLessInitialized;
 	
@@ -54,7 +52,6 @@ public class ClueLessServiceImpl implements ClueLessService {
 		players = clueLessModel.getPlayers();
 		rooms = clueLessModel.getRooms();
 		hallways = clueLessModel.getHallways();
-		playerKeys = new ArrayList<String>(SuspectToken.TOTAL);
 		
 		// initialize rooms
 		createRooms();
@@ -109,9 +106,6 @@ public class ClueLessServiceImpl implements ClueLessService {
 		}
 		
 		players.put(sessionId, newPlayer);
-		if (!playerKeys.contains(sessionId)) {
-			playerKeys.add(sessionId);
-		}
 		boolean hasMissScarletJoined = checkMissScarletJoinStatus();
 		if (players.size() >= 3 && hasMissScarletJoined) {
 			clueLessModel.setGameReady(true);
@@ -122,11 +116,14 @@ public class ClueLessServiceImpl implements ClueLessService {
 
 	@Override
 	public ClueLessModel leaveClueLess(String sessionId) {
+		// TODO handle player's deck as well? Would also need to handle re-dealing the cards
 		players.remove(sessionId);
 		for (SuspectToken suspectToken : suspectTokens) {
-			if (suspectToken.getPlayedBy().equals(sessionId)) {
-				suspectToken.setPlayedBy(null);
-				break;
+			if (suspectToken.getPlayedBy() != null) {
+				if (suspectToken.getPlayedBy().equals(sessionId)) {
+					suspectToken.setPlayedBy(null);
+					break;
+				}
 			}
 		}
 		boolean hasMissScarletJoined = checkMissScarletJoinStatus();
@@ -142,6 +139,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 		
 		// check to make sure other clients do not call this method twice
 		if (!isClueLessInitialized) {
+			ArrayList<String> playerKeys = new ArrayList<String>(players.keySet());
 			
 			// deal remaining cards to all players
 			int playerIndex = 0;
@@ -227,24 +225,25 @@ public class ClueLessServiceImpl implements ClueLessService {
 
 	@Override
 	public ClueLessModel endTurn(String sessionId) {
-		for (int i = 0; i < playerKeys.size(); i++) {
-			if (sessionId == playerKeys.get(i)) {
-				
-				// TODO add check to skip over a player that has failed an accusation
-				
-				// if next player the first player in the array
-				if (i == (playerKeys.size() - 1)) {
-					clueLessModel.setWhoseTurn(playerKeys.get(0));
-					continue;
-					
-				// get next player
-				} else {
-					i++;
-					clueLessModel.setWhoseTurn(playerKeys.get(i));
-					continue;
-				}
+		ArrayList<String> playerKeys = new ArrayList<String>(players.keySet());
+		int i = playerKeys.indexOf(sessionId);
+		Player player;
+		boolean isWhoseTurnSet = false;
+		while (!isWhoseTurnSet) {
+			// if whose turn is the last player in the list then get the first player
+			if (i == (playerKeys.size() - 1)) {
+				i = 0;				
+			// else get next player
+			} else {
+				i++;
+			}
+			player = players.get(playerKeys.get(i));
+			if (!player.isFailedAccusation()) {
+				clueLessModel.setWhoseTurn(playerKeys.get(i));
+				isWhoseTurnSet = true;
 			}
 		}
+		
 		return clueLessModel;
 	}
 	
@@ -274,8 +273,6 @@ public class ClueLessServiceImpl implements ClueLessService {
 		rooms.put(Room.CONSERVATORY, new Room(Hallway.HALLWAY8, Room.LOUNGE, Hallway.HALLWAY11));
 		rooms.put(Room.BALLROOM, new Room(Hallway.HALLWAY11, Hallway.HALLWAY9, Hallway.HALLWAY12));
 		rooms.put(Room.KITCHEN, new Room(Hallway.HALLWAY12, Room.STUDY, Hallway.HALLWAY10));
-		
-		roomKeys = new ArrayList<String>(rooms.keySet());
 	}
 	
 	private void createHallways() {
@@ -294,16 +291,20 @@ public class ClueLessServiceImpl implements ClueLessService {
 	}
 	
 	private void distributeWeaponTokens() {
+		ArrayList<String> roomKeys = new ArrayList<String>(rooms.keySet());
+		
 		weaponTokens = new ArrayList<WeaponToken>(WeaponToken.TOTAL); // at most 6 weapons
 		weaponTokens.add(new WeaponToken(WeaponToken.ROPE));
 		weaponTokens.add(new WeaponToken(WeaponToken.LEAD_PIPE));
 		weaponTokens.add(new WeaponToken(WeaponToken.KNIFE));
 		weaponTokens.add(new WeaponToken(WeaponToken.WRENCH));
 		weaponTokens.add(new WeaponToken(WeaponToken.CANDLESTICK));
-		weaponTokens.add(new WeaponToken(WeaponToken.REVOLVER));		
+		weaponTokens.add(new WeaponToken(WeaponToken.REVOLVER));	
+		
 		Collections.shuffle(weaponTokens);
-		Collections.shuffle(roomKeys);		
-		for (int i = 0; i < 6; i++) {
+		Collections.shuffle(roomKeys);	
+		
+		for (int i = 0; i < weaponTokens.size(); i++) {
 			Room room = rooms.get(roomKeys.get(i));
 			room.addToken(weaponTokens.get(i).getTokenName());
 		}

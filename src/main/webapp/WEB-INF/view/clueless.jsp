@@ -40,7 +40,7 @@
 						url: "${pageContext.request.contextPath}/v1",
 						data: "action=leave",
 						success: function(response) {
-							window.location.href = "/ClueLess/join";
+							window.location.href = "/ClueLess/";
 						},
 						dataType: "json"
 					});
