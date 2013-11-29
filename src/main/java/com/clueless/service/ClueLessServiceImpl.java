@@ -80,7 +80,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 	}
 
 	@Override
-	public ClueLessModel joinClueLess(String sessionId, String suspect) {
+	public ClueLessModel joinClueLess(String playerName, String suspect) {
 		Player newPlayer = new Player(suspect);
 		
 		// set each player's specific start location
@@ -105,7 +105,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 				break;
 		}
 		
-		players.put(sessionId, newPlayer);
+		players.put(playerName, newPlayer);
 		boolean hasMissScarletJoined = checkMissScarletJoinStatus();
 		if (players.size() >= 3 && hasMissScarletJoined) {
 			clueLessModel.setGameReady(true);
@@ -115,12 +115,12 @@ public class ClueLessServiceImpl implements ClueLessService {
 	}
 
 	@Override
-	public ClueLessModel leaveClueLess(String sessionId) {
+	public ClueLessModel leaveClueLess(String playerName) {
 		// TODO handle player's deck as well? Would also need to handle re-dealing the cards
-		players.remove(sessionId);
+		players.remove(playerName);
 		for (SuspectToken suspectToken : suspectTokens) {
 			if (suspectToken.getPlayedBy() != null) {
-				if (suspectToken.getPlayedBy().equals(sessionId)) {
+				if (suspectToken.getPlayedBy().equals(playerName)) {
 					suspectToken.setPlayedBy(null);
 					break;
 				}
@@ -174,8 +174,8 @@ public class ClueLessServiceImpl implements ClueLessService {
 	}
 
 	@Override
-	public ClueLessModel movePlayer(String sessionId, String location) {
-		Player player = players.get(sessionId);
+	public ClueLessModel movePlayer(String playerName, String location) {
+		Player player = players.get(playerName);
 		player.setLocation(location);
 		
 		for (SuspectToken suspectToken : suspectTokens) {
@@ -191,7 +191,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 	}
 
 	@Override
-	public SuggestionModel makeSuggestion(String sessionId, String room,
+	public SuggestionModel makeSuggestion(String playerName, String room,
 			String suspect, String weapon) {
 		// TODO Auto-generated method stub
 		
@@ -203,20 +203,20 @@ public class ClueLessServiceImpl implements ClueLessService {
 	}
 
 	@Override
-	public SuggestionModel disproveSuggestion(String sessionId, Card card) {
+	public SuggestionModel disproveSuggestion(String playerName, Card card) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public SolutionModel makeAccusation(String sessionId, String room,
+	public SolutionModel makeAccusation(String playerName, String room,
 			String suspect, String weapon) {
 		if (room.equals(solutionModel.getRoom()) 
 			&& suspect.equals(solutionModel.getSuspect()) 
 			&& weapon.equals(solutionModel.getWeapon())) {
-			solutionModel.setSolvedBy(sessionId);
+			solutionModel.setSolvedBy(playerName);
 		} else {
-			Player player = players.get(sessionId);
+			Player player = players.get(playerName);
 			player.setFailedAccusation(true);
 		}
 		
@@ -224,9 +224,9 @@ public class ClueLessServiceImpl implements ClueLessService {
 	}
 
 	@Override
-	public ClueLessModel endTurn(String sessionId) {
+	public ClueLessModel endTurn(String playerName) {
 		ArrayList<String> playerKeys = new ArrayList<String>(players.keySet());
-		int i = playerKeys.indexOf(sessionId);
+		int i = playerKeys.indexOf(playerName);
 		Player player;
 		boolean isWhoseTurnSet = false;
 		while (!isWhoseTurnSet) {

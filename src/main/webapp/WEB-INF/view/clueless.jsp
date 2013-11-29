@@ -6,6 +6,7 @@
   <head>
     <title>ClueLess</title>
     <script src="//code.jquery.com/jquery-latest.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.3.1/jquery.cookie.min.js"></script>
     <style>
     	body { background-color: #eee; font: helvetica; }
     	#container { width: 500px; background-color: #fff; margin: 30px auto; padding: 30px; border-radius: 5px; box-shadow: 5px; }
@@ -79,7 +80,7 @@
 							window.location.href = "/ClueLess/";
 						},
 						dataType: "json"
-					});
+				});
 			});
 			
 			// Poll continuously poll server every second for updated game state
@@ -90,11 +91,16 @@
 			    			type: "GET",
 			    			success: function(response){
 								// TODO: Add response handling
+								var whoseTurn = response.whoseTurn;
+			    				var playerName = $.cookie("playerName");
+			    				if (whoseTurn == playerName) {
+			    					alert("It is your turn!");
+			    				}
 			  				}, 
 			  				dataType: "json", 
 			  				complete: poll, 
 			  				timeout: 30000 
-			  			});
+			  		});
 				}, 1000);
 				
 			};

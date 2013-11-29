@@ -1,9 +1,8 @@
 package com.clueless.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,20 +33,20 @@ public class ClueLessController {
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=join")
 	@ResponseBody
-	public ClueLessModel joinClueLess(HttpSession session, @RequestParam("player") String suspect) {
-		return clueLessService.joinClueLess(session.getId(), suspect);
+	public ClueLessModel joinClueLess(@CookieValue("playerName") String playerName, @RequestParam("suspect") String suspect) {
+		return clueLessService.joinClueLess(playerName, suspect);
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
 	@ResponseBody
-	public ClueLessModel getClueLess(HttpSession session) {
+	public ClueLessModel getClueLess() {
 		return clueLessService.getClueLess();
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=leave")
 	@ResponseBody
-	public ClueLessModel leaveClueLess(HttpSession session) {
-		return clueLessService.leaveClueLess(session.getId());
+	public ClueLessModel leaveClueLess(@CookieValue("playerName") String playerName) {
+		return clueLessService.leaveClueLess(playerName);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=init")
@@ -58,33 +57,33 @@ public class ClueLessController {
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=move")
 	@ResponseBody
-	public ClueLessModel movePlayer(HttpSession session, @RequestParam("location") String location) {
-		return clueLessService.movePlayer(session.getId(), location);
+	public ClueLessModel movePlayer(@CookieValue("playerName") String playerName, @RequestParam("location") String location) {
+		return clueLessService.movePlayer(playerName, location);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=suggestion")
 	@ResponseBody
-	public SuggestionModel makeSuggestion(HttpSession session, @RequestParam("room") String room,
-			@RequestParam("suspect") String suspect, @RequestParam("weapon") String weapon) {
-		return clueLessService.makeSuggestion(session.getId(), room, suspect, weapon);
+	public SuggestionModel makeSuggestion(@CookieValue("playerName") String playerName, 
+			@RequestParam("room") String room, @RequestParam("suspect") String suspect, @RequestParam("weapon") String weapon) {
+		return clueLessService.makeSuggestion(playerName, room, suspect, weapon);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=disprove")
 	@ResponseBody
-	public SuggestionModel disproveSuggestion(HttpSession session, @RequestBody Card card) {
-		return clueLessService.disproveSuggestion(session.getId(), card);
+	public SuggestionModel disproveSuggestion(@CookieValue("playerName") String playerName, @RequestBody Card card) {
+		return clueLessService.disproveSuggestion(playerName, card);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=accusation")
 	@ResponseBody
-	public SolutionModel makeAccusation(HttpSession session, @RequestParam("room") String room,
-			@RequestParam("suspect") String suspect, @RequestParam("weapon") String weapon) {
-		return clueLessService.makeAccusation(session.getId(), room, suspect, weapon);
+	public SolutionModel makeAccusation(@CookieValue("playerName") String playerName, 
+			@RequestParam("room") String room, @RequestParam("suspect") String suspect, @RequestParam("weapon") String weapon) {
+		return clueLessService.makeAccusation(playerName, room, suspect, weapon);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=endTurn")
 	@ResponseBody
-	public ClueLessModel endTurn(HttpSession session) {
-		return clueLessService.endTurn(session.getId());
+	public ClueLessModel endTurn(@CookieValue("playerName") String playerName) {
+		return clueLessService.endTurn(playerName);
 	}
 }

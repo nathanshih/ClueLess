@@ -1,8 +1,8 @@
 {
     "gameReady": true,
-    "whoseTurn": "3D9EE97E233AA1BB7C670BF5D375B8B8",
+    "whoseTurn": "Nathan",
     "players": {
-        "3D9EE97E233AA1BB7C670BF5D375B8B8": {
+        "Nathan": {
             "suspect": "Miss Scarlet",
             "canDisprove": false,
             "failedAccusation": false,
@@ -33,7 +33,7 @@
                 "hallway11"
             ]
         },
-        "AE461C72FADFD522F17E120A1489D2B0": {
+        "Shawn": {
             "suspect": "Colonel Mustard",
             "canDisprove": false,
             "failedAccusation": false,
@@ -63,7 +63,7 @@
                 "kitchen"
             ]
         },
-        "36058AB6001C2CE690B444492D666730": {
+        "Christina": {
             "suspect": "Mr. Green",
             "canDisprove": false,
             "failedAccusation": false,
