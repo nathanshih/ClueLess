@@ -91,7 +91,7 @@
             var whoseTurn = response.whoseTurn;
             var playerName = $.cookie("playerName");
             if (whoseTurn == playerName) {
-              turn();
+             turn();
             }
           }, 
           dataType: "json", 
@@ -102,6 +102,7 @@
     };
    
     function turn() {
+    	//unlock radio buttons
         $("input[name=TurnActionsGroup]:radio").change(function () {
             if ($("#move").attr("checked")) {
                 move();
@@ -110,7 +111,8 @@
             }else if($("#accuse").attr("checked")){
                 alert("accuse");
             }
-        })   	
+        })
+        //lock radio buttons
     };
     
     function move() {
