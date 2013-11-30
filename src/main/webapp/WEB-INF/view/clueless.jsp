@@ -120,6 +120,29 @@
         //if the room selected is avalibe
         //move to that room
         //else inform user that room is occupied.
+        
+        //test for room click
+        $( "#study" ).click(function(event) { alert(event.target.id); });
+        $( "#hall1" ).click(function(event) { alert(event.target.id); });
+        $( "#hall" ).click(function(event) { alert(event.target.id); });
+        $( "#hall2" ).click(function(event) { alert(event.target.id); });
+        $( "#lounge" ).click(function(event) { alert(event.target.id); });
+        $( "#hall3" ).click(function(event) { alert(event.target.id); });
+        $( "#hall4" ).click(function(event) { alert(event.target.id); });
+        $( "#hall5" ).click(function(event) { alert(event.target.id); });
+        $( "#library" ).click(function(event) { alert(event.target.id); });
+        $( "#hall6" ).click(function(event) { alert(event.target.id); });
+        $( "#billiard" ).click(function(event) { alert(event.target.id); });
+        $( "#hall7" ).click(function(event) { alert(event.target.id); });
+        $( "#dinning" ).click(function(event) { alert(event.target.id); });
+        $( "#hall8" ).click(function(event) { alert(event.target.id); });
+        $( "#hall9" ).click(function(event) { alert(event.target.id); });
+        $( "#hall10" ).click(function(event) { alert(event.target.id); });
+        $( "#conservatory" ).click(function(event) { alert(event.target.id); });
+        $( "#hall11" ).click(function(event) { alert(event.target.id); });
+        $( "#ball" ).click(function(event) { alert(event.target.id); });
+        $( "#hall12" ).click(function(event) { alert(event.target.id); });
+        $( "#kitchen" ).click(function(event) {alert(event.target.id); });
     }
   });
   </script>  
