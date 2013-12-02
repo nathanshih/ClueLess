@@ -21,7 +21,7 @@ import com.clueless.model.SolutionModel;
 import com.clueless.model.SuggestionModel;
 
 /* TODO If all of the exits are blocked (i.e., there are people in all of the hallways) and you are not in
-one of the corner rooms (with a secret passage), and you weren’t moved to the room by
+one of the corner rooms (with a secret passage), and you weren't moved to the room by
 another player making a suggestion, you lose your turn (except for maybe making an
 accusation).
 */
