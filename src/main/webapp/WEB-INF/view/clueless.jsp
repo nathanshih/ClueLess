@@ -19,53 +19,67 @@
       </style>
   </head>
   <body>
-  <table cellspacing="0" cellpadding="0" border="0" background="http://i.imgur.com/mGJ85IX.jpg" class="inlineTable">
+<table cellspacing="0" cellpadding="0" border="0" background="http://i.imgur.com/mGJ85IX.jpg" class="inlineTable">
     <tr>
       <td width="100" height="96" align="center"><canvas id="study" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hall1" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="hallway1" width="100" height="96"/></td>
       <td width="100" height="96" align="center"><canvas id="hall" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hall2" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="hallway2" width="100" height="96"/></td>
       <td width="100" height="96" align="center"><canvas id="lounge" width="100" height="96"/></td>
     </tr>
     <tr>
-      <td width="100" height="96" align="center"><canvas id="hall3" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="hallway3" width="100" height="96"/></td>
       <td width="100" height="96" align="center"></td>
-      <td width="100" height="96" align="center"><canvas id="hall4" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="hallway4" width="100" height="96"/></td>
       <td width="100" height="96" align="center"></td>
-      <td width="100" height="96" align="center"><canvas id="hall5" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="hallway5" width="100" height="96"/></td>
     </tr>
     <tr>
       <td width="100" height="96" align="center"><canvas id="library" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hall6" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="billiard" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hall7" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="dinning" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="hallway6" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="billardRoom" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="hallway7" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="diningRoom" width="100" height="96"/></td>
     </tr>
     <tr>
-      <td width="100" height="96" align="center"><canvas id="hall8" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="hallway8" width="100" height="96"/></td>
       <td width="100" height="96" align="center"></td>
-      <td width="100" height="96" align="center"><canvas id="hall9" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="hallway9" width="100" height="96"/></td>
       <td width="100" height="96" align="center"></td>
-      <td width="100" height="96" align="center"><canvas id="hall10" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="hallway10" width="100" height="96"/></td>
     </tr>
     <tr>
       <td width="100" height="96" align="center"><canvas id="conservatory" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hall11" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="ball" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hall12" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="hallway11" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="ballroom" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="hallway12" width="100" height="96"/></td>
       <td width="100" height="96" align="center"><canvas id="kitchen" width="100" height="96"/></td>
     </tr>
   </table>
-<table cellspacing="0" cellpadding="0" border="0" background="http://i.imgur.com/mGJ85IX.jpg" class="inlineTable">
+<!-- <table cellspacing="0" cellpadding="0" border="0" background="http://i.imgur.com/mGJ85IX.jpg" class="inlineTable">
 
-</table>
+</table> -->
+<%-- 
+<canvas id="boardCanvas" width="725" height="646" style="background: url(http://i.imgur.com/xFkG89v.png) no-repeat center center;"></canvas>
+ --%>
+<div id="playerInput">
+    <input type="radio" name="TurnActionsGroup" id="move"  value="move" />Move
+    <input type="radio" name="TurnActionsGroup" id="suggest" value="suggest" /> Suggest
+    <input type="radio" name="TurnActionsGroup" id="accuse" value="accuse" /> Accuse<br/>
 
-    <input type="radio" id="move" value="move" name="TurnActionsGroup" />Move
-    <input type="radio" id="suggest" value="suggest" name="TurnActionsGroup"/> Suggest
-    <input type="radio" id="accuse" value="accuse" name="TurnActionsGroup"/> Accuse</br>
+    <label>Location:</label>
+    <select id="location" name="location">
+        <option value="000">-Select Location-</option>
+    </select>
+    <label>Cards in hand:</label>
+    <select id="cardsInHand" name="cardsInHand">
+        <option value="000">-Cards in Hand-</option>
+    </select>
+    <br />
+
     <button id="endTurn">End Turn</button>
-
-  
+ </div> 
+ 
   <div id="container">
     <h1>ClueLess</h1>
     <br>
@@ -89,6 +103,8 @@
 
     // Poll continuously poll server every second for updated game state
     function poll() {
+	  alert ("Will call draw players");
+   	  drawPlayers();
       setTimeout(function() {
         $.ajax({url: "${pageContext.request.contextPath}/v1",
           type: "GET",
@@ -98,7 +114,11 @@
             var playerName = $.cookie("playerName");
             if (whoseTurn == playerName) {
              //alert( "poll determined that it's " + playerName + " turn" );
-             turn(whoseTurn);
+             //turn(playerName);
+             $('input[type=radio]').click( function() {
+      			var action = $("input:radio[name=TurnActionsGroup]:checked").val();
+      			alert( action);
+     		});
             }
           }, 
           dataType: "json", 
@@ -108,68 +128,69 @@
       }, 1000);
     };
    
-    function turn(whoseTurn) {
-        alert( "turn called for " + whoseTurn);
- /*        $("input[name=TurnActionsGroup]:radio").change(function () {
-            if ($("#move").attr("checked")) {
-                move(playerName);
-            }else if($("#suggest").attr("checked")){
-                alert("Suggest");
-            }else if($("#accuse").attr("checked")){
-                alert("accuse");
-            }
-        }) */
-        //lock radio buttons
-    };
-    
-    function move(playerName) {
-        alert("move called for " + playerName);
-        //get avalible rooms for player to move to
-        //wait for the player to click on a room
-        //if the room selected is avalibe
-        //move to that room
-        //else inform user that room is occupied.
-        
-        //test for room click
-        /* $( "#study" ).click(function(event) { alert(event.target.id); });
-        $( "#hall1" ).click(function(event) { alert(event.target.id); });
-        $( "#hall" ).click(function(event) { alert(event.target.id); });
-        $( "#hall2" ).click(function(event) { alert(event.target.id); });
-        $( "#lounge" ).click(function(event) { alert(event.target.id); });
-        $( "#hall3" ).click(function(event) { alert(event.target.id); });
-        $( "#hall4" ).click(function(event) { alert(event.target.id); });
-        $( "#hall5" ).click(function(event) { alert(event.target.id); });
-        $( "#library" ).click(function(event) { alert(event.target.id); });
-        $( "#hall6" ).click(function(event) { alert(event.target.id); });
-        $( "#billiard" ).click(function(event) { alert(event.target.id); });
-        $( "#hall7" ).click(function(event) { alert(event.target.id); });
-        $( "#dinning" ).click(function(event) { alert(event.target.id); });
-        $( "#hall8" ).click(function(event) { alert(event.target.id); });
-        $( "#hall9" ).click(function(event) { alert(event.target.id); });
-        $( "#hall10" ).click(function(event) { alert(event.target.id); });
-        $( "#conservatory" ).click(function(event) { alert(event.target.id); });
-        $( "#hall11" ).click(function(event) { alert(event.target.id); });
-        $( "#ball" ).click(function(event) { alert(event.target.id); });
-        $( "#hall12" ).click(function(event) { alert(event.target.id); });
-        $( "#kitchen" ).click(function(event) {alert(event.target.id); }); */
+    function drawPlayers() {
+
+/*     	var c=document.getElementById("study");
+    	var ctx=c.getContext("2d");
+    	ctx.fillStyle="#FF0000";
+    	ctx.fillRect(0,0,25,25); */
+
+    	alert("draw called");
         $.ajax({url: "${pageContext.request.contextPath}/v1",
-            type: "GET", /*An object of string/regular-expression pairs that determine how jQuery will parse the response, given its content type*/
-            success: function(response){ /*A function to be called if the request succeeds.*/
-              $.each(response["players"], function(playerName, player) {
-					selectedPlayers = selectedPlayers + player.suspect + "\n";
-					document.getElementById(player.suspect).disabled=true;
-				});
-              var playerName = $.cookie("playerName");
-              if (whoseTurn == playerName) {
-               turn();
-              }
+            type: "GET",
+            success: function(response){
+            	$.each(response["players"], function (index, value) {
+                    var whichSuspect = value.suspect;  //returns character name
+                    //var whichRooms = value.location;   //returns null at present
+                    alert( whichSuspect ); 
+                	
+                	if (whichSuspect == "Colonel Mustard"){
+                		whichRooms = "study";
+                        var c=document.getElementById(whichRooms);
+                    	var ctx=c.getContext("2d");
+                    	ctx.fillStyle="#FFCC11";
+                	}
+                	else if (whichSuspect == "Miss Scarlet"){
+                		whichRooms = "lounge"
+                        var c=document.getElementById(whichRooms);
+                    	var ctx=c.getContext("2d");
+                		ctx.fillStyle= "#8C1717";
+                	}
+                	else if (whichSuspect == "Mrs. White"){
+                		whichRooms = "ballroom"
+                        var c=document.getElementById(whichRooms);
+                    	var ctx=c.getContext("2d");
+                		ctx.fillStyle= "#EEE9E9";
+                	}
+                	else if (whichSuspect == "Mr. Green"){
+                		whichRooms = "hallway1"
+                        var c=document.getElementById(whichRooms);
+                    	var ctx=c.getContext("2d");
+                		ctx.fillStyle= "#99CC32";
+                	}
+                	else if (whichSuspect == "Mrs. Peacock"){
+                		whichRooms = "library"
+                        var c=document.getElementById(whichRooms);
+                    	var ctx=c.getContext("2d");
+                		ctx.fillStyle= "#016795";
+                	}
+                	else if (whichSuspect == "Professor Plum"){ 
+                		whichRooms = "hall";
+                        var c=document.getElementById(whichRooms);
+                    	var ctx=c.getContext("2d");
+                		ctx.fillStyle= "8E4585";
+                		}
+                	
+                	ctx.fillRect(0,0,25,25);
+            	});
             }, 
-            dataType: "json", /*The type of data that you're expecting back from the server.*/
-            complete: poll, /*A function to be called when the request finishes (after success and error callbacks are executed).*/
+            dataType: "json", 
+            complete: poll, 
             timeout: 30000 
           });
-        
-    }
+    };
+  
+  
   });
   </script>  
   </body>
