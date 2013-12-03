@@ -66,7 +66,7 @@
 					$.cookie("playerName", playerName)
 					$.ajax({type: "POST",
 							url: "${pageContext.request.contextPath}/v1",
-							data: "action=join" + "&suspect=" + suspect,
+							data: "action=join" + "&suspect=" + suspect, // for a move action=move&location=hallway5
 							success: function(response) {
 								$("#joinGameResponse").text("You will play as " + suspect + ".").css("color", "green");
 							},
