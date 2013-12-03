@@ -103,22 +103,19 @@
 
     // Poll continuously poll server every second for updated game state
     function poll() {
-	  alert ("Will call draw players");
+/* 	  alert ("Will call draw players"); */
    	  drawPlayers();
       setTimeout(function() {
         $.ajax({url: "${pageContext.request.contextPath}/v1",
           type: "GET",
           success: function(response){
             // TODO: Add response handling
+            var response = response;
             var whoseTurn = response.whoseTurn;
             var playerName = $.cookie("playerName");
             if (whoseTurn == playerName) {
              //alert( "poll determined that it's " + playerName + " turn" );
-             //turn(playerName);
-             $('input[type=radio]').click( function() {
-      			var action = $("input:radio[name=TurnActionsGroup]:checked").val();
-      			alert( action);
-     		});
+             turn(whoseTurn, response);
             }
           }, 
           dataType: "json", 
@@ -129,21 +126,16 @@
     };
    
     function drawPlayers() {
-
-/*     	var c=document.getElementById("study");
-    	var ctx=c.getContext("2d");
-    	ctx.fillStyle="#FF0000";
-    	ctx.fillRect(0,0,25,25); */
-
-    	alert("draw called");
+/*     	alert("draw called"); */
         $.ajax({url: "${pageContext.request.contextPath}/v1",
             type: "GET",
             success: function(response){
             	$.each(response["players"], function (index, value) {
                     var whichSuspect = value.suspect;  //returns character name
                     //var whichRooms = value.location;   //returns null at present
-                    alert( whichSuspect ); 
-                	
+                    //alert( whichSuspect ); 
+                    //I don't know why but I can't get or set color by function returns or variables.
+                    //It's little things like this that really make you hate a language.
                 	if (whichSuspect == "Colonel Mustard"){
                 		whichRooms = "study";
                         var c=document.getElementById(whichRooms);
@@ -185,11 +177,23 @@
             	});
             }, 
             dataType: "json", 
-            complete: poll, 
             timeout: 30000 
           });
     };
   
+    function turn(whoseTurn,response){
+/*         $('input[type=radio]').click( function() {
+  			var action = $("input:radio[name=TurnActionsGroup]:checked").val();
+ 		}); */
+        
+ 		var movableLocations = response.players[whoseTurn].movableLocations;
+ 		$.each(movableLocations, function (index, value) {
+ 		    $("#location").append('<option value="' + value + '">' + value + '</option>');
+ 		});
+ 		
+    	alert( "turn determined that it's " + whoseTurn + " turn" );
+    	
+    };
   
   });
   </script>  
