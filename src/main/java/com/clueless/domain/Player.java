@@ -2,6 +2,8 @@ package com.clueless.domain;
 
 import java.util.ArrayList;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class Player {
 	
 	private String suspect;
@@ -10,6 +12,7 @@ public class Player {
 	private boolean failedAccusation;
 	private String location;
 	private ArrayList<String> movableLocations;
+	private int turnPosition;
 	
 	public Player(String suspect) {
 		this.setSuspect(suspect);
@@ -88,6 +91,15 @@ public class Player {
 		this.movableLocations.clear();
 	}
 	
+	@JsonIgnore
+	public int getTurnPosition() {
+		return turnPosition;
+	}
+
+	public void setTurnPosition(int turnPosition) {
+		this.turnPosition = turnPosition;
+	}
+
 	@Override
 	public String toString() {
 		return suspect;

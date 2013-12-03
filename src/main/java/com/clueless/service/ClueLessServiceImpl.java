@@ -2,6 +2,7 @@ package com.clueless.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -41,6 +42,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 	private HashMap<String, Hallway> hallways;
 	ArrayList<WeaponToken> weaponTokens;
 	ArrayList<SuspectToken> suspectTokens;
+	ArrayList<String> playerNames;
 	
 	private boolean isClueLessInitialized;
 	
@@ -85,23 +87,29 @@ public class ClueLessServiceImpl implements ClueLessService {
 		
 		// set each player's specific start location
 		switch(suspect) {
-			case SuspectToken.COLONEL_MUSTARD:
-				newPlayer.addMovableLocation(Hallway.HALLWAY5);
-				break;
 			case SuspectToken.MISS_SCARLET:
-				newPlayer.addMovableLocation(Hallway.HALLWAY2);
+				newPlayer.addMovableLocation(SuspectToken.MISS_SCARLET_START_LOCATION);
+				newPlayer.setTurnPosition(SuspectToken.MISS_SCARLET_TURN_POSITION);
 				break;
-			case SuspectToken.MR_GREEN:
-				newPlayer.addMovableLocation(Hallway.HALLWAY11);
-				break;
-			case SuspectToken.MRS_PEACOCK:
-				newPlayer.addMovableLocation(Hallway.HALLWAY8);
+			case SuspectToken.COLONEL_MUSTARD:
+				newPlayer.addMovableLocation(SuspectToken.COLONEL_MUSTARD_START_LOCATION);
+				newPlayer.setTurnPosition(SuspectToken.COLONEL_MUSTARD_TURN_POSITION);
 				break;
 			case SuspectToken.MRS_WHITE:
-				newPlayer.addMovableLocation(Hallway.HALLWAY12);
+				newPlayer.addMovableLocation(SuspectToken.MRS_WHITE_START_LOCATION);
+				newPlayer.setTurnPosition(SuspectToken.MRS_WHITE_TURN_POSITION);
+				break;
+			case SuspectToken.MR_GREEN:
+				newPlayer.addMovableLocation(SuspectToken.MR_GREEN_START_LOCATION);
+				newPlayer.setTurnPosition(SuspectToken.MR_GREEN_TURN_POSITION);
+				break;
+			case SuspectToken.MRS_PEACOCK:
+				newPlayer.addMovableLocation(SuspectToken.MRS_PEACOCK_START_LOCATION);
+				newPlayer.setTurnPosition(SuspectToken.MRS_PEACOCK_TURN_POSITION);
 				break;
 			case SuspectToken.PROFESSOR_PLUM:
-				newPlayer.addMovableLocation(Hallway.HALLWAY3);
+				newPlayer.addMovableLocation(SuspectToken.PROFESSOR_PLUM_START_LOCATION);
+				newPlayer.setTurnPosition(SuspectToken.PROFESSOR_PLUM_TURN_POSITION);
 				break;
 		}
 		
@@ -118,6 +126,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 	public ClueLessModel leaveClueLess(String playerName) {
 		// TODO handle player's deck as well? Would also need to handle re-dealing the cards
 		players.remove(playerName);
+		playerNames.remove(playerName);
 		for (SuspectToken suspectToken : suspectTokens) {
 			if (suspectToken.getPlayedBy() != null) {
 				if (suspectToken.getPlayedBy().equals(playerName)) {
@@ -139,19 +148,6 @@ public class ClueLessServiceImpl implements ClueLessService {
 		
 		// check to make sure other clients do not call this method twice
 		if (!isClueLessInitialized) {
-			ArrayList<String> playerKeys = new ArrayList<String>(players.keySet());
-			
-			// deal remaining cards to all players
-			int playerIndex = 0;
-			for (int i = 0; i < deck.size(); i++) {
-				Card card = deck.get(i);
-				if (playerIndex == playerKeys.size()) {
-					playerIndex = 0;
-				}
-				Player player = players.get(playerKeys.get(playerIndex));
-				player.addCard(card);
-				playerIndex++;
-			}
 			
 			// sets suspect tokens to their players
 			for (Map.Entry<String, Player> entry : players.entrySet()) {
@@ -165,7 +161,34 @@ public class ClueLessServiceImpl implements ClueLessService {
 					}
 				}
 			}
-
+			
+			// orders player turns according to their suspect tokens
+			playerNames = new ArrayList<String>(players.keySet());			
+			class PlayerTurnComp implements Comparator<String> {
+				@Override
+				public int compare(String o1, String o2) {
+					Player player1 = players.get(o1);
+					Player player2 = players.get(o2);
+					if (player1.getTurnPosition() > player2.getTurnPosition()) {
+						return 1;
+					} else {
+						return -1;
+					}
+				}				
+			}
+			Collections.sort(playerNames, new PlayerTurnComp());
+			
+			// deal remaining cards to all players
+			int playerIndex = 0;
+			for (int i = 0; i < deck.size(); i++) {
+				Card card = deck.get(i);
+				if (playerIndex == playerNames.size()) {
+					playerIndex = 0;
+				}
+				Player player = players.get(playerNames.get(playerIndex));
+				player.addCard(card);
+				playerIndex++;
+			}
 			
 			isClueLessInitialized = true;
 		}
@@ -225,21 +248,14 @@ public class ClueLessServiceImpl implements ClueLessService {
 
 	@Override
 	public ClueLessModel endTurn(String playerName) {
-		ArrayList<String> playerKeys = new ArrayList<String>(players.keySet());
-		int i = playerKeys.indexOf(playerName);
 		Player player;
+		String nextPlayerName = playerName;
 		boolean isWhoseTurnSet = false;
 		while (!isWhoseTurnSet) {
-			// if whose turn is the last player in the list then get the first player
-			if (i == (playerKeys.size() - 1)) {
-				i = 0;				
-			// else get next player
-			} else {
-				i++;
-			}
-			player = players.get(playerKeys.get(i));
+			nextPlayerName = getNextPlayerName(nextPlayerName);
+			player = players.get(nextPlayerName);
 			if (!player.isFailedAccusation()) {
-				clueLessModel.setWhoseTurn(playerKeys.get(i));
+				clueLessModel.setWhoseTurn(nextPlayerName);
 				isWhoseTurnSet = true;
 			}
 		}
@@ -426,5 +442,19 @@ public class ClueLessServiceImpl implements ClueLessService {
 				previousHallway.setToken(null);
 			}
 		}
+	}
+	
+	private String getNextPlayerName(String currentPlayer) {
+		int i = playerNames.indexOf(currentPlayer);
+		
+		// if whose turn is the last player in the list then get the first player
+		if (i == (playerNames.size() - 1)) {
+			i = 0;				
+		// else get next player
+		} else {
+			i++;
+		}
+		
+		return playerNames.get(i);
 	}
 }

@@ -36,7 +36,8 @@ public interface ClueLessService {
 	/**
 	 * This initializes the game of ClueLess by performing these actions:
 	 * <br>1. Deals the remaining cards (after cards for the solution have been picked and removed from the deck) to all players.
-	 * <br>2. Sets the playedBy field in the suspect tokens to the session ID of the player controlling it.
+	 * <br>2. Orders the player turns according to their chosen suspect token.
+	 * <br>3. Sets the playedBy field in the suspect tokens to the session ID of the player controlling it.
 	 * @return ClueLessModel
 	 */
 	public ClueLessModel initClueLess();
