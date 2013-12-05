@@ -17,7 +17,7 @@ public class SuggestionModel {
 	private ArrayList<String> disprovableCards;
 	
 	private SuggestionModel() {
-		
+		disprovableCards = new ArrayList<String>();
 	}
 	
 	/**

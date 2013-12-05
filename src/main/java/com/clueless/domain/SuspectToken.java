@@ -28,11 +28,11 @@ public class SuspectToken extends Token {
 	private String playedBy;
 	
 	public SuspectToken() {
-		this.type = Token.SUSPECT;
+		type = Token.SUSPECT;
 	}
 	
 	public SuspectToken(String tokenName) {
-		this.type = Token.SUSPECT;
+		type = Token.SUSPECT;
 		this.tokenName = tokenName;
 	}
 

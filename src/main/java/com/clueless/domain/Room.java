@@ -8,15 +8,15 @@ public class Room {
 
 	public static final int TOTAL = 9; // 9 rooms
 	
-	public static final String STUDY = "study";
-	public static final String HALL = "hall";
-	public static final String LOUNGE = "lounge";
-	public static final String LIBRARY = "library";
-	public static final String BILLIARD_ROOM = "billardRoom";
-	public static final String DINING_ROOM = "diningRoom";
-	public static final String CONSERVATORY = "conservatory";
-	public static final String BALLROOM = "ballroom";
-	public static final String KITCHEN = "kitchen";
+	public static final String STUDY = "Study";
+	public static final String HALL = "Hall";
+	public static final String LOUNGE = "Lounge";
+	public static final String LIBRARY = "Library";
+	public static final String BILLIARD_ROOM = "BillardRoom";
+	public static final String DINING_ROOM = "DiningRoom";
+	public static final String CONSERVATORY = "Conservatory";
+	public static final String BALLROOM = "Ballroom";
+	public static final String KITCHEN = "Kitchen";
 	
 	// private ArrayList<String> currentPlayers;
 	private ArrayList<String> tokens;
@@ -71,11 +71,11 @@ public class Room {
 	}
 	
 	public void addToken(String token) {
-		this.tokens.add(token);
+		tokens.add(token);
 	}
 	
 	public void removeToken(String token) {
-		this.tokens.remove(token);
+		tokens.remove(token);
 	}
 
 	@JsonIgnore

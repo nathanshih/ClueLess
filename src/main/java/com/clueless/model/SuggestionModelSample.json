@@ -1,9 +1,9 @@
 {
     "makingSuggestion": "Shawn",
     "disprovingSuggestion": "Christina",
-    "disprovingCard": "library"
+    "disprovingCard": "Library"
     "disprovableCards": [
-    	"library",
-    	"leadPipe"
+    	"Library",
+    	"LeadPipe"
     ]
 }

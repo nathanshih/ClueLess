@@ -84,11 +84,11 @@ public class Player {
 	}
 	
 	public void addMovableLocation(String location) {
-		this.movableLocations.add(location);
+		movableLocations.add(location);
 	}
 	
 	public void clearMovableLocations() {
-		this.movableLocations.clear();
+		movableLocations.clear();
 	}
 	
 	@JsonIgnore
