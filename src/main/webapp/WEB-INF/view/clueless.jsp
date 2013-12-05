@@ -56,6 +56,7 @@
       <td width="100" height="96" align="center"><canvas id="kitchen" width="100" height="96"/></td>
     </tr>
   </table>
+  <canvas id="tokenNotInPlay" width="100" height="96" ></canvas>
 <!-- <table cellspacing="0" cellpadding="0" border="0" background="http://i.imgur.com/mGJ85IX.jpg" class="inlineTable">
 
 </table> -->
@@ -63,13 +64,13 @@
 <canvas id="boardCanvas" width="725" height="646" style="background: url(http://i.imgur.com/xFkG89v.png) no-repeat center center;"></canvas>
  --%>
 <div id="playerInput">
-    <input type="radio" name="TurnActionsGroup" id="move"  value="move" disabled />Move
+    <input type="radio" name="TurnActionsGroup" id="move"  value="move" onclick="moveEvent()" disabled />Move
     <input type="radio" name="TurnActionsGroup" id="suggest" value="suggest" disabled /> Suggest
     <input type="radio" name="TurnActionsGroup" id="accuse" value="accuse" disabled/> Accuse<br/>
     
     <select id="location" name="location" disabled>
         <option value="SelectALocation">-Select a Location-</option>
-        <option value="study">Study</option>
+<!--         <option value="study">Study</option>
         <option value="hallway1">hallway 1</option>
         <option value="hall">hall</option>
         <option value="hallway2">hallway 2</option>
@@ -89,7 +90,7 @@
         <option value="hallway11">hallway 11</option>
         <option value="ballroom">Ball Room</option>
         <option value="hallway12">hallway 12</option>
-        <option value="kitchen">kitchen</option>		        
+        <option value="kitchen">kitchen</option> -->		        
     </select>
     <select id="weapon" name="weapon" disabled>
         <option value="SelectAWeapon">-Select A Weapon-</option>
@@ -128,7 +129,8 @@
 
     // Poll continuously poll server every second for updated game state
     function poll() {
-	drawPlayers();
+    	clearBoard();
+		drawPlayers();
    		setTimeout(function() {
         $.ajax({url: "${pageContext.request.contextPath}/v1",
           type: "GET",
@@ -138,16 +140,28 @@
             var whoseTurn = response.whoseTurn;
             var playerName = $.cookie("playerName");
             if (whoseTurn == playerName) {
-/*             alert("your turn "); */
-           	//alert( "poll determined that it's " + playerName + " turn" );
-             document.getElementById("endTurnButton").disabled = false;
-             document.getElementById("move").disabled = false;
-             document.getElementById("suggest").disabled = false;
-             document.getElementById("accuse").disabled = false;
-             document.getElementById("location").disabled = false;
-             document.getElementById("weapon").disabled = false;
-             document.getElementById("suspect").disabled = false;
+				var movableLocations = response.players[playerName].movableLocations;
+    	    	$.each(movableLocations, function(index, value) {
+        	    	$("#location").append('<option value="'+value+'">'+value+'</option>');
+            	});
+             	document.getElementById("endTurnButton").disabled = false;
+             	document.getElementById("move").disabled = false;
+             	document.getElementById("suggest").disabled = false;
+             	document.getElementById("accuse").disabled = false;
+             	document.getElementById("location").disabled = false;
+             	document.getElementById("weapon").disabled = false;
+             	document.getElementById("suspect").disabled = false;
             }
+            else
+            	{
+                document.getElementById("endTurnButton").disabled = true;
+                document.getElementById("move").disabled = true;
+                document.getElementById("suggest").disabled = true;
+                document.getElementById("accuse").disabled = true;
+                document.getElementById("location").disabled = true;
+                document.getElementById("weapon").disabled = true;
+                document.getElementById("suspect").disabled = true;
+            	}
           }, 
           dataType: "json", 
           complete: poll, 
@@ -156,113 +170,118 @@
       }, 1000);
     };
   
+    function clearBoard() {
+    	var canvases =new Array(); 
+    	canvases[0]="hallway1";       
+    	canvases[1]="hallway2";
+    	canvases[2]="hallway3";
+    	canvases[3]="hallway4";       
+    	canvases[4]="hallway5";
+    	canvases[5]="hallway6";
+    	canvases[6]="hallway7";
+    	canvases[7]="hallway8";
+    	canvases[8]="hallway9";
+    	canvases[9]="hallway10";
+    	canvases[10]="hallway11";
+    	canvases[11]="hallway12";
+    	canvases[12]="tokenNotInPlay";
+    	canvases[13]="study";
+    	canvases[14]="hall";
+    	canvases[15]="lounge";
+    	canvases[16]="library";
+    	canvases[17]="billardRoom";
+    	canvases[18]="diningRoom";
+    	canvases[19]="conservatory";
+    	canvases[20]="ballroom";
+    	canvases[21]="kitchen";
+    	
+    	$.each(canvases, function(index,value){
+            var c=document.getElementById(value);
+        	var ctx=c.getContext("2d");
+        	ctx.clearRect(0,0,100,96);
+    	});
+    };
     
     function drawPlayers() {
-            $.ajax({url: "${pageContext.request.contextPath}/v1",
-                type: "GET",
-                success: function(response){
-                	$.each(response["players"], function (index, value) {
-                        var whichSuspect = value.suspect;  //returns character name
-                        //var whichRooms = value.location;   //returns null at present
-                        //alert( whichSuspect ); 
-                        //I don't know why but I can't get or set color by function returns or variables.
-                        //It's little things like this that really make you hate a language.
-                    	if (whichSuspect == "Colonel Mustard"){
-                    		whichRooms = "study";
-                            var c=document.getElementById(whichRooms);
-                        	var ctx=c.getContext("2d");
-                        	ctx.fillStyle="#FFCC11";
-                    	}
-                    	else if (whichSuspect == "Miss Scarlet"){
-                    		whichRooms = "lounge"
-                            var c=document.getElementById(whichRooms);
-                        	var ctx=c.getContext("2d");
-                    		ctx.fillStyle= "#8C1717";
-                    	}
-                    	else if (whichSuspect == "Mrs. White"){
-                    		whichRooms = "ballroom"
-                            var c=document.getElementById(whichRooms);
-                        	var ctx=c.getContext("2d");
-                    		ctx.fillStyle= "#EEE9E9";
-                    	}
-                    	else if (whichSuspect == "Mr. Green"){
-                    		whichRooms = "hallway1"
-                            var c=document.getElementById(whichRooms);
-                        	var ctx=c.getContext("2d");
-                    		ctx.fillStyle= "#99CC32";
-                    	}
-                    	else if (whichSuspect == "Mrs. Peacock"){
-                    		whichRooms = "library"
-                            var c=document.getElementById(whichRooms);
-                        	var ctx=c.getContext("2d");
-                    		ctx.fillStyle= "#016795";
-                    	}
-                    	else if (whichSuspect == "Professor Plum"){ 
-                    		whichRooms = "hall";
-                            var c=document.getElementById(whichRooms);
-                        	var ctx=c.getContext("2d");
-                    		ctx.fillStyle= "8E4585";
-                    		}
-                    	
+        $.ajax({url: "${pageContext.request.contextPath}/v1",
+            type: "GET",
+            success: function(response){
+            	$.each(response["players"], function (index, value) {
+                    var whichSuspect = value.suspect;  //returns character name
+                    
+                    if (value.location === null){
+                    	var whichRooms = "tokenNotInPlay";
+                    } else {
+                    	var whichRooms = value.location;
+                    }   
+                     
+                    var c=document.getElementById(whichRooms);
+                	var ctx=c.getContext("2d");
+                    //I don't know why but I can't get or set color by function returns or variables.
+                    //It's little things like this that really make you hate a language.
+
+                    switch(whichSuspect){
+                    case "Colonel Mustard":
+                    	ctx.fillStyle="#FFCC11";
                     	ctx.fillRect(0,0,25,25);
-                	});
-                }, 
-                dataType: "json", 
-                timeout: 30000 
-              });
+                    	break;
+                    case "Miss Scarlet":
+                		ctx.fillStyle= "#8C1717";
+                    	ctx.fillRect(25,0,25,25);
+                		break;
+                    case "Mrs. White":
+                		ctx.fillStyle= "#FFE9E9";
+                    	ctx.fillRect(50,0,25,25);
+                		break;
+                    case "Mr. Green":
+                		ctx.fillStyle= "#99CC32";
+                    	ctx.fillRect(0,25,25,25);
+                		break;
+                    case "Mrs. Peacock":
+                		ctx.fillStyle= "#016795";
+                    	ctx.fillRect(25,25,25,25);
+                		break;
+                    case "Professor Plum": 
+                		ctx.fillStyle= "#8E4585";
+                    	ctx.fillRect(50,25,25,25);
+                		break;
+                	default:
+                		alert("player not found");
+                    }
+            	});
+            }, 
+            dataType: "json", 
+            timeout: 30000 
+          });
         };
         
   });
   
-  
   function endTurnEvent() {
-      $.ajax({url: "${pageContext.request.contextPath}/v1",
-          type: "GET",
-          success: function(response){
-            var response = response;
-            var playersName = response.whoseTurn;
-            },
-          dataType: "json", 
-          timeout: 30000 
-        });
-
       if (document.getElementById('move').checked) {
+		  alert("I am here");
 		  var validLocation = false;
 		  var e = document.getElementById("location");
 		  var strUser = e.options[e.selectedIndex].value;
-		  if (strUser == "SelectALocation"){
-			 alert("You need to select a location");
-			 poll();
-		   }
-		  
-		  /*Not getting past here*/
-		  var movableLocations = response.players[playersName].movableLocations;
-		  alert("hi");
-		  
-	      $.each(movableLocations, function(index, value) {
-				$("#location").append('<option value="'+value+'">'+value+'</option>');
-				alert(value);
-				if (strUser == value){
-					validLocation = true;
-				}
-	      });
-		
-		  if (validLocation != true){
-			alert("moveing to " + strUser + "is not a valid move");
-			poll();
-		   }
 		  
 		$.ajax({type: "POST",
 			url: "${pageContext.request.contextPath}/v1",
 			data: "action=move" + "&location=" + strUser, // for a move action=move&location=hallway5
 			success: function(response) {
-				var element = document.getElementById('location');
-				element.value = "000";
-				document.getElementById("move").reset();
+				alert("You moved to " + strUser);
 			},
 			dataType: "json"
 		});
           
+	      $.ajax({type: "POST",
+	          url: "${pageContext.request.contextPath}/v1",
+	          data: "action=endTurn",
+	          success: function(response) { 
+				alert("end turn");
+	          },
+	          dataType: "json"
+	        });
+		   
 	  } else if (document.getElementById('suggest').checked){
 		  alert("suggest selected");
 		  poll();
