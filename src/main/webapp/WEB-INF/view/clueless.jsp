@@ -235,7 +235,7 @@
 			 poll();
 		   }
 		  
-		  
+		  /*Not getting past here*/
 		  var movableLocations = response.players[playersName].movableLocations;
 		  alert("hi");
 		  
@@ -251,6 +251,17 @@
 			alert("moveing to " + strUser + "is not a valid move");
 			poll();
 		   }
+		  
+		$.ajax({type: "POST",
+			url: "${pageContext.request.contextPath}/v1",
+			data: "action=move" + "&location=" + strUser, // for a move action=move&location=hallway5
+			success: function(response) {
+				var element = document.getElementById('location');
+				element.value = "000";
+				document.getElementById("move").reset();
+			},
+			dataType: "json"
+		});
           
 	  } else if (document.getElementById('suggest').checked){
 		  alert("suggest selected");
