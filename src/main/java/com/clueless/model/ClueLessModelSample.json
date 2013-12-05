@@ -8,24 +8,12 @@
             "failedAccusation": false,
             "location": "conservatory",
             "cardsInHand": [
-                {
-                    "desc": "Colonel Mustard"
-                },
-                {
-                    "desc": "Conservatory"
-                },
-                {
-                    "desc": "Study"
-                },
-                {
-                    "desc": "Mrs. White"
-                },
-                {
-                    "desc": "Mr. Green"
-                },
-                {
-                    "desc": "Library"
-                }
+                "Colonel Mustard",
+                "Conservatory",
+                "Study",
+                "Mrs. White",
+                "Mr. Green",
+                "Library"
             ],
             "movableLocations": [
                 "hallway8",
@@ -39,24 +27,12 @@
             "failedAccusation": false,
             "location": "hallway10",
             "cardsInHand": [
-                {
-                    "desc": "Miss Scarlet"
-                },
-                {
-                    "desc": "Ballroom"
-                },
-                {
-                    "desc": "Knife"
-                },
-                {
-                    "desc": "Lounge"
-                },
-                {
-                    "desc": "Candlestick"
-                },
-                {
-                    "desc": "Hall"
-                }
+                "Miss Scarlet",
+                "Ballroom",
+                "Knife",
+                "Lounge",
+                "Candlestick",
+                "Hall"
             ],
             "movableLocations": [
                 "diningRoom",
@@ -69,24 +45,12 @@
             "failedAccusation": false,
             "location": "hall",
             "cardsInHand": [
-                {
-                    "desc": "Wrench"
-                },
-                {
-                    "desc": "Kitchen"
-                },
-                {
-                    "desc": "Revolver"
-                },
-                {
-                    "desc": "Pipe"
-                },
-                {
-                    "desc": "Mrs. Peacock"
-                },
-                {
-                    "desc": "Billiard Room"
-                }
+                "Wrench",
+                "Kitchen",
+                "Revolver",
+                "Pipe",
+                "Mrs. Peacock",
+                "Billiard Room"
             ],
             "movableLocations": [
                 "hallway1",

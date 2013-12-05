@@ -1,5 +1,7 @@
 package com.clueless.model;
 
+import java.util.ArrayList;
+
 /**
  * The SuggestionModel holds information on who is making the suggestion, who is disproving the
  * suggestion, and which card is being used to disprove the suggestion.
@@ -11,7 +13,8 @@ public class SuggestionModel {
 	
 	private String makingSuggestion;
 	private String disprovingSuggestion;
-	private String whichCard;
+	private String disprovingCard;
+	private ArrayList<String> disprovableCards;
 	
 	private SuggestionModel() {
 		
@@ -41,11 +44,23 @@ public class SuggestionModel {
 		this.disprovingSuggestion = disprovingSuggestion;
 	}
 
-	public String getWhichCard() {
-		return whichCard;
+	public String getDisprovingCard() {
+		return disprovingCard;
 	}
 
-	public void setWhichCard(String whichCard) {
-		this.whichCard = whichCard;
+	public void setDisprovingCard(String disprovingCard) {
+		this.disprovingCard = disprovingCard;
+	}
+
+	public ArrayList<String> getDisprovableCards() {
+		return disprovableCards;
+	}
+
+	public void setDisprovableCards(ArrayList<String> disprovableCards) {
+		this.disprovableCards = disprovableCards;
+	}
+	
+	public void addDisprovableCard(String disprovableCard) {
+		disprovableCards.add(disprovableCard);
 	}
 }

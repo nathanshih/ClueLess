@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 public class Player {
 	
 	private String suspect;
-	private ArrayList<Card> cardsInHand;
+	private ArrayList<String> cardsInHand;
 	private boolean canDisprove;
 	private boolean failedAccusation;
 	private String location;
@@ -16,7 +16,7 @@ public class Player {
 	
 	public Player(String suspect) {
 		this.setSuspect(suspect);
-		cardsInHand = new ArrayList<Card>();
+		cardsInHand = new ArrayList<String>();
 		canDisprove = false;
 		setFailedAccusation(false);
 		movableLocations = new ArrayList<String>(4); // at most 4 movable locations (ex. the Billard Room)
@@ -35,11 +35,11 @@ public class Player {
 		this.suspect = suspect;
 	}	
 
-	public ArrayList<Card> getCardsInHand() {
+	public ArrayList<String> getCardsInHand() {
 		return cardsInHand;
 	}
 
-	public void setCardsInHand(ArrayList<Card> cardsInHand) {
+	public void setCardsInHand(ArrayList<String> cardsInHand) {
 		this.cardsInHand = cardsInHand;
 	}
 
@@ -59,7 +59,7 @@ public class Player {
 		this.failedAccusation = failedAccusation;
 	}
 
-	public void addCard(Card card) {
+	public void addCard(String card) {
 		cardsInHand.add(card);
 	}
 	
