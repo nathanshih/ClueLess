@@ -186,7 +186,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 					playerIndex = 0;
 				}
 				Player player = players.get(playerNames.get(playerIndex));
-				player.addCard(card);
+				player.addCard(card.getDesc());
 				playerIndex++;
 			}
 			
@@ -214,21 +214,40 @@ public class ClueLessServiceImpl implements ClueLessService {
 	}
 
 	@Override
-	public SuggestionModel makeSuggestion(String playerName, String room,
-			String suspect, String weapon) {
-		// TODO Auto-generated method stub
+	public SuggestionModel makeSuggestion(String playerName, String suspect, String weapon) {
 		
 		// TODO If you were moved to the room by another player making a suggestion, you may, if
 		// you wish, stay in that room and make a suggestion. Otherwise you may move
 		// through a doorway or take a secret passage as described above.
 		
-		return null;
+		String room = players.get(playerName).getLocation();
+		suggestionModel.setMakingSuggestion(playerName);
+		while (suggestionModel.getDisprovingSuggestion() == null) {
+			playerName = getNextPlayerName(playerName);
+			Player player = players.get(playerName);
+			ArrayList<String> cardsInHand = player.getCardsInHand();
+			
+			// check to see if the player can disprove the suggestion 
+			if (cardsInHand.contains(room) || cardsInHand.contains(suspect) || cardsInHand.contains(weapon)) {
+				suggestionModel.setDisprovingSuggestion(playerName);
+				
+				// grab all the cards the player can disprove the suggestion with
+				for (String card : cardsInHand) {
+					if (card.equals(room) || card.equals(suspect) || card.equals(weapon)) {
+						suggestionModel.addDisprovableCard(card);
+					}
+				}
+			}
+		}
+		
+		return suggestionModel;
 	}
 
 	@Override
-	public SuggestionModel disproveSuggestion(String playerName, Card card) {
-		// TODO Auto-generated method stub
-		return null;
+	public SuggestionModel disproveSuggestion(String card) {
+		suggestionModel.setDisprovingCard(card);
+		
+		return suggestionModel;
 	}
 	
 	@Override

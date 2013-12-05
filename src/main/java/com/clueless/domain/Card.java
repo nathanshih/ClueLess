@@ -85,35 +85,35 @@ public class Card {
         switch (type) {
         case TYPE_SUSPECT: 
             switch (value) {
-            case SUSPECT_SCARLET: desc = "Miss Scarlet"; break;
-            case SUSPECT_PLUM: desc = "Professor Plum"; break;
-            case SUSPECT_WHITE: desc = "Mrs. White"; break;
-            case SUSPECT_MUSTARD: desc = "Colonel Mustard"; break;
-            case SUSPECT_GREEN: desc = "Mr. Green"; break;
-            case SUSPECT_PEACOCK: desc = "Mrs. Peacock"; break;
+            case SUSPECT_SCARLET: desc = SuspectToken.MISS_SCARLET; break;
+            case SUSPECT_PLUM: desc = SuspectToken.PROFESSOR_PLUM; break;
+            case SUSPECT_WHITE: desc = SuspectToken.MRS_WHITE; break;
+            case SUSPECT_MUSTARD: desc = SuspectToken.COLONEL_MUSTARD; break;
+            case SUSPECT_GREEN: desc = SuspectToken.MR_GREEN; break;
+            case SUSPECT_PEACOCK: desc = SuspectToken.MRS_PEACOCK; break;
             }
             break;
         case TYPE_ROOM:  
             switch (value) {
-            case ROOM_HALL: desc = "Hall"; break;
-            case ROOM_LOUNGE: desc = "Lounge"; break;
-            case ROOM_DINING: desc = "Dining Room"; break;
-            case ROOM_KITCHEN: desc = "Kitchen"; break;
-            case ROOM_BALLROOM: desc = "Ballroom"; break;
-            case ROOM_CONSERVATORY: desc = "Conservatory"; break;
-            case ROOM_BILLIARD: desc = "Billiard Room"; break;
-            case ROOM_STUDY: desc = "Study"; break;
-            case ROOM_LIBRARY: desc = "Library"; break;
+            case ROOM_HALL: desc = Room.HALL; break;
+            case ROOM_LOUNGE: desc = Room.LOUNGE; break;
+            case ROOM_DINING: desc = Room.DINING_ROOM; break;
+            case ROOM_KITCHEN: desc = Room.KITCHEN; break;
+            case ROOM_BALLROOM: desc = Room.BALLROOM; break;
+            case ROOM_CONSERVATORY: desc = Room.CONSERVATORY; break;
+            case ROOM_BILLIARD: desc = Room.BILLIARD_ROOM; break;
+            case ROOM_STUDY: desc = Room.STUDY; break;
+            case ROOM_LIBRARY: desc = Room.LIBRARY; break;
             }
             break;
         case TYPE_WEAPON:  
             switch (value) {
-            case WEAPON_KNIFE: desc = "Knife"; break;
-            case WEAPON_ROPE: desc = "Rope"; break;
-            case WEAPON_REVOLVER: desc = "Revolver"; break;
-            case WEAPON_WRENCH: desc = "Wrench"; break;
-            case WEAPON_PIPE: desc = "Pipe"; break;
-            case WEAPON_CANDLE: desc = "Candlestick"; break;
+            case WEAPON_KNIFE: desc = WeaponToken.KNIFE; break;
+            case WEAPON_ROPE: desc = WeaponToken.ROPE; break;
+            case WEAPON_REVOLVER: desc = WeaponToken.REVOLVER; break;
+            case WEAPON_WRENCH: desc = WeaponToken.WRENCH; break;
+            case WEAPON_PIPE: desc = WeaponToken.LEAD_PIPE; break;
+            case WEAPON_CANDLE: desc = WeaponToken.CANDLESTICK; break;
             }
             break;
         }

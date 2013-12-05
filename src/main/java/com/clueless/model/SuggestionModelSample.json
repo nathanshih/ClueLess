@@ -1,5 +1,9 @@
 {
     "makingSuggestion": "Shawn",
     "disprovingSuggestion": "Christina",
-    "whichCard": "library"
+    "disprovingCard": "Library"
+    "disprovableCards": [
+    	"Library",
+    	"LeadPipe"
+    ]
 }
