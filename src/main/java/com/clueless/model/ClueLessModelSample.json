@@ -6,174 +6,138 @@
             "suspect": "Miss Scarlet",
             "canDisprove": false,
             "failedAccusation": false,
-            "location": "conservatory",
+            "location": "Conservatory",
             "cardsInHand": [
-                {
-                    "desc": "Colonel Mustard"
-                },
-                {
-                    "desc": "Conservatory"
-                },
-                {
-                    "desc": "Study"
-                },
-                {
-                    "desc": "Mrs. White"
-                },
-                {
-                    "desc": "Mr. Green"
-                },
-                {
-                    "desc": "Library"
-                }
+                "Colonel Mustard",
+                "Conservatory",
+                "Study",
+                "Mrs. White",
+                "Mr. Green",
+                "Library"
             ],
             "movableLocations": [
-                "hallway8",
-                "lounge",
-                "hallway11"
+                "Hallway8",
+                "Lounge",
+                "Hallway11"
             ]
         },
         "Shawn": {
             "suspect": "Colonel Mustard",
             "canDisprove": false,
             "failedAccusation": false,
-            "location": "hallway10",
+            "location": "Hallway10",
             "cardsInHand": [
-                {
-                    "desc": "Miss Scarlet"
-                },
-                {
-                    "desc": "Ballroom"
-                },
-                {
-                    "desc": "Knife"
-                },
-                {
-                    "desc": "Lounge"
-                },
-                {
-                    "desc": "Candlestick"
-                },
-                {
-                    "desc": "Hall"
-                }
+                "Miss Scarlet",
+                "Ballroom",
+                "Knife",
+                "Lounge",
+                "Candlestick",
+                "Hall"
             ],
             "movableLocations": [
-                "diningRoom",
-                "kitchen"
+                "DiningRoom",
+                "Kitchen"
             ]
         },
         "Christina": {
             "suspect": "Mr. Green",
             "canDisprove": false,
             "failedAccusation": false,
-            "location": "hall",
+            "location": "Hall",
             "cardsInHand": [
-                {
-                    "desc": "Wrench"
-                },
-                {
-                    "desc": "Kitchen"
-                },
-                {
-                    "desc": "Revolver"
-                },
-                {
-                    "desc": "Pipe"
-                },
-                {
-                    "desc": "Mrs. Peacock"
-                },
-                {
-                    "desc": "Billiard Room"
-                }
+                "Wrench",
+                "Kitchen",
+                "Revolver",
+                "LeadPipe",
+                "Mrs. Peacock",
+                "Billiard Room"
             ],
             "movableLocations": [
-                "hallway1",
-                "hallway2",
-                "hallway4"
+                "Hallway1",
+                "Hallway2",
+                "Hallway4"
             ]
         }
     },
     "rooms": {
-        "conservatory": {
+        "Conservatory": {
             "tokens": [
                 "Miss Scarlet"
             ]
         },
-        "hall": {
+        "Hall": {
             "tokens": [
-                "knife",
+                "Knife",
                 "Mr. Green"
             ]
         },
-        "diningRoom": {
+        "DiningRoom": {
             "tokens": [
                 "rope"
             ]
         },
-        "library": {
+        "Library": {
             "tokens": [
-                "wrench"
+                "Wrench"
             ]
         },
-        "lounge": {
+        "Lounge": {
             "tokens": []
         },
-        "study": {
+        "Study": {
             "tokens": [
-                "candlestick"
+                "Candlestick"
             ]
         },
-        "kitchen": {
+        "Kitchen": {
             "tokens": [
-                "revolver"
+                "Revolver"
             ]
         },
-        "ballroom": {
+        "Ballroom": {
             "tokens": [
-                "leadPipe"
+                "LeadPipe"
             ]
         },
-        "billardRoom": {
+        "BillardRoom": {
             "tokens": []
         }
     },
     "hallways": {
-        "hallway10": {
+        "Hallway10": {
             "token": "Colonel Mustard"
         },
-        "hallway7": {
+        "Hallway7": {
             "token": null
         },
-        "hallway6": {
+        "Hallway6": {
             "token": null
         },
-        "hallway12": {
+        "Hallway12": {
             "token": null
         },
-        "hallway9": {
+        "Hallway9": {
             "token": null
         },
-        "hallway11": {
+        "Hallway11": {
             "token": null
         },
-        "hallway8": {
+        "Hallway8": {
             "token": null
         },
-        "hallway4": {
+        "Hallway4": {
             "token": null
         },
-        "hallway5": {
+        "Hallway5": {
             "token": null
         },
-        "hallway2": {
+        "Hallway2": {
             "token": null
         },
-        "hallway3": {
+        "Hallway3": {
             "token": null
         },
-        "hallway1": {
+        "Hallway1": {
             "token": null
         }
     }

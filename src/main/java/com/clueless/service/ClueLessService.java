@@ -1,6 +1,5 @@
 package com.clueless.service;
 
-import com.clueless.domain.Card;
 import com.clueless.model.ClueLessModel;
 import com.clueless.model.SolutionModel;
 import com.clueless.model.SuggestionModel;
@@ -51,22 +50,21 @@ public interface ClueLessService {
 	public ClueLessModel movePlayer(String playerName, String location);
 	
 	/**
-	 * Allows a player to make a suggestion. Information needed are the room, suspect, and weapon used to commit the crime.
+	 * Allows a player to make a suggestion. Information needed are the suspect and weapon used to commit the crime.
+	 * Since suggestions can only be made while in a room, the player's location will be used in the suggestion.
 	 * @param playerName name of the player making the suggestion
-	 * @param room room which the crime took place (use class static variables i.e., Room.HALL, Room.BILLIARD_ROOM)
 	 * @param suspect name of the suspect who committed the crime (use class static variables i.e., Player.MISS_SCARLET)
 	 * @param weapon weapon used to commit the crime (use class static variables i.e., Weapon.KNIFE, Weapon.LEAD_PIPE)
 	 * @return SuggestionModel
 	 */
-	public SuggestionModel makeSuggestion(String playerName, String room, String suspect, String weapon);
+	public SuggestionModel makeSuggestion(String playerName, String suspect, String weapon);
 	
 	/**
-	 * Allows a player to disprove a suggestion by showing a card matching the suggestion.
-	 * @param playerName name of the player disproving the suggestion
+	 * Allows a player to disprove a suggestion by selecting a card to disprove with.
 	 * @param card a card to disprove the suggestion
 	 * @return SuggestionModel
 	 */
-	public SuggestionModel disproveSuggestion(String playerName, Card card);
+	public SuggestionModel disproveSuggestion(String card);
 	
 	/**
 	 * Allows a player to make an accuestion. Information needed are the room, suspect, and weapon used to commit the crime.

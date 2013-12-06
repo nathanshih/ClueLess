@@ -21,39 +21,39 @@
   <body>
 <table cellspacing="0" cellpadding="0" border="0" background="http://i.imgur.com/mGJ85IX.jpg" class="inlineTable">
     <tr>
-      <td width="100" height="96" align="center"><canvas id="study" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hallway1" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hall" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hallway2" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="lounge" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Study" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hallway1" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hall" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hallway2" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Lounge" width="100" height="96"/></td>
     </tr>
     <tr>
-      <td width="100" height="96" align="center"><canvas id="hallway3" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hallway3" width="100" height="96"/></td>
       <td width="100" height="96" align="center"></td>
-      <td width="100" height="96" align="center"><canvas id="hallway4" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hallway4" width="100" height="96"/></td>
       <td width="100" height="96" align="center"></td>
-      <td width="100" height="96" align="center"><canvas id="hallway5" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hallway5" width="100" height="96"/></td>
     </tr>
     <tr>
-      <td width="100" height="96" align="center"><canvas id="library" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hallway6" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="billardRoom" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hallway7" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="diningRoom" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Library" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hallway6" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="BillardRoom" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hallway7" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="DiningRoom" width="100" height="96"/></td>
     </tr>
     <tr>
-      <td width="100" height="96" align="center"><canvas id="hallway8" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hallway8" width="100" height="96"/></td>
       <td width="100" height="96" align="center"></td>
-      <td width="100" height="96" align="center"><canvas id="hallway9" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hallway9" width="100" height="96"/></td>
       <td width="100" height="96" align="center"></td>
-      <td width="100" height="96" align="center"><canvas id="hallway10" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hallway10" width="100" height="96"/></td>
     </tr>
     <tr>
-      <td width="100" height="96" align="center"><canvas id="conservatory" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hallway11" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="ballroom" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="hallway12" width="100" height="96"/></td>
-      <td width="100" height="96" align="center"><canvas id="kitchen" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Conservatory" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hallway11" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Ballroom" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Hallway12" width="100" height="96"/></td>
+      <td width="100" height="96" align="center"><canvas id="Kitchen" width="100" height="96"/></td>
     </tr>
   </table>
   <canvas id="tokenNotInPlay" width="100" height="96" ></canvas>
@@ -89,6 +89,7 @@
         <option value="ballroom">Ball Room</option>
         <option value="hallway12">hallway 12</option>
         <option value="kitchen">kitchen</option> -->		        
+
     </select>
     
     <select id="suspect" name="suspect" disabled>
@@ -194,28 +195,28 @@
   
     function clearBoard() {
     	var canvases =new Array(); 
-    	canvases[0]="hallway1";       
-    	canvases[1]="hallway2";
-    	canvases[2]="hallway3";
-    	canvases[3]="hallway4";       
-    	canvases[4]="hallway5";
-    	canvases[5]="hallway6";
-    	canvases[6]="hallway7";
-    	canvases[7]="hallway8";
-    	canvases[8]="hallway9";
-    	canvases[9]="hallway10";
-    	canvases[10]="hallway11";
-    	canvases[11]="hallway12";
+    	canvases[0]="Hallway1";       
+    	canvases[1]="Hallway2";
+    	canvases[2]="Hallway3";
+    	canvases[3]="Hallway4";       
+    	canvases[4]="Hallway5";
+    	canvases[5]="Hallway6";
+    	canvases[6]="Hallway7";
+    	canvases[7]="Hallway8";
+    	canvases[8]="Hallway9";
+    	canvases[9]="Hallway10";
+    	canvases[10]="Hallway11";
+    	canvases[11]="Hallway12";
     	canvases[12]="tokenNotInPlay";
-    	canvases[13]="study";
-    	canvases[14]="hall";
-    	canvases[15]="lounge";
-    	canvases[16]="library";
-    	canvases[17]="billardRoom";
-    	canvases[18]="diningRoom";
-    	canvases[19]="conservatory";
-    	canvases[20]="ballroom";
-    	canvases[21]="kitchen";
+    	canvases[13]="Study";
+    	canvases[14]="Hall";
+    	canvases[15]="Lounge";
+    	canvases[16]="Library";
+    	canvases[17]="BillardRoom";
+    	canvases[18]="DiningRoom";
+    	canvases[19]="Conservatory";
+    	canvases[20]="Ballroom";
+    	canvases[21]="Kitchen";
     	
     	$.each(canvases, function(index,value){
             var c=document.getElementById(value);

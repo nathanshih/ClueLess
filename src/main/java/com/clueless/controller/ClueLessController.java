@@ -3,13 +3,11 @@ package com.clueless.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.clueless.domain.Card;
 import com.clueless.model.ClueLessModel;
 import com.clueless.model.SolutionModel;
 import com.clueless.model.SuggestionModel;
@@ -64,14 +62,14 @@ public class ClueLessController {
 	@RequestMapping(method=RequestMethod.POST, params="action=suggestion")
 	@ResponseBody
 	public SuggestionModel makeSuggestion(@CookieValue("playerName") String playerName, 
-			@RequestParam("room") String room, @RequestParam("suspect") String suspect, @RequestParam("weapon") String weapon) {
-		return clueLessService.makeSuggestion(playerName, room, suspect, weapon);
+			@RequestParam("suspect") String suspect, @RequestParam("weapon") String weapon) {
+		return clueLessService.makeSuggestion(playerName, suspect, weapon);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=disprove")
 	@ResponseBody
-	public SuggestionModel disproveSuggestion(@CookieValue("playerName") String playerName, @RequestBody Card card) {
-		return clueLessService.disproveSuggestion(playerName, card);
+	public SuggestionModel disproveSuggestion(@RequestParam("card") String card) {
+		return clueLessService.disproveSuggestion(card);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, params="action=accusation")
