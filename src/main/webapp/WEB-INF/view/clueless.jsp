@@ -64,13 +64,11 @@
 <canvas id="boardCanvas" width="725" height="646" style="background: url(http://i.imgur.com/xFkG89v.png) no-repeat center center;"></canvas>
  --%>
 <div id="playerInput">
-    <input type="radio" name="TurnActionsGroup" id="move"  value="move" onclick="moveEvent()" disabled />Move
-    <input type="radio" name="TurnActionsGroup" id="suggest" value="suggest" disabled /> Suggest
-    <input type="radio" name="TurnActionsGroup" id="accuse" value="accuse" disabled/> Accuse<br/>
-    
-    <select id="location" name="location" disabled>
-        <option value="SelectALocation">-Select a Location-</option>
-<!--         <option value="study">Study</option>
+    <button id="move" onclick="moveEvent()" disabled>Move to location:</button>
+        <select id="location" name="location" disabled>
+        <option value="aaa">-Select a Location-</option>
+		<!--         
+		<option value="study">Study</option>
         <option value="hallway1">hallway 1</option>
         <option value="hall">hall</option>
         <option value="hallway2">hallway 2</option>
@@ -92,6 +90,30 @@
         <option value="hallway12">hallway 12</option>
         <option value="kitchen">kitchen</option> -->		        
     </select>
+    
+    <select id="suspect" name="suspect" disabled>
+        <option value="aaa">-Select a Suspect-</option>   
+		<option value="Miss Scarlet">Miss Scarlet</option>
+        <option value="Colonel Mustard">Colonel Mustard</option>
+        <option value="Mrs. White">Mrs. White</option>
+        <option value="Mr. Green">Mr. Green</option>
+        <option value="Mrs. Peacock">Mrs. Peacock"</option>
+        <option value="Professor Plum">Professor Plum</option>    
+    </select>
+    
+    <select id="weapon" name="weapon" disabled>
+        <option value="aaa">-Select a Weapon-</option>   
+		<option value="Rope">Rope</option>
+        <option value="Lead Pipe">Lead Pipe</option>
+        <option value="Knife">Knife</option>
+        <option value="Wrench">Wrench</option>
+        <option value="Candlestick">Candlestick</option>
+        <option value="Revolver">Revolver</option>    
+    </select>
+    
+    
+    <button id="suggest" onclick="suggestEvent()" disabled>Suggest</button>
+    <button id="accuse" onclick="accuseEvent()" disabled>Accuse</button>
     <select id="weapon" name="weapon" disabled>
         <option value="SelectAWeapon">-Select A Weapon-</option>
     </select>
@@ -257,43 +279,37 @@
         
   });
   
-  function endTurnEvent() {
-      if (document.getElementById('move').checked) {
-		  alert("I am here");
-		  var validLocation = false;
-		  var e = document.getElementById("location");
-		  var strUser = e.options[e.selectedIndex].value;
-		  
-		$.ajax({type: "POST",
-			url: "${pageContext.request.contextPath}/v1",
-			data: "action=move" + "&location=" + strUser, // for a move action=move&location=hallway5
-			success: function(response) {
-				alert("You moved to " + strUser);
-			},
-			dataType: "json"
-		});
-          
-	      $.ajax({type: "POST",
-	          url: "${pageContext.request.contextPath}/v1",
-	          data: "action=endTurn",
-	          success: function(response) { 
-				alert("end turn");
-	          },
-	          dataType: "json"
-	        });
-		   
-	  } else if (document.getElementById('suggest').checked){
-		  alert("suggest selected");
-		  poll();
-      } else if (document.getElementById('accuse').checked){
-		  alert("accuse selected");
-		  poll();
-      } else{
-		  alert("You can not end your turn without making a move");
-		  poll();
-      }
+  function moveEvent(){
+	  var e = document.getElementById("location");
+	  var strUser = e.options[e.selectedIndex].value;
 	  
-	  //lock the boxes if the move is finished
+	$.ajax({type: "POST",
+		url: "${pageContext.request.contextPath}/v1",
+		data: "action=move" + "&location=" + strUser, // for a move action=move&location=hallway5
+		success: function(response) {
+			alert(response.suspect + " moved to " + strUser);
+		},
+		dataType: "json"
+	});
+  }
+  
+  function accuseEvent(){
+	  
+  }
+  
+  function suugestEvent(){
+	  
+  }
+  
+  function endTurnEvent() {
+	  $.ajax({type: "POST",
+	  		url: "${pageContext.request.contextPath}/v1",
+	    	data: "action=endTurn",
+	    	//success: function(response) {},  //do we need a success parameter?
+	    	dataType: "json"
+	    });
+	  
+	  //lock the boxes if the turn is finished
       document.getElementById("endTurn").disabled = true;
       document.getElementById("move").disabled = true;
       document.getElementById("suggest").disabled = true;
@@ -302,7 +318,6 @@
       document.getElementById("weapon").disabled = true;
       document.getElementById("suspect").disabled = true;
       //reset radio buttons
-      //post end turn
       poll();
   }
 
