@@ -72,7 +72,7 @@
   		
 	<div id="playerInput">
 		<select id="movablelocationList" name="movablelocationList" disabled>
-        	<option id="aaa" value="aaa">-Moveable Locations-</option>        
+        	<option id="aaa" value="aaa">-Movable Locations-</option>        
 		</select>
 
 	    <select id="suspectList" name="suspectList" disabled>
@@ -109,7 +109,7 @@
     	</select>
     
     	<select id="disprovableCardsList" name="disprovableCardsList" disabled>
-        	<option id="aaa" value="aaa">-Select a cards-</option>
+        	<option id="aaa" value="aaa">-Select a card-</option>
     	</select>
     <br/>
     	<div id="buttonGroup">
@@ -163,9 +163,23 @@
 	    	            var playerName = $.cookie("playerName");
 	    	            if (whoseTurn == playerName) {
 	    					var movableLocations = response.players[playerName].movableLocations;
-	    	    	    	$.each(movableLocations, function(index, value) {
-	    						$("#movablelocationList").append('<option value="'+value+'">'+value+'</option>');
-	    	            	});
+	    					var duplicateFound = false;
+
+	    					$.each(movableLocations, function(outterKey, outterValue) {
+	    					    $("#movablelocationList > option").each( function(innerKey, innerValue) {
+	    					        if (outterValue == innerValue.value){
+/* 	    					            alert(outterValue + " == " + innerValue.value); */
+	    					            duplicateFound = true;
+	    					        }
+/* 	    					        else {
+	    					            alert(outterValue + " != " + innerValue.value);   
+	    					        } */
+	    					    });
+	    					    if (duplicateFound == false){        
+	    					        $("#movablelocationList").append('<option value="'+outterValue+'">'+outterValue+'</option>');
+	    					    }
+	    					});
+	    	    	    	
 	    	             	document.getElementById("moveButton").disabled = false;
 	    	             	document.getElementById("suggestButton").disabled = false;
 	    	             	document.getElementById("accuseButton").disabled = false;
