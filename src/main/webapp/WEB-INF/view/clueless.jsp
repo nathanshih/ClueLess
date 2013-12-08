@@ -168,12 +168,8 @@
 	    					$.each(movableLocations, function(outterKey, outterValue) {
 	    					    $("#movablelocationList > option").each( function(innerKey, innerValue) {
 	    					        if (outterValue == innerValue.value){
-/* 	    					            alert(outterValue + " == " + innerValue.value); */
 	    					            duplicateFound = true;
 	    					        }
-/* 	    					        else {
-	    					            alert(outterValue + " != " + innerValue.value);   
-	    					        } */
 	    					    });
 	    					    if (duplicateFound == false){        
 	    					        $("#movablelocationList").append('<option value="'+outterValue+'">'+outterValue+'</option>');
@@ -344,10 +340,17 @@
 		    	data: "action=endTurn",
 		    	success: function(response) {
 		    		alert("Turn ended");
+					resetUI();
 		    	},  //do we need a success parameter?
 		    	dataType: "json"
 		    });
-	});    
+	});
+	
+	function resetUI(){
+	     //the movable location and the cards to disprove will have 
+	     //to be emptied and repopualated with default values
+		 $("#movablelocationList").empty().append('<option id="aaa" value="aaa">-Movable Locations-</option>');
+	}
     
   //end bracket for ready	
   });
