@@ -70,22 +70,17 @@
   		<canvas id="tokensNotInPlay" width="100" height="96" ></canvas>
   	</div>
   		
-	<div id="playerInput">
-		<select id="movablelocationList" name="movablelocationList" disabled>
-        	<option id="aaa" value="aaa">-Movable Locations-</option>        
+	<div id="radioButtons">
+		<input type="radio" name="turnActionGroup" id="moveRB" value="moveRB" disable>Move
+		<input type="radio" name="turnActionGroup" id="accuseRB" value="accuseRB" disable>Accuse
+		<input type="radio" name="turnActionGroup" id="suggestRB" value="suggestRB" disable>Suggest<br/>
+	</div>
+	
+		<select id="movablelocationList" name="movablelocationList">
+       		<option id="aaa" value="aaa">-Movable Locations-</option>   
 		</select>
 
-	    <select id="suspectList" name="suspectList" disabled>
-    	    <option id="aaa" value="aaa">-Select a Suspect-</option>   
-			<option id="Miss Scarlet" value="Miss Scarlet">Miss Scarlet</option>
-			<option id="Colonel Mustard" value="Colonel Mustard">Colonel Mustard</option>
-      	  	<option id="Mrs. White" value="Mrs. White">Mrs. White</option>
-      	  	<option id="Mr. Green" value="Mr. Green">Mr. Green</option>
-      	  	<option id="Mrs. Peacock" value="Mrs. Peacock">Mrs. Peacock</option>
-       	 	<option is="Professor Plum" value="Professor Plum">Professor Plum</option>    
-    	</select>
-    	
-    	<select id="locationList" name="locationList" disabled>
+   		<select id="locationList" name="locationList">
     	    <option id="aaa" value="aaa">-Select a Location-</option>          
             <option id="Study" value="Study">Study</option>
     	    <option id="Hall" value="Hall">Hall</option>
@@ -97,8 +92,18 @@
 	        <option id="Ballroom" value="Ballroom">Ball Room</option>
         	<option id="Kitchen" value="Kitchen">Kitchen</option> -->   
     	</select>
-    
-		<select id="weaponList" name="weaponList" disabled>
+    	
+	    <select id="suspectList" name="suspectList">
+    	    <option id="aaa" value="aaa">-Select a Suspect-</option>   
+			<option id="Miss Scarlet" value="Miss Scarlet">Miss Scarlet</option>
+			<option id="Colonel Mustard" value="Colonel Mustard">Colonel Mustard</option>
+      	  	<option id="Mrs. White" value="Mrs. White">Mrs. White</option>
+      	  	<option id="Mr. Green" value="Mr. Green">Mr. Green</option>
+      	  	<option id="Mrs. Peacock" value="Mrs. Peacock">Mrs. Peacock</option>
+       	 	<option is="Professor Plum" value="Professor Plum">Professor Plum</option>    
+    	</select>
+   
+		<select id="weaponList" name="weaponList">
         	<option id="aaa" value="aaa">-Select a Weapon-</option>   
 			<option id="Rope" value="Rope">Rope</option>
         	<option id="Lead Pipe"value="Lead Pipe">Lead Pipe</option>
@@ -108,21 +113,21 @@
         	<option id="Revolver" value="Revolver">Revolver</option>    
     	</select>
     
-    	<select id="disprovableCardsList" name="disprovableCardsList" disabled>
+<!--     	<select id="disprovableCardsList" name="disprovableCardsList">
         	<option id="aaa" value="aaa">-Select a card-</option>
-    	</select>
+    	</select> -->
     <br/>
-    	<div id="buttonGroup">
-        	<button id="moveButton" disabled>Move to location:</button>
-    		<button id="suggestButton" disabled>Suggest</button>
-    		<button id="accuseButton" disabled>Accuse</button>
-    		<button id="endTurnButton" disabled>End Turn</button>
-    		<button id="leaveGameButton" >Leave Game</button>
-    	</div>
- 	</div>
+    
+    	<button id="moveButton">Move to location:</button>
+		<button id="suggestButton" >Suggest</button>
+    	<button id="accuseButton" >Accuse</button>
+    	<br/>
+    	<button id="endTurnButton" >End Turn</button>
+    	<button id="leaveGameButton" >Leave Game</button>
 
+	</div>
   <script type="text/javascript">
-/*   alert("In script"); */
+  /* alert("In script"); */
   $(document).ready(function() {
     poll();
     
@@ -164,7 +169,6 @@
 	    	            if (whoseTurn == playerName) {
 	    					var movableLocations = response.players[playerName].movableLocations;
 	    					var duplicateFound = false;
-
 	    					$.each(movableLocations, function(outterKey, outterValue) {
 	    					    $("#movablelocationList > option").each( function(innerKey, innerValue) {
 	    					        if (outterValue == innerValue.value){
@@ -175,29 +179,20 @@
 	    					        $("#movablelocationList").append('<option value="'+outterValue+'">'+outterValue+'</option>');
 	    					    }
 	    					});
-	    	    	    	
-	    	             	document.getElementById("moveButton").disabled = false;
-	    	             	document.getElementById("suggestButton").disabled = false;
-	    	             	document.getElementById("accuseButton").disabled = false;
-	    	            	document.getElementById("endTurnButton").disabled = false;
-	    	            	document.getElementById("leaveGameButton").disabled = false;
-	    	    	    	document.getElementById("movablelocationList").disabled = false;
-	    	             	document.getElementById("locationList").disabled = false;
-	    	             	document.getElementById("weaponList").disabled = false;
-	    	             	document.getElementById("suspectList").disabled = false;
-	    	             	document.getElementById("disprovableCardsList").disabled = false;
-
-	    	            } else {
-	    	             	document.getElementById("moveButton").disabled = true;
-	    	             	document.getElementById("suggestButton").disabled = true;
-	    	             	document.getElementById("accuseButton").disabled = true;
-	    	            	document.getElementById("endTurnButton").disabled = true;
-	    	            	document.getElementById("leaveGameButton").disabled = true;
-	    	    	    	document.getElementById("movablelocationList").disabled = true;
-	    	             	document.getElementById("locationList").disabled = true;
-	    	             	document.getElementById("weaponList").disabled = true;
-	    	             	document.getElementById("suspectList").disabled = true;
-	    	             	document.getElementById("disprovableCardsList").disabled = true;
+	    				    $("#radioButtons").show();
+	    				    if (!$("input[name='turnActionGroup']:checked").val()){
+	    					     $("#movablelocationList").hide();
+	    					     $("#moveButton").hide();
+	    					     $("#locationList").hide();
+	    					  	 $("#suspectList").hide();
+	    					  	 $("#weaponList").hide();
+	    					     $("#accuseButton").hide();
+	    					     $("#suggestButton").hide();
+	    				   	}
+							/*	$('input[name=turnActionGroup]').removeAttr('disabled'); */
+	    	            }
+	    	            else {
+	    	            	$("#radioButtons").hide();
 	    	            }
 	  				}, 
 	  				dataType: "json", 
@@ -301,7 +296,7 @@
 					url: "${pageContext.request.contextPath}/v1",
 					data: "action=move" + "&location=" + selectedLocation, // for a move action=move&location=hallway5
 					success: function(response) {
-						alert(response.suspect + " moved to " + strUser);
+						alert(response.suspect + " moved to " + selectedLocation);
 					},
 					dataType: "json"
 				});
@@ -330,10 +325,67 @@
 				},
 				dataType: "json"
 			});
-		}
+		  }
 	});    
  
+	
+	$("#suggestButton").click(function() {
+		  var e = document.getElementById("locationList");
+		  var selectedLocation = e.options[e.selectedIndex].id;
+		  var f = document.getElementById("suspectList");
+		  var selectedSuspect = f.options[f.selectedIndex].id;
+		  var g = document.getElementById("weaponList");
+		  var selectedWeapon = g.options[g.selectedIndex].id;
+		  if (selectedLocation == "aaa" || selectedSuspect == "aaa" || selectedWeapon == "aaa"){
+			  alert("You need to select a room, suspect, and a weapon before you can make an accusation");
+			  poll();
+		  }
+		  else{
+			$.ajax({type: "POST",
+				url: "${pageContext.request.contextPath}/v1",
+				data: "action=accusation" + "&room=" + selectedLocation + "&suspect=" + selectedSuspect  + "&weapon=" + selectedWeapon , // for a move action=move&location=hallway5
+				success: function(response) {
+					if(responce.solvedBy===null){
+						alert("You lost the game!");
+					}
+				},
+				dataType: "json"
+			});
+		}
+	}); 
     
+	$("input:radio[name=turnActionGroup]").click(function(){
+	      var value = $(this).attr("id");
+	      if (value == "moveRB"){
+	    	  alert("Move Radio Button Selected");
+	          $("#movablelocationList").show();
+	          $("#moveButton").show();
+	    	  $("#locationList").hide();
+	    	  $("#suspectList").hide();
+	    	  $("#weaponList").hide();
+	    	  $("#accuseButton").hide();
+	    	  $("#suggestButton").hide();
+	      } 
+	      if (value == "accuseRB"){
+	    	  $("#locationList").show();
+	    	  $("#suspectList").show();
+	    	  $("#weaponList").show();
+	    	  $("#accuseButton").show();
+	          $("#movablelocationList").hide();
+	    	  $("#suggestButton").hide();
+	          $("#moveButton").hide();
+	      } 
+	      if (value == "suggestRB"){
+	    	  $("#suspectList").show();
+	    	  $("#weaponList").show();
+	    	  $("#suggestButton").show();
+	          $("#movablelocationList").hide();
+	          $("#moveButton").hide();
+	    	  $("#locationList").hide();
+	    	  $("#accuseButton").hide();
+	      }
+	});
+	
 	$("#endTurnButton").click(function() {
 		  $.ajax({type: "POST",
 		  		url: "${pageContext.request.contextPath}/v1",
@@ -349,7 +401,17 @@
 	function resetUI(){
 	     //the movable location and the cards to disprove will have 
 	     //to be emptied and repopualated with default values
-		 $("#movablelocationList").empty().append('<option id="aaa" value="aaa">-Movable Locations-</option>');
+	     $("input:radio[name='thename']").each(function(i) {
+       		this.checked = false;
+		 });
+	     $("#movablelocationList").empty().append('<option id="aaa" value="aaa">-Movable Locations-</option>');
+	     $("#movablelocationList").hide();
+	     $("#locationList").hide();
+	  	 $("#suspectList").hide();
+	  	 $("#weaponList").hide();
+	     $("#accuseButton").hide();
+	     $("#suggestButton").hide();
+	     $("#moveButton").hide();
 	}
     
   //end bracket for ready	
