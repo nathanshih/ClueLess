@@ -50,6 +50,12 @@ public interface ClueLessService {
 	public ClueLessModel movePlayer(String playerName, String location);
 	
 	/**
+	 * This returns the current suggestion information when a player is able to disprove a suggestion. 
+	 * @return SuggestionModel
+	 */
+	public SuggestionModel getSuggestion();
+	
+	/**
 	 * Allows a player to make a suggestion. Information needed are the suspect and weapon used to commit the crime.
 	 * Since suggestions can only be made while in a room, the player's location will be used in the suggestion.
 	 * @param playerName name of the player making the suggestion

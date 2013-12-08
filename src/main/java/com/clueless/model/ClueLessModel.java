@@ -18,6 +18,7 @@ public class ClueLessModel {
 	
 	private boolean gameReady;
 	private String whoseTurn;
+	private String whoCanDisprove;
 	private HashMap<String, Player> players;
 	private HashMap<String, Room> rooms;
 	private HashMap<String, Hallway> hallways;
@@ -53,6 +54,14 @@ public class ClueLessModel {
 		this.whoseTurn = whoseTurn;
 	}
 	
+	public String getWhoCanDisprove() {
+		return whoCanDisprove;
+	}
+
+	public void setWhoCanDisprove(String whoCanDisprove) {
+		this.whoCanDisprove = whoCanDisprove;
+	}
+
 	public HashMap<String, Player> getPlayers() {
 		return players;
 	}

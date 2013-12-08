@@ -1,6 +1,7 @@
 {
     "gameReady": true,
     "whoseTurn": "Nathan",
+    "whoCanDisprove": "Shawn",
     "players": {
         "Nathan": {
             "suspect": "Miss Scarlet",
