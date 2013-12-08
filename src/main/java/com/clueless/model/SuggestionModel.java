@@ -9,39 +9,20 @@ import java.util.ArrayList;
  */
 public class SuggestionModel {
 
-	private static final SuggestionModel instance = new SuggestionModel();
-	
 	private String makingSuggestion;
-	private String disprovingSuggestion;
 	private String disprovingCard;
 	private ArrayList<String> disprovableCards;
 	
-	private SuggestionModel() {
+	public SuggestionModel() {
 		disprovableCards = new ArrayList<String>();
 	}
 	
-	/**
-	 * Returns the SuggestionModel as a singleton.
-	 * @return SuggestionModel
-	 */
-	public static SuggestionModel getInstance() {
-		return instance;
-	}
-
 	public String getMakingSuggestion() {
 		return makingSuggestion;
 	}
 
 	public void setMakingSuggestion(String makingSuggestion) {
 		this.makingSuggestion = makingSuggestion;
-	}
-
-	public String getDisprovingSuggestion() {
-		return disprovingSuggestion;
-	}
-
-	public void setDisprovingSuggestion(String disprovingSuggestion) {
-		this.disprovingSuggestion = disprovingSuggestion;
 	}
 
 	public String getDisprovingCard() {

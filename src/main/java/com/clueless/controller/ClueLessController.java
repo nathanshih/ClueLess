@@ -59,6 +59,12 @@ public class ClueLessController {
 		return clueLessService.movePlayer(playerName, location);
 	}
 	
+	@RequestMapping(method=RequestMethod.GET, params="action=suggestion")
+	@ResponseBody
+	public SuggestionModel getSuggestion() {
+		return clueLessService.getSuggestion();
+	}
+	
 	@RequestMapping(method=RequestMethod.POST, params="action=suggestion")
 	@ResponseBody
 	public SuggestionModel makeSuggestion(@CookieValue("playerName") String playerName, 
