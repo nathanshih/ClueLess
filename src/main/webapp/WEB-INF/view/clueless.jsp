@@ -61,9 +61,6 @@
     		</tr>
   	  	</table>
 		<canvas id="boardCanvas" width="152" height="500" style="background: url(http://i.imgur.com/B1K3vHh.png) no-repeat center center;"></canvas>
-	</div>
-	<br/>	
-	<div id="cardsAndLobby">
 		<p>Cards in hand:<p>
 		<textarea id="cardsInHand" rows="6" cols="15" readonly></textarea>
     	<p>Players still in lobby:<p>
@@ -201,7 +198,7 @@
 	  		});
 		}, 1000);
 	};
-	
+
     function clearBoard() {
     	var canvases = new Array(); 
     	canvases[0]="Hallway1";       
@@ -252,8 +249,8 @@
 					
                     switch(whichSuspect){
                         case "Colonel Mustard":
-                        	ctx.fillStyle="#FFCC11";
                         	ctx.fillRect(0,0,25,25);
+                        	ctx.fillStyle="#FFCC11";
                         	break;
                         case "Miss Scarlet":
                     		ctx.fillStyle= "#8C1717";
@@ -285,7 +282,7 @@
             timeout: 30000 
 		});
 	};
-    
+
     $("#moveButton").click(function() {
 		  var e = document.getElementById("movablelocationList");
 		  var selectedLocation = e.options[e.selectedIndex].value;
@@ -294,15 +291,17 @@
 		  }
 		  else { $.ajax({type: "POST",
 					url: "${pageContext.request.contextPath}/v1",
-					data: "action=move" + "&location=" + selectedLocation, // for a move action=move&location=hallway5
+					data: "action=move" + "&location=" + selectedLocation,
 					success: function(response) {
 						alert(response.suspect + " moved to " + selectedLocation);
+						//deselect the radio move button and disble it
+						//hide the moveList and Button
 					},
 					dataType: "json"
 				});
 		  }
 	});
-    
+
 	$("#accuseButton").click(function() {
 		  var e = document.getElementById("locationList");
 		  var selectedLocation = e.options[e.selectedIndex].id;
@@ -319,45 +318,42 @@
 				url: "${pageContext.request.contextPath}/v1",
 				data: "action=accusation" + "&room=" + selectedLocation + "&suspect=" + selectedSuspect  + "&weapon=" + selectedWeapon , // for a move action=move&location=hallway5
 				success: function(response) {
-					if(responce.solvedBy===null){
+					if(responce.solvedBy === null){
 						alert("You lost the game!");
+					}
+					else{
+						alert("You won the game!");	
 					}
 				},
 				dataType: "json"
 			});
 		  }
 	});    
- 
-	
+
 	$("#suggestButton").click(function() {
-		  var e = document.getElementById("locationList");
-		  var selectedLocation = e.options[e.selectedIndex].id;
 		  var f = document.getElementById("suspectList");
 		  var selectedSuspect = f.options[f.selectedIndex].id;
 		  var g = document.getElementById("weaponList");
 		  var selectedWeapon = g.options[g.selectedIndex].id;
-		  if (selectedLocation == "aaa" || selectedSuspect == "aaa" || selectedWeapon == "aaa"){
-			  alert("You need to select a room, suspect, and a weapon before you can make an accusation");
+		  if (selectedSuspect == "aaa" || selectedWeapon == "aaa"){
+			  alert("You need to select a suspect and a weapon before you can make an accusation");
 			  poll();
 		  }
 		  else{
 			$.ajax({type: "POST",
 				url: "${pageContext.request.contextPath}/v1",
-				data: "action=accusation" + "&room=" + selectedLocation + "&suspect=" + selectedSuspect  + "&weapon=" + selectedWeapon , // for a move action=move&location=hallway5
+				data: "action=accusation" + "&suspect=" + selectedSuspect  + "&weapon=" + selectedWeapon , // for a move action=move&location=hallway5
 				success: function(response) {
-					if(responce.solvedBy===null){
-						alert("You lost the game!");
-					}
+					alert("Suggestion made");
 				},
 				dataType: "json"
 			});
 		}
-	}); 
-    
+	});
+
 	$("input:radio[name=turnActionGroup]").click(function(){
 	      var value = $(this).attr("id");
 	      if (value == "moveRB"){
-	    	  alert("Move Radio Button Selected");
 	          $("#movablelocationList").show();
 	          $("#moveButton").show();
 	    	  $("#locationList").hide();
@@ -365,27 +361,57 @@
 	    	  $("#weaponList").hide();
 	    	  $("#accuseButton").hide();
 	    	  $("#suggestButton").hide();
+	    	  
+	    	  $.ajax({url: "${pageContext.request.contextPath}/v1",
+	    			type: "GET",
+	    			success: function(response){
+	    	            var response = response;
+	    	            var whoseTurn = response.whoseTurn;
+	    	            var playerName = $.cookie("playerName");
+	    	            if (whoseTurn == playerName) {
+	    					var movableLocations = response.players[playerName].movableLocations;
+	    					var duplicateFound = false;
+	    					$.each(movableLocations, function(outterKey, outterValue) {
+	    					    $("#movablelocationList > option").each( function(innerKey, innerValue) {
+	    					        if (outterValue == innerValue.value){
+	    					            duplicateFound = true;
+	    					        }
+	    					    });
+	    					    if (duplicateFound == false){        
+	    					        $("#movablelocationList").append('<option value="'+outterValue+'">'+outterValue+'</option>');
+	    					    }
+	    					});
+	    	            }
+	  				}, 
+	  				dataType: "json", 
+	  				complete: poll, 
+	  				timeout: 30000 
+	  		});
 	      } 
 	      if (value == "accuseRB"){
 	    	  $("#locationList").show();
 	    	  $("#suspectList").show();
 	    	  $("#weaponList").show();
 	    	  $("#accuseButton").show();
+	    	  
 	          $("#movablelocationList").hide();
-	    	  $("#suggestButton").hide();
 	          $("#moveButton").hide();
+	          
+	    	  $("#suggestButton").hide();
 	      } 
 	      if (value == "suggestRB"){
 	    	  $("#suspectList").show();
 	    	  $("#weaponList").show();
 	    	  $("#suggestButton").show();
+	    	  
 	          $("#movablelocationList").hide();
 	          $("#moveButton").hide();
+	          
 	    	  $("#locationList").hide();
 	    	  $("#accuseButton").hide();
 	      }
 	});
-	
+
 	$("#endTurnButton").click(function() {
 		  $.ajax({type: "POST",
 		  		url: "${pageContext.request.contextPath}/v1",
