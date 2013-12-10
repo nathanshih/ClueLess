@@ -3,26 +3,17 @@ package com.clueless.model;
 import java.util.ArrayList;
 
 /**
- * The SuggestionModel holds information on who is making the suggestion, who is disproving the
- * suggestion, and which card is being used to disprove the suggestion.
+ * The SuggestionModel holds information on which card is being used to disprove the suggestion
+ * and cards which can be used to disprove the suggestion.
  * @author nshih
  */
 public class SuggestionModel {
 
-	private String makingSuggestion;
 	private String disprovingCard;
 	private ArrayList<String> disprovableCards;
 	
 	public SuggestionModel() {
 		disprovableCards = new ArrayList<String>();
-	}
-	
-	public String getMakingSuggestion() {
-		return makingSuggestion;
-	}
-
-	public void setMakingSuggestion(String makingSuggestion) {
-		this.makingSuggestion = makingSuggestion;
 	}
 
 	public String getDisprovingCard() {

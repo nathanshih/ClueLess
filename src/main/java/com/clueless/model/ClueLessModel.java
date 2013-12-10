@@ -1,5 +1,6 @@
 package com.clueless.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.clueless.domain.Hallway;
@@ -19,6 +20,10 @@ public class ClueLessModel {
 	private boolean gameReady;
 	private String whoseTurn;
 	private String whoCanDisprove;
+	private String makingSuggestion;
+	private ArrayList<String> suggestion;
+	private String makingAccusation;
+	private ArrayList<String> accusation;
 	private HashMap<String, Player> players;
 	private HashMap<String, Room> rooms;
 	private HashMap<String, Hallway> hallways;
@@ -28,6 +33,8 @@ public class ClueLessModel {
 		players = new HashMap<String, Player>(SuspectToken.TOTAL);
 		rooms = new HashMap<String, Room>(Room.TOTAL);
 		hallways = new HashMap<String, Hallway>(Hallway.TOTAL);
+		suggestion = new ArrayList<String>(3);
+		accusation = new ArrayList<String>(3);
 	}
 	
 	/**
@@ -62,6 +69,54 @@ public class ClueLessModel {
 		this.whoCanDisprove = whoCanDisprove;
 	}
 
+	public String getMakingSuggestion() {
+		return makingSuggestion;
+	}
+
+	public void setMakingSuggestion(String makingSuggestion) {
+		this.makingSuggestion = makingSuggestion;
+	}
+
+	public ArrayList<String> getSuggestion() {
+		return suggestion;
+	}
+
+	public void setSuggestion(ArrayList<String> suggestion) {
+		this.suggestion = suggestion;
+	}
+	
+	public void addSuggestion(String card) {
+		suggestion.add(card);
+	}
+	
+	public void clearSuggestion() {
+		suggestion.clear();
+	}
+
+	public String getMakingAccusation() {
+		return makingAccusation;
+	}
+
+	public void setMakingAccusation(String makingAccusation) {
+		this.makingAccusation = makingAccusation;
+	}
+
+	public ArrayList<String> getAccusation() {
+		return accusation;
+	}
+
+	public void setAccusation(ArrayList<String> accusation) {
+		this.accusation = accusation;
+	}
+
+	public void addAccusation(String card) {
+		accusation.add(card);
+	}
+	
+	public void clearAccusation() {
+		accusation.clear();
+	}
+	
 	public HashMap<String, Player> getPlayers() {
 		return players;
 	}

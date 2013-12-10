@@ -1,6 +1,5 @@
 {
-    "makingSuggestion": "Shawn",
-    "disprovingCard": "Library"
+    "disprovingCard": "Library",
     "disprovableCards": [
     	"Library",
     	"LeadPipe"
