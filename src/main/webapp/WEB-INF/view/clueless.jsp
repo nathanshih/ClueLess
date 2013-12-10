@@ -344,15 +344,28 @@
 					url: "${pageContext.request.contextPath}/v1",
 					data: "action=accusation" + "&room=" + selectedLocation + "&suspect=" + selectedSuspect  + "&weapon=" + selectedWeapon , // for a move action=move&location=hallway5
 					success: function(response) {
-						if(responce.solvedBy === null){
-							alert("You lost the game!");
-						}
-						else{
-							alert("You won the game!");	
-						}
 					},
 					dataType: "json"
 				});
+				
+			  	  $.ajax({url: "${pageContext.request.contextPath}/v1",
+						type: "GET",
+						data: "action=accusation",
+						success: function(response){
+				            var response = response;
+							var solvedBy = response.solvedBy;
+							if (solvedBy === null){
+								alert("Sorry, " + $.cookie("playerName") + "You lost the game");
+							}
+							else if 
+				        }
+						}, 
+						dataType: "json", 
+						complete: poll, 
+						timeout: 30000 
+				)	
+				
+			
 		    }
 		    else
 		    {
