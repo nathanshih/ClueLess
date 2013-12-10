@@ -68,9 +68,9 @@
   	</div>
   		
 	<div id="radioButtons">
-		<input type="radio" name="turnActionGroup" id="moveRB" value="moveRB" disable>Move
-		<input type="radio" name="turnActionGroup" id="accuseRB" value="accuseRB" disable>Accuse
-		<input type="radio" name="turnActionGroup" id="suggestRB" value="suggestRB" disable>Suggest<br/>
+		<input type="radio" name="turnActionGroup" id="moveRB" value="moveRB" checked>Move
+		<input type="radio" name="turnActionGroup" id="suggestRB" value="suggestRB" disable>Suggest
+		<input type="radio" name="turnActionGroup" id="accuseRB" value="accuseRB" disable>Accuse<br/>
 	</div>
 	
 		<select id="movablelocationList" name="movablelocationList">
@@ -110,14 +110,15 @@
         	<option id="Revolver" value="Revolver">Revolver</option>    
     	</select>
     
-<!--     	<select id="disprovableCardsList" name="disprovableCardsList">
+		<select id="disprovableCardsList" name="disprovableCardsList">
         	<option id="aaa" value="aaa">-Select a card-</option>
-    	</select> -->
+    	</select>
     <br/>
     
-    	<button id="moveButton">Move to location:</button>
+    	<button id="moveButton" >Move</button>
 		<button id="suggestButton" >Suggest</button>
     	<button id="accuseButton" >Accuse</button>
+    	<button id="disproveButton" >Disprove</button>
     	<br/>
     	<button id="endTurnButton" >End Turn</button>
     	<button id="leaveGameButton" >Leave Game</button>
@@ -131,6 +132,8 @@
     // Leave game
 	//cuases an expetion.... thats new
     $("#leaveGameButton").click(function() {
+    if(confirm("Are you sure you want to leave the game?"))
+    {
       $.ajax({type: "POST",
         url: "${pageContext.request.contextPath}/v1",
         data: "action=leave",
@@ -138,6 +141,11 @@
                 window.location.href = "/ClueLess/";},
         dataType: "json"
       });
+    }
+    else
+    {
+        e.preventDefault();
+    }
     });
 
 
@@ -153,38 +161,45 @@
 	    	            var whoseTurn = response.whoseTurn;
 	    	            //check for won game (ie check each failedaccusation for each player for )
 	    	            //hmmm how will that work? they are always false
-	    	            		
-	    	            //check for can disprove
-	    	            //if canDisprove == true
-	    	            //populate disprovable card list
-	    	            //unlock disprovable card list and button
-	    	            //when player clicks button fire off the disprove method
 	    	            
 	    	            //if we got here then the game is still active if it's our players turn
 	    	            //wait for thier action
 	    	            var playerName = $.cookie("playerName");
+	    	            
+    	            	
+	    	            //check for can disprove
+	    	            //if canDisprove == true
+	    	            //populate disprovable card list
+	    	            //unlock disprovable card list and button
+	    	            var canDisprove = response.players[playerName].canDisprove;
+	    	            if (canDisprove==true){
+	    	            	//this player, even though its not their turn can disprove,
+	    	            	// player needs to disprove
+	    	            	disprove();	    	            	
+	    	            }
+	    	            
+	    	            //to get here ther game is still active, this player can not disprove (or nothing to disprove)
+	    	            //and it's now this players turn
 	    	            if (whoseTurn == playerName) {
-	    					var movableLocations = response.players[playerName].movableLocations;
-	    					var duplicateFound = false;
-	    					$.each(movableLocations, function(outterKey, outterValue) {
-	    					    $("#movablelocationList > option").each( function(innerKey, innerValue) {
-	    					        if (outterValue == innerValue.value){
-	    					            duplicateFound = true;
-	    					        }
-	    					    });
-	    					    if (duplicateFound == false){        
-	    					        $("#movablelocationList").append('<option value="'+outterValue+'">'+outterValue+'</option>');
-	    					    }
-	    					});
+	    	            	    	       
 	    				    $("#radioButtons").show();
-	    				    if (!$("input[name='turnActionGroup']:checked").val()){
+	    				    //check json object to see if player was moved to a room
+	    				    //if so then immeditaly uncheck the suggestion radio button
+	    				    //also the player can accuse at any time so unlock that adio button
+	    				    //regardless
+	    				    
+	    				    //move should always be selected by default. Makes the logic easier
+	    				    //and baring an accusation or being in a room becuase of a suggestion
+	    				    //they'll likely want to move
+	    				    
+/* 	    				    if (!$("input[name='turnActionGroup']:checked").val()){
 	    					     $("#movablelocationList").hide();
 	    					     $("#moveButton").hide();
 	    					     $("#locationList").hide();
 	    					  	 $("#suspectList").hide();
 	    					  	 $("#weaponList").hide();
 	    					     $("#accuseButton").hide();
-	    					     $("#suggestButton").hide();
+	    					     $("#suggestButton").hide(); */
 	    				   	}
 							/*	$('input[name=turnActionGroup]').removeAttr('disabled'); */
 	    	            }
@@ -244,6 +259,7 @@
                     }   
                     var c=document.getElementById(whichRooms);
                     var ctx=c.getContext("2d");
+                	ctx.strokeStyle="black";
                     //I don't know why but I can't get or set color by function returns or variables.
                     //It's little things like this that really make you hate a language.
 					
@@ -251,26 +267,32 @@
                         case "Colonel Mustard":
                         	ctx.fillRect(0,0,25,25);
                         	ctx.fillStyle="#FFCC11";
+                        	ctx.strokeRect(0,0,25,25);
                         	break;
                         case "Miss Scarlet":
                     		ctx.fillStyle= "#8C1717";
                         	ctx.fillRect(25,0,25,25);
+                        	ctx.strokeRect(25,0,25,25);
                     		break;
                         case "Mrs. White":
                     		ctx.fillStyle= "#FFE9E9";
                         	ctx.fillRect(50,0,25,25);
+                        	ctx.strokeRect(50,0,25,25);
                     		break;
                         case "Mr. Green":
                     		ctx.fillStyle= "#99CC32";
                         	ctx.fillRect(0,25,25,25);
+                        	ctx.strokeRect(0,25,25,25);
                     		break;
                         case "Mrs. Peacock":
                     		ctx.fillStyle= "#016795";
                         	ctx.fillRect(25,25,25,25);
+                        	ctx.strokeRect(25,25,25,25);
                     		break;
                         case "Professor Plum": 
                     		ctx.fillStyle= "#8E4585";
                         	ctx.fillRect(50,25,25,25);
+                        	ctx.strokeRect(50,25,25,25);
                     		break;
                     	default:
                     		alert("player not found");
@@ -300,6 +322,8 @@
 					dataType: "json"
 				});
 		  }
+		  //after a move unlock accuse
+		  //if player moves to room (not a hallway) unock suggest
 	});
 
 	$("#accuseButton").click(function() {
@@ -313,23 +337,49 @@
 			  alert("You need to select a room, suspect, and a weapon before you can make an accusation");
 			  poll();
 		  }
-		  else{
+		  
+		  if(confirm("Are you sure you want to accuse " +selectedSuspect + " in the " + selectedLocation + " with the " + selectedWeapon + "?"))
+		    {
+				$.ajax({type: "POST",
+					url: "${pageContext.request.contextPath}/v1",
+					data: "action=accusation" + "&room=" + selectedLocation + "&suspect=" + selectedSuspect  + "&weapon=" + selectedWeapon , // for a move action=move&location=hallway5
+					success: function(response) {
+						if(responce.solvedBy === null){
+							alert("You lost the game!");
+						}
+						else{
+							alert("You won the game!");	
+						}
+					},
+					dataType: "json"
+				});
+		    }
+		    else
+		    {
+		        e.preventDefault();
+		    }
+	});    
+	$("#disproveButton").click(function() {
+		var f = document.getElementById("disprovableCardsList");
+		var selectedCard = f.options[f.selectedIndex].id;
+		if (selectedCard == "aaa") {
+			alert("You need to select a one of the disprovable cards");
+		}
+	   	else{
 			$.ajax({type: "POST",
 				url: "${pageContext.request.contextPath}/v1",
-				data: "action=accusation" + "&room=" + selectedLocation + "&suspect=" + selectedSuspect  + "&weapon=" + selectedWeapon , // for a move action=move&location=hallway5
+				data: "action=disprove" + "&card=" + selectedCard,
 				success: function(response) {
-					if(responce.solvedBy === null){
-						alert("You lost the game!");
-					}
-					else{
-						alert("You won the game!");	
-					}
+					alert("You selected " + selectedCard + "to disprove the suggestion");
 				},
 				dataType: "json"
 			});
-		  }
-	});    
-
+	   	}
+		
+		//clear the UI once disprove method is completed
+		resetUI();
+	});
+	
 	$("#suggestButton").click(function() {
 		  var f = document.getElementById("suspectList");
 		  var selectedSuspect = f.options[f.selectedIndex].id;
@@ -348,6 +398,12 @@
 				},
 				dataType: "json"
 			});
+			
+			//check back to see if the clueless json model if the list of 
+			//
+			
+			
+			
 		}
 	});
 
@@ -411,7 +467,7 @@
 	    	  $("#accuseButton").hide();
 	      }
 	});
-
+	
 	$("#endTurnButton").click(function() {
 		  $.ajax({type: "POST",
 		  		url: "${pageContext.request.contextPath}/v1",
@@ -424,6 +480,33 @@
 		    });
 	});
 	
+	function disprove()
+	{
+  	  $.ajax({url: "${pageContext.request.contextPath}/v1",
+			type: "GET",
+			data: "action=suggestion",
+			success: function(response){
+	            var response = response;
+				var disprovableCards = response.disprovableCards;
+				var duplicateFound = false;
+				$.each(disprovableCards, function(outterKey, outterValue) {
+				    $("#disprovableCardsList > option").each( function(innerKey, innerValue) {
+				        if (outterValue == innerValue.value){
+				            duplicateFound = true;
+				        }
+				    });
+				    if (duplicateFound == false){        
+				        $("#disprovableCardsList").append('<option value="'+outterValue+'">'+outterValue+'</option>');
+				   }
+				});
+	        }
+			}, 
+			dataType: "json", 
+			complete: poll, 
+			timeout: 30000 
+	)
+	}
+	
 	function resetUI(){
 	     //the movable location and the cards to disprove will have 
 	     //to be emptied and repopualated with default values
@@ -431,6 +514,7 @@
        		this.checked = false;
 		 });
 	     $("#movablelocationList").empty().append('<option id="aaa" value="aaa">-Movable Locations-</option>');
+	     $("#disprovableCardsList").empty().appnd('<option id="aaa" value="aaa">-Select a card-</option>');
 	     $("#movablelocationList").hide();
 	     $("#locationList").hide();
 	  	 $("#suspectList").hide();
