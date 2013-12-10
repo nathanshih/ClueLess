@@ -2,6 +2,18 @@
     "gameReady": true,
     "whoseTurn": "Nathan",
     "whoCanDisprove": "Shawn",
+    "makingSuggestion": "Nathan",
+    "suggestion": [
+    	"Lounge",
+    	"Mr. Green",
+    	"Wrench"
+    ],
+    "makingAccusation": "Christina",
+    "accusation": [
+    	"Lounge",
+    	"Mr. Green",
+    	"Wrench"
+    ],
     "players": {
         "Nathan": {
             "suspect": "Miss Scarlet",

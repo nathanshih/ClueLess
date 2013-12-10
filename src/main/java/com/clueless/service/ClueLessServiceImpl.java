@@ -222,7 +222,13 @@ public class ClueLessServiceImpl implements ClueLessService {
 		suggestionModel = new SuggestionModel();
 		
 		String room = players.get(playerName).getLocation();
-		suggestionModel.setMakingSuggestion(playerName);
+		
+		// add suggestion information to the ClueLessModel so other clients can see it
+		clueLessModel.setMakingSuggestion(playerName);
+		clueLessModel.clearSuggestion();
+		clueLessModel.addSuggestion(room);
+		clueLessModel.addSuggestion(suspect);
+		clueLessModel.addSuggestion(weapon);
 		
 		// move suspect token to suggested room and check to see if suggested suspect token is played by someone
 		for (SuspectToken suspectToken : suspectTokens) {
@@ -277,6 +283,14 @@ public class ClueLessServiceImpl implements ClueLessService {
 	@Override
 	public SolutionModel makeAccusation(String playerName, String room,
 			String suspect, String weapon) {
+		
+		// add accusation information to the ClueLessModel so other clients can see it
+		clueLessModel.setMakingAccusation(playerName);
+		clueLessModel.clearAccusation();
+		clueLessModel.addAccusation(room);
+		clueLessModel.addAccusation(suspect);
+		clueLessModel.addAccusation(weapon);
+		
 		if (room.equals(solutionModel.getRoom()) 
 			&& suspect.equals(solutionModel.getSuspect()) 
 			&& weapon.equals(solutionModel.getWeapon())) {
