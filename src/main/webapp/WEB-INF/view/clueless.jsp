@@ -348,22 +348,22 @@
 					dataType: "json"
 				});
 				
-			  	  $.ajax({url: "${pageContext.request.contextPath}/v1",
-						type: "GET",
-						data: "action=accusation",
-						success: function(response){
-				            var response = response;
-							var solvedBy = response.solvedBy;
-							if (solvedBy === null){
-								alert("Sorry, " + $.cookie("playerName") + "You lost the game");
-							}
-							else if 
-				        }
-						}, 
-						dataType: "json", 
-						complete: poll, 
-						timeout: 30000 
-				)	
+		    	  $.ajax({url: "${pageContext.request.contextPath}/v1",
+		    			type: "GET",
+		    			success: function(response){
+		    	            var response = response;
+		    	            var playerName = $.cookie("playerName");
+		    				var failedAccusation = response.players[playerName].failedAccusation;
+							if (failedAccusation == true)
+								{
+								alert("You lost the game!");
+								}
+		    	            }
+		  				}, 
+		  				dataType: "json", 
+		  				complete: poll, 
+		  				timeout: 30000 
+		  		});
 				
 			
 		    }
