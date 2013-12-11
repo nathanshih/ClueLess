@@ -68,9 +68,9 @@
   	</div>
   		
 	<div id="radioButtons">
-		<input type="radio" name="turnActionGroup" id="moveRB" value="moveRB" checked>Move
-		<input type="radio" name="turnActionGroup" id="suggestRB" value="suggestRB" disable>Suggest
-		<input type="radio" name="turnActionGroup" id="accuseRB" value="accuseRB" disable>Accuse<br/>
+		<input type="radio" name="turnActionGroup" id="moveRB" value="moveRB" >Move
+		<input type="radio" name="turnActionGroup" id="suggestRB" value="suggestRB" >Suggest
+		<input type="radio" name="turnActionGroup" id="accuseRB" value="accuseRB" >Accuse<br/>
 	</div>
 	
 		<select id="movablelocationList" name="movablelocationList">
@@ -151,6 +151,7 @@
 
 	// Poll continuously poll server every second for updated game state
 	function poll() {
+		
 		clearBoard();
 		drawTokens();
 		setTimeout(function() {
@@ -171,12 +172,12 @@
 	    	            //if canDisprove == true
 	    	            //populate disprovable card list
 	    	            //unlock disprovable card list and button
-	    	            var canDisprove = response.players[playerName].canDisprove;
+/* 	    	            var canDisprove = response.players[playerName].canDisprove;
 	    	            if (canDisprove==true){
 	    	            	//this player, even though its not their turn can disprove,
 	    	            	// player needs to disprove
 	    	            	disprove();	    	            	
-	    	            }
+	    	            } */
 	    	            
 	    	            //to get here ther game is still active, this player can not disprove (or nothing to disprove)
 	    	            //and it's now this players turn
@@ -191,20 +192,11 @@
 	    				    //move should always be selected by default. Makes the logic easier
 	    				    //and baring an accusation or being in a room becuase of a suggestion
 	    				    //they'll likely want to move
-	    				    
-/* 	    				    if (!$("input[name='turnActionGroup']:checked").val()){
-	    					     $("#movablelocationList").hide();
-	    					     $("#moveButton").hide();
-	    					     $("#locationList").hide();
-	    					  	 $("#suspectList").hide();
-	    					  	 $("#weaponList").hide();
-	    					     $("#accuseButton").hide();
-	    					     $("#suggestButton").hide(); */
-	    				   	}
-							/*	$('input[name=turnActionGroup]').removeAttr('disabled'); */
+							$('input[name=turnActionGroup]').removeAttr('disabled');
 	    	            }
 	    	            else {
 	    	            	$("#radioButtons").hide();
+	    	            	hideUI();
 	    	            }
 	  				}, 
 	  				dataType: "json", 
@@ -265,34 +257,28 @@
 					
                     switch(whichSuspect){
                         case "Colonel Mustard":
-                        	ctx.fillRect(0,0,25,25);
                         	ctx.fillStyle="#FFCC11";
-                        	ctx.strokeRect(0,0,25,25);
+                        	ctx.fillRect(0,0,25,25);
                         	break;
                         case "Miss Scarlet":
                     		ctx.fillStyle= "#8C1717";
                         	ctx.fillRect(25,0,25,25);
-                        	ctx.strokeRect(25,0,25,25);
                     		break;
                         case "Mrs. White":
                     		ctx.fillStyle= "#FFE9E9";
                         	ctx.fillRect(50,0,25,25);
-                        	ctx.strokeRect(50,0,25,25);
                     		break;
                         case "Mr. Green":
                     		ctx.fillStyle= "#99CC32";
                         	ctx.fillRect(0,25,25,25);
-                        	ctx.strokeRect(0,25,25,25);
                     		break;
                         case "Mrs. Peacock":
                     		ctx.fillStyle= "#016795";
                         	ctx.fillRect(25,25,25,25);
-                        	ctx.strokeRect(25,25,25,25);
                     		break;
                         case "Professor Plum": 
                     		ctx.fillStyle= "#8E4585";
                         	ctx.fillRect(50,25,25,25);
-                        	ctx.strokeRect(50,25,25,25);
                     		break;
                     	default:
                     		alert("player not found");
@@ -345,24 +331,26 @@
 					data: "action=accusation" + "&room=" + selectedLocation + "&suspect=" + selectedSuspect  + "&weapon=" + selectedWeapon , // for a move action=move&location=hallway5
 					success: function(response) {
 					},
-					dataType: "json"
+					dataType: "json",
+			  		timeout: 30000 
 				});
 				
+				alert("Accusation made");
 		    	  $.ajax({url: "${pageContext.request.contextPath}/v1",
-		    			type: "GET",
-		    			success: function(response){
-		    	            var response = response;
-		    	            var playerName = $.cookie("playerName");
-		    				var failedAccusation = response.players[playerName].failedAccusation;
-							if (failedAccusation == true)
-								{
-								alert("You lost the game!");
-								}
-		    	            }
-		  				}, 
-		  				dataType: "json", 
-		  				complete: poll, 
-		  				timeout: 30000 
+		    		type: "GET",
+		    		success: function(response){
+		    	    	var response = response;
+		    	        var playerName = $.cookie("playerName");
+		    			var failedAccusation = response.players[playerName].failedAccusation;
+						if (failedAccusation == true)
+						{
+							alert("You lost the game!");
+							
+						}
+		    	    }, 
+		  			dataType: "json", 
+		  			complete: poll, 
+		  			timeout: 30000 
 		  		});
 				
 			
@@ -371,8 +359,8 @@
 		    {
 		        e.preventDefault();
 		    }
-	});    
-	$("#disproveButton").click(function() {
+	});
+/* 	$("#disproveButton").click(function() {
 		var f = document.getElementById("disprovableCardsList");
 		var selectedCard = f.options[f.selectedIndex].id;
 		if (selectedCard == "aaa") {
@@ -392,8 +380,8 @@
 		//clear the UI once disprove method is completed
 		resetUI();
 	});
-	
-	$("#suggestButton").click(function() {
+	 */
+/* 	$("#suggestButton").click(function() {
 		  var f = document.getElementById("suspectList");
 		  var selectedSuspect = f.options[f.selectedIndex].id;
 		  var g = document.getElementById("weaponList");
@@ -413,12 +401,9 @@
 			});
 			
 			//check back to see if the clueless json model if the list of 
-			//
-			
-			
-			
+			//			
 		}
-	});
+	}); */
 
 	$("input:radio[name=turnActionGroup]").click(function(){
 	      var value = $(this).attr("id");
@@ -492,7 +477,7 @@
 		    	dataType: "json"
 		    });
 	});
-	
+/* 	
 	function disprove()
 	{
   	  $.ajax({url: "${pageContext.request.contextPath}/v1",
@@ -518,7 +503,7 @@
 			complete: poll, 
 			timeout: 30000 
 	)
-	}
+	} */
 	
 	function resetUI(){
 	     //the movable location and the cards to disprove will have 
@@ -528,15 +513,19 @@
 		 });
 	     $("#movablelocationList").empty().append('<option id="aaa" value="aaa">-Movable Locations-</option>');
 	     $("#disprovableCardsList").empty().appnd('<option id="aaa" value="aaa">-Select a card-</option>');
+		 hideUI();
+	}
+    
+	function hideUI(){
 	     $("#movablelocationList").hide();
+	     $("#moveButton").hide();
+	     $("#disprovableCardsList").hide();
 	     $("#locationList").hide();
 	  	 $("#suspectList").hide();
 	  	 $("#weaponList").hide();
 	     $("#accuseButton").hide();
 	     $("#suggestButton").hide();
-	     $("#moveButton").hide();
 	}
-    
   //end bracket for ready	
   });
   </script>  
