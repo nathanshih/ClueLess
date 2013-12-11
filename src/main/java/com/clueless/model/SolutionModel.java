@@ -1,8 +1,7 @@
 package com.clueless.model;
 
 /**
- * The SolutionModel holds the solution for this game as well as if it has been solved by
- * any active player.
+ * The SolutionModel holds the solution for the current game.
  * @author nshih
  */
 public class SolutionModel {
@@ -12,7 +11,6 @@ public class SolutionModel {
 	private String suspect;
 	private String weapon;
 	private String room;
-	private String solvedBy;
 
 	private SolutionModel() {
 		
@@ -49,12 +47,4 @@ public class SolutionModel {
 	public void setRoom(String room) {
 		this.room = room;
 	}
-
-	public String getSolvedBy() {
-		return solvedBy;
-	}
-
-	public void setSolvedBy(String solvedBy) {
-		this.solvedBy = solvedBy;
-	}	
 }
