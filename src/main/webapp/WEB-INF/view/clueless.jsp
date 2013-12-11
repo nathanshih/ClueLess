@@ -63,6 +63,8 @@
 		<canvas id="boardCanvas" width="152" height="500" style="background: url(http://i.imgur.com/B1K3vHh.png) no-repeat center center;"></canvas>
 		<p>Cards in hand:<p>
 		<textarea id="cardsInHand" rows="6" cols="15" readonly></textarea>
+		<p>Messages:<p>
+		<textarea id="gameMessages" rows="6" cols="40" readonly></textarea>
     	<p>Players still in lobby:<p>
   		<canvas id="tokensNotInPlay" width="100" height="96" ></canvas>
   	</div>
@@ -159,6 +161,31 @@
 	    			type: "GET",
 	    			success: function(response){
 	    	            var response = response;
+
+	    	            //check to see if game has been won
+	    	            if (response.solvedBy != null)
+	    	            {
+	    	            	var wonBy = "";
+	    	            	wonBy = wonBy + response.solvedBy + "has won the game!"
+	    	            	$("#gameMessages").text(msg).css("color", "green");
+	    	            	//jump to end game function, lock the board, something
+	    	            }
+	    	            
+	    	            //check for accusation messages
+	    	            if (responce.makingAccusation != null){
+	    	            	var accusation = responce.accusation;
+	    	            	var msg = "";
+	    	            	msg = msg + responce.makingAccusation + " made the accusation";
+	    	            	
+	    	            	$.each(accusation, function(key, value){
+	    	            		msg = msg + " " + value;
+	    	            	});
+	    	            	msg = msg + "\n";
+		    	            $("#gameMessages").text(msg).css("color", "black");	
+	    	            }
+	    	            
+	    	            //check for suggestions
+	    	            
 	    	            var whoseTurn = response.whoseTurn;
 	    	            //check for won game (ie check each failedaccusation for each player for )
 	    	            //hmmm how will that work? they are always false
@@ -301,9 +328,10 @@
 					url: "${pageContext.request.contextPath}/v1",
 					data: "action=move" + "&location=" + selectedLocation,
 					success: function(response) {
-						alert(response.suspect + " moved to " + selectedLocation);
-						//deselect the radio move button and disble it
-						//hide the moveList and Button
+						var move = 'moveRB';
+						$("input[type=radio][value=" + move + "]").prop("disabled",true);
+						resetUI();
+						
 					},
 					dataType: "json"
 				});
