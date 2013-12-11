@@ -24,6 +24,7 @@ public class ClueLessModel {
 	private ArrayList<String> suggestion;
 	private String makingAccusation;
 	private ArrayList<String> accusation;
+	private String solvedBy;
 	private HashMap<String, Player> players;
 	private HashMap<String, Room> rooms;
 	private HashMap<String, Hallway> hallways;
@@ -117,6 +118,14 @@ public class ClueLessModel {
 		accusation.clear();
 	}
 	
+	public String getSolvedBy() {
+		return solvedBy;
+	}
+
+	public void setSolvedBy(String solvedBy) {
+		this.solvedBy = solvedBy;
+	}
+
 	public HashMap<String, Player> getPlayers() {
 		return players;
 	}

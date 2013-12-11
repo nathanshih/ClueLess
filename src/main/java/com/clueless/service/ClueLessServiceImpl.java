@@ -294,7 +294,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 		if (room.equals(solutionModel.getRoom()) 
 			&& suspect.equals(solutionModel.getSuspect()) 
 			&& weapon.equals(solutionModel.getWeapon())) {
-			solutionModel.setSolvedBy(playerName);
+			clueLessModel.setSolvedBy(playerName);
 		} else {
 			Player player = players.get(playerName);
 			player.setFailedAccusation(true);
