@@ -172,10 +172,10 @@
 	    	            }
 	    	            
 	    	            //check for accusation messages
-	    	            if (responce.makingAccusation != null){
-	    	            	var accusation = responce.accusation;
+	    	            if (response.makingAccusation != null){
+	    	            	var accusation = response.accusation;
 	    	            	var msg = "";
-	    	            	msg = msg + responce.makingAccusation + " made the accusation";
+	    	            	msg = msg + response.makingAccusation + " made the accusation";
 	    	            	
 	    	            	$.each(accusation, function(key, value){
 	    	            		msg = msg + " " + value;
