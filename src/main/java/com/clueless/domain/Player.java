@@ -8,8 +8,8 @@ public class Player {
 	
 	private String suspect;
 	private ArrayList<String> cardsInHand;
-	private boolean canDisprove;
 	private boolean failedAccusation;
+	private boolean canSuggest;
 	private String location;
 	private ArrayList<String> movableLocations;
 	private int turnPosition;
@@ -17,8 +17,8 @@ public class Player {
 	public Player(String suspect) {
 		this.setSuspect(suspect);
 		cardsInHand = new ArrayList<String>();
-		canDisprove = false;
 		setFailedAccusation(false);
+		setCanSuggest(false);
 		movableLocations = new ArrayList<String>(4); // at most 4 movable locations (ex. the Billard Room)
 	}
 	
@@ -43,14 +43,14 @@ public class Player {
 		this.cardsInHand = cardsInHand;
 	}
 
-	public boolean isCanDisprove() {
-		return canDisprove;
+	public void addCard(String card) {
+		cardsInHand.add(card);
 	}
-
-	public void setCanDisprove(boolean canDisprove) {
-		this.canDisprove = canDisprove;
+	
+	public void removeCard(Card card) {
+		cardsInHand.remove(card);
 	}
-
+	
 	public boolean isFailedAccusation() {
 		return failedAccusation;
 	}
@@ -59,12 +59,12 @@ public class Player {
 		this.failedAccusation = failedAccusation;
 	}
 
-	public void addCard(String card) {
-		cardsInHand.add(card);
+	public boolean isCanSuggest() {
+		return canSuggest;
 	}
-	
-	public void removeCard(Card card) {
-		cardsInHand.remove(card);
+
+	public void setCanSuggest(boolean canSuggest) {
+		this.canSuggest = canSuggest;
 	}
 	
 	public String getLocation() {

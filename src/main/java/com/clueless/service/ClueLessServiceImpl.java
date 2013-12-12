@@ -199,6 +199,11 @@ public class ClueLessServiceImpl implements ClueLessService {
 	public ClueLessModel movePlayer(String playerName, String location) {
 		Player player = players.get(playerName);
 		player.setLocation(location);
+		if (rooms.containsKey(location)) {
+			player.setCanSuggest(true);
+		} else {
+			player.setCanSuggest(false);
+		}
 		
 		for (SuspectToken suspectToken : suspectTokens) {
 			if (suspectToken.getTokenName().equals(player.getSuspect())) {
@@ -221,7 +226,9 @@ public class ClueLessServiceImpl implements ClueLessService {
 	public SuggestionModel makeSuggestion(String playerName, String suspect, String weapon) {
 		suggestionModel = new SuggestionModel();
 		
-		String room = players.get(playerName).getLocation();
+		Player player = players.get(playerName);
+		String room = player.getLocation();
+		player.setCanSuggest(false);
 		
 		// add suggestion information to the ClueLessModel so other clients can see it
 		clueLessModel.setMakingSuggestion(playerName);
@@ -251,14 +258,15 @@ public class ClueLessServiceImpl implements ClueLessService {
 		}
 		
 		// if exists, find a player who can disprove the suggestion
+		String nextPlayerName = playerName;
 		while (clueLessModel.getWhoCanDisprove() == null) {
-			playerName = getNextPlayerName(playerName);
-			Player player = players.get(playerName);
-			ArrayList<String> cardsInHand = player.getCardsInHand();
+			nextPlayerName = getNextPlayerName(nextPlayerName);
+			Player nextPlayer = players.get(nextPlayerName);
+			ArrayList<String> cardsInHand = nextPlayer.getCardsInHand();
 			
 			// check to see if the player can disprove the suggestion 
 			if (cardsInHand.contains(room) || cardsInHand.contains(suspect) || cardsInHand.contains(weapon)) {
-				clueLessModel.setWhoCanDisprove(playerName);
+				clueLessModel.setWhoCanDisprove(nextPlayerName);
 				
 				// grab all the cards the player can disprove the suggestion with
 				for (String card : cardsInHand) {
