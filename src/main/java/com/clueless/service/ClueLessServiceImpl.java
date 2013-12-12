@@ -199,11 +199,6 @@ public class ClueLessServiceImpl implements ClueLessService {
 	public ClueLessModel movePlayer(String playerName, String location) {
 		Player player = players.get(playerName);
 		player.setLocation(location);
-		if (rooms.containsKey(location)) {
-			player.setCanSuggest(true);
-		} else {
-			player.setCanSuggest(false);
-		}
 		
 		for (SuspectToken suspectToken : suspectTokens) {
 			if (suspectToken.getTokenName().equals(player.getSuspect())) {
@@ -212,7 +207,14 @@ public class ClueLessServiceImpl implements ClueLessService {
 			}
 		}
 		
-		updatePlayerMovableLocations();
+		if (!player.isFailedAccusation()) {
+			if (rooms.containsKey(location)) {
+				player.setCanSuggest(true);
+			} else {
+				player.setCanSuggest(false);
+			}
+			updatePlayerMovableLocations();
+		}
 		
 		return clueLessModel;
 	}
@@ -306,6 +308,13 @@ public class ClueLessServiceImpl implements ClueLessService {
 		} else {
 			Player player = players.get(playerName);
 			player.setFailedAccusation(true);
+			player.setCanSuggest(false);
+			player.clearMovableLocations();
+			
+			// if player is in a hallway, move them to the accusing room so that they aren't blocking
+			if (hallways.containsKey(player.getLocation())) {
+				movePlayer(playerName, room);
+			}
 		}
 		
 		return solutionModel;
