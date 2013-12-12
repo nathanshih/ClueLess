@@ -263,6 +263,12 @@ public class ClueLessServiceImpl implements ClueLessService {
 		String nextPlayerName = playerName;
 		while (clueLessModel.getWhoCanDisprove() == null) {
 			nextPlayerName = getNextPlayerName(nextPlayerName);
+			
+			// no players can disprove so exit loop
+			if (nextPlayerName.equals(playerName)) {
+				break;
+			}
+			
 			Player nextPlayer = players.get(nextPlayerName);
 			ArrayList<String> cardsInHand = nextPlayer.getCardsInHand();
 			
