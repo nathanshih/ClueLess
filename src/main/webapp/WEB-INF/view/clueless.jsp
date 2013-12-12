@@ -129,6 +129,7 @@
   <script type="text/javascript">
   /* alert("In script"); */
   $(document).ready(function() {
+	cardsInHand();
     poll();
     
     // Leave game
@@ -563,7 +564,24 @@
 		    });
 	});
 
-
+	function cardsInHand(){
+		$.ajax({url: "${pageContext.request.contextPath}/v1",
+			type: "GET",
+			success: function(response){
+		    	var response = response;
+		    	var playerName = $.cookie("playerName");
+		    	var cardsInHand = response.players[playerName].cardsInHand;
+				var msg = "";
+				$.each(cardsInHand, function(key, value) {
+					msg = msg + value + "\n";
+				});
+		    	$("#cardsInHand").text(msg).css("color", "black");
+		    }, 
+			dataType: "json",
+			timeout: 30000 
+		});
+	}
+	
 	function disprove()
 	{
 	    $("#disprovableCardsList").show();
