@@ -185,6 +185,67 @@
 	    	            }
 	    	            
 	    	            //check for suggestions
+	    	    	    if (response.makingSuggestion != null){
+	    	    	    	
+	    	    	    	//we need to get the solution object here
+	    	    	    	//and check to see if disprovig card has been set
+	    	    	    	//otehrwise as soon as a disproveing card is posted
+	    	    	    	//whoCanDisprove is reset to null and then it appears
+	    	    	    	//that no one can disprove the suggestion
+	    	    	    	$.ajax({url: "${pageContext.request.contextPath}/v1",
+								type: "GET",
+								data: "action=suggestion",
+								success: function(suggestionResponse)
+								{
+ 									var suggestionResponse = suggestionResponse;
+									var disprovingCard = suggestionResponse.disprovingCard;
+			    	    	    	
+									var suggestion = response.suggestion;
+			    	    	        var msg = "";
+			    	    	        msg = msg + response.makingSuggestion + " made the suggestion: ";  	
+			    	    	        
+			    	    	        $.each(suggestion, function(key, value){
+			    	    	        	msg = msg + " " + value;
+			    	    	        });
+			    	    	        msg = msg + "\n";
+									
+			    	    	        if (disprovingCard != null){
+			    		    	    	if (response.makingSuggestion ==$.cookie("playerName")){
+			    		    	    		msg = response.whoCanDisprove + " showed you " + disprovingCard;
+			    		    	    		$("#gameMessages").text( msg ).css("color", "black");
+			    				    		$("#endTurnButton").attr("disabled", false); 
+			    		    	    	}
+									}
+									else {
+				    	    	    	//If the suggestion cant be disproven
+				    		    	    if (response.whoCanDisprove == null){
+				    		    	    	//let everyone know what the suggestion was and by whom
+				    		    	    	msg = msg + "\tIt could not be disproven";
+				    		    	    	$("#gameMessages").text( msg ).css("color", "black");
+				    		    	    	
+				    		    	    	//and unlock the suggestors end turn button
+				    		    	    	if (response.makingSuggestion ==$.cookie("playerName")){
+				    				    		$("#endTurnButton").attr("disabled", true); 
+				    		    	    	}
+				    		    	    }
+				    	    	        //or if it can be disproven
+				    		    	    else {
+				    		    	    	//let everyone know who can disrpove it
+				    		    	    	msg = msg + "\tIt can be disproven by " + response.whoCanDisprove;
+				    		    	    	$("#gameMessages").text( msg ).css("color", "black");
+				    		    	    	//and then take the player that can disrpove it to the disprove method
+				    		    	    	if (response.whoCanDisprove == $.cookie("playerName")){
+				    		    	    		disprove();
+				    		    	    	}
+				    		    	    }	
+									}
+
+								}, 
+								dataType: "json", 
+								timeout: 30000 
+	  						});
+	   	    	    	}
+	    	            
 	    	            
 	    	            var whoseTurn = response.whoseTurn;
 	    	            //check for won game (ie check each failedaccusation for each player for )
@@ -193,19 +254,6 @@
 	    	            //if we got here then the game is still active if it's our players turn
 	    	            //wait for thier action
 	    	            var playerName = $.cookie("playerName");
-	    	            
-    	            	
-	    	            //check for can disprove
-	    	            //if canDisprove == true
-	    	            //populate disprovable card list
-	    	            //unlock disprovable card list and button
-/* 	    	            var canDisprove = response.players[playerName].canDisprove;
-	    	            if (canDisprove==true){
-	    	            	//this player, even though its not their turn can disprove,
-	    	            	// player needs to disprove
-	    	            	disprove();	    	            	
-	    	            } */
-	    	            
 	    	            //to get here ther game is still active, this player can not disprove (or nothing to disprove)
 	    	            //and it's now this players turn
 	    	            if (whoseTurn == playerName) {
@@ -388,9 +436,11 @@
 		        e.preventDefault();
 		    }
 	});
-/* 	$("#disproveButton").click(function() {
+
+	$("#disproveButton").click(function() {
 		var f = document.getElementById("disprovableCardsList");
-		var selectedCard = f.options[f.selectedIndex].id;
+		var selectedCard = f.options[f.selectedIndex].value;
+		alert("You selected " + selectedCard + "to disprove the suggestion");
 		if (selectedCard == "aaa") {
 			alert("You need to select a one of the disprovable cards");
 		}
@@ -399,7 +449,6 @@
 				url: "${pageContext.request.contextPath}/v1",
 				data: "action=disprove" + "&card=" + selectedCard,
 				success: function(response) {
-					alert("You selected " + selectedCard + "to disprove the suggestion");
 				},
 				dataType: "json"
 			});
@@ -408,30 +457,38 @@
 		//clear the UI once disprove method is completed
 		resetUI();
 	});
-	 */
-/* 	$("#suggestButton").click(function() {
-		  var f = document.getElementById("suspectList");
-		  var selectedSuspect = f.options[f.selectedIndex].id;
-		  var g = document.getElementById("weaponList");
-		  var selectedWeapon = g.options[g.selectedIndex].id;
-		  if (selectedSuspect == "aaa" || selectedWeapon == "aaa"){
-			  alert("You need to select a suspect and a weapon before you can make an accusation");
-			  poll();
-		  }
-		  else{
-			$.ajax({type: "POST",
-				url: "${pageContext.request.contextPath}/v1",
-				data: "action=accusation" + "&suspect=" + selectedSuspect  + "&weapon=" + selectedWeapon , // for a move action=move&location=hallway5
-				success: function(response) {
-					alert("Suggestion made");
-				},
-				dataType: "json"
-			});
-			
-			//check back to see if the clueless json model if the list of 
-			//			
-		}
-	}); */
+
+		$("#suggestButton").click(function(){
+			  var f = document.getElementById("suspectList");
+			  var selectedSuspect = f.options[f.selectedIndex].id;
+			  var g = document.getElementById("weaponList");
+			  var selectedWeapon = g.options[g.selectedIndex].id;
+			  if (selectedSuspect == "aaa" || selectedWeapon == "aaa"){
+				  alert("You need to select a suspect and a weapon before you can make an suggestion");
+			  }
+			  else{
+				$.ajax({type: "POST",
+					url: "${pageContext.request.contextPath}/v1",
+					data: "action=suggestion" + "&suspect=" + selectedSuspect  + "&weapon=" + selectedWeapon,
+					success: function(response) {
+						var suggest = 'suggestRB';
+						$("input[type=radio][value=" + suggest + "]").prop("disabled",true);
+						if (response.disprovableCards === null){
+							$("#gameMessages").text("No one could disprove your suggestion").css("color", "black");
+						}
+						else{
+				    		var msg = "";
+				    		msg = msg + "A player can disprove your suggestion\n";
+				    		$("#gameMessages").text(msg).css("color", "black");
+				    		//unlock this in the cofunction under poll
+				    		$("#endTurnButton").attr("disabled", true); 
+						}
+					},
+		  			timeout: 30000,
+					dataType: "json"
+				});
+			  }
+		});
 
 	$("input:radio[name=turnActionGroup]").click(function(){
 	      var value = $(this).attr("id");
@@ -505,14 +562,19 @@
 		    	dataType: "json"
 		    });
 	});
-/* 	
+
+
 	function disprove()
 	{
-  	  $.ajax({url: "${pageContext.request.contextPath}/v1",
+	    $("#disprovableCardsList").show();
+	  	$("#disproveButton").show();
+	  	$.ajax({url: "${pageContext.request.contextPath}/v1",
 			type: "GET",
 			data: "action=suggestion",
-			success: function(response){
-	            var response = response;
+			success: function(response)
+			{
+				/*alert("I am in disprove"); */
+ 				var response = response;
 				var disprovableCards = response.disprovableCards;
 				var duplicateFound = false;
 				$.each(disprovableCards, function(outterKey, outterValue) {
@@ -525,29 +587,28 @@
 				        $("#disprovableCardsList").append('<option value="'+outterValue+'">'+outterValue+'</option>');
 				   }
 				});
-	        }
 			}, 
 			dataType: "json", 
-			complete: poll, 
 			timeout: 30000 
-	)
-	} */
+	  	});
+	};
 	
 	function resetUI(){
 	     //the movable location and the cards to disprove will have 
 	     //to be emptied and repopualated with default values
-	     $("input:radio[name='thename']").each(function(i) {
+	     $("input:radio[name='turnActionGroup']").each(function(i) {
        		this.checked = false;
 		 });
 	     $("#movablelocationList").empty().append('<option id="aaa" value="aaa">-Movable Locations-</option>');
-	     $("#disprovableCardsList").empty().appnd('<option id="aaa" value="aaa">-Select a card-</option>');
+	     /* $("#disprovableCardsList").empty().appnd('<option id="aaa" value="aaa">-Select a card-</option>'); */
 		 hideUI();
 	}
     
 	function hideUI(){
 	     $("#movablelocationList").hide();
 	     $("#moveButton").hide();
-	     $("#disprovableCardsList").hide();
+		 $("#disprovableCardsList").show();
+		 $("#disproveButton").show();
 	     $("#locationList").hide();
 	  	 $("#suspectList").hide();
 	  	 $("#weaponList").hide();
