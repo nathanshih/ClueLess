@@ -15,7 +15,10 @@
         label { width:70px; display:inline-block;}
         .hide { display: none; }
         .error { color: red; font-size: 0.8em; }
-        .inlineTable { display: inline-block;}
+        .inlineTable { display: inline-block; }
+        #boardAndPad { display:inline-block; } 
+        #lobbyAndCards { display:inline-block; }
+        #messagesAndActions { display:inline-block; }
       </style>
   </head>
   <body>
@@ -60,20 +63,25 @@
       			<td width="100" height="96" align="center"><canvas id="Kitchen" width="100" height="96"/></td>
     		</tr>
   	  	</table>
-		<canvas id="boardCanvas" width="152" height="500" style="background: url(http://i.imgur.com/B1K3vHh.png) no-repeat center center;"></canvas>
+		<canvas id="padCanvas" width="152" height="500" style="background: url(http://i.imgur.com/B1K3vHh.png) no-repeat center center;"></canvas>
+	</div>
+	<div id="lobbyAndCards">
 		<p>Cards in hand:<p>
 		<textarea id="cardsInHand" rows="6" cols="15" readonly></textarea>
-		<p>Messages:<p>
-		<textarea id="gameMessages" rows="6" cols="40" readonly></textarea>
+		<br>
     	<p>Players still in lobby:<p>
   		<canvas id="tokensNotInPlay" width="100" height="96" ></canvas>
   	</div>
+  	<br>
+  	<div id="messagesAndActions">
+  	<p>Messages:<p>
+	<textarea id="gameMessages" rows="6" cols="40" readonly></textarea>
   		
-	<div id="radioButtons">
-		<input type="radio" name="turnActionGroup" id="moveRB" value="moveRB" >Move
-		<input type="radio" name="turnActionGroup" id="suggestRB" value="suggestRB" >Suggest
-		<input type="radio" name="turnActionGroup" id="accuseRB" value="accuseRB" >Accuse<br/>
-	</div>
+		<div id="radioButtons">
+			<input type="radio" name="turnActionGroup" id="moveRB" value="moveRB" >Move
+			<input type="radio" name="turnActionGroup" id="suggestRB" value="suggestRB" >Suggest
+			<input type="radio" name="turnActionGroup" id="accuseRB" value="accuseRB" >Accuse<br/>
+		</div>
 	
 		<select id="movablelocationList" name="movablelocationList">
        		<option id="aaa" value="aaa">-Movable Locations-</option>   
@@ -115,6 +123,7 @@
 		<select id="disprovableCardsList" name="disprovableCardsList">
         	<option id="aaa" value="aaa">-Select a card-</option>
     	</select>
+
     <br/>
     
     	<button id="moveButton" >Move</button>
@@ -124,7 +133,7 @@
     	<br/>
     	<button id="endTurnButton" >End Turn</button>
     	<button id="leaveGameButton" >Leave Game</button>
-
+    </div>
 	</div>
   <script type="text/javascript">
   /* alert("In script"); */
@@ -398,9 +407,8 @@
 		  var selectedWeapon = g.options[g.selectedIndex].id;
 		  if (selectedLocation == "aaa" || selectedSuspect == "aaa" || selectedWeapon == "aaa"){
 			  alert("You need to select a room, suspect, and a weapon before you can make an accusation");
-			  poll();
 		  }
-		  
+		  else {
 		  if(confirm("Are you sure you want to accuse " +selectedSuspect + " in the " + selectedLocation + " with the " + selectedWeapon + "?"))
 		    {
 				$.ajax({type: "POST",
@@ -426,7 +434,6 @@
 						}
 		    	    }, 
 		  			dataType: "json", 
-		  			complete: poll, 
 		  			timeout: 30000 
 		  		});
 				
@@ -436,6 +443,7 @@
 		    {
 		        e.preventDefault();
 		    }
+		  }
 	});
 
 	$("#disproveButton").click(function() {
@@ -524,7 +532,6 @@
 	    	            }
 	  				}, 
 	  				dataType: "json", 
-	  				complete: poll, 
 	  				timeout: 30000 
 	  		});
 	      } 
@@ -618,15 +625,15 @@
        		this.checked = false;
 		 });
 	     $("#movablelocationList").empty().append('<option id="aaa" value="aaa">-Movable Locations-</option>');
-	     /* $("#disprovableCardsList").empty().appnd('<option id="aaa" value="aaa">-Select a card-</option>'); */
+	     $("#disprovableCardsList").empty().appnd('<option id="aaa" value="aaa">-Select a card-</option>');
 		 hideUI();
 	}
     
 	function hideUI(){
 	     $("#movablelocationList").hide();
 	     $("#moveButton").hide();
-		 $("#disprovableCardsList").show();
-		 $("#disproveButton").show();
+		 $("#disprovableCardsList").hide();
+		 $("#disproveButton").hide();
 	     $("#locationList").hide();
 	  	 $("#suspectList").hide();
 	  	 $("#weaponList").hide();
