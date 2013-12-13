@@ -18,8 +18,8 @@
     "players": {
         "Nathan": {
             "suspect": "Miss Scarlet",
-            "canDisprove": false,
             "failedAccusation": false,
+            "canSuggest": true,
             "location": "Conservatory",
             "cardsInHand": [
                 "Colonel Mustard",
@@ -37,8 +37,8 @@
         },
         "Shawn": {
             "suspect": "Colonel Mustard",
-            "canDisprove": false,
             "failedAccusation": false,
+            "canSuggest": true,
             "location": "Hallway10",
             "cardsInHand": [
                 "Miss Scarlet",
@@ -55,8 +55,8 @@
         },
         "Christina": {
             "suspect": "Mr. Green",
-            "canDisprove": false,
             "failedAccusation": false,
+            "canSuggest": true,
             "location": "Hall",
             "cardsInHand": [
                 "Wrench",
