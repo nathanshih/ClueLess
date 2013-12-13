@@ -9,11 +9,21 @@ import java.util.ArrayList;
  */
 public class SuggestionModel {
 
+	private boolean canBeDisproven;
 	private String disprovingCard;
 	private ArrayList<String> disprovableCards;
 	
 	public SuggestionModel() {
 		disprovableCards = new ArrayList<String>();
+		setCanBeDisproven(false);
+	}
+
+	public boolean isCanBeDisproven() {
+		return canBeDisproven;
+	}
+
+	public void setCanBeDisproven(boolean canBeDisproven) {
+		this.canBeDisproven = canBeDisproven;
 	}
 
 	public String getDisprovingCard() {

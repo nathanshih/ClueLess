@@ -75,7 +75,9 @@
   	<br>
   	<div id="messagesAndActions">
   	<p>Messages:<p>
-	<textarea id="gameMessages" rows="6" cols="40" readonly></textarea>
+	<textarea id="gameMessages" rows="6" cols="90" readonly></textarea>
+  		
+  		<br>You are playing as: <input type="text" name="playerSuspectToken" id="playerSuspectToken" readonly><br>
   		
 		<div id="radioButtons">
 			<input type="radio" name="turnActionGroup" id="moveRB" value="moveRB" >Move
@@ -171,7 +173,10 @@
 	    			type: "GET",
 	    			success: function(response){
 	    	            var response = response;
-
+	    	            var playerName = $.cookie("playerName");
+	    	            
+	    	            $("#playerSuspectToken").val(response.players[playerName].suspect);
+	    	            
 	    	            //check to see if game has been won
 	    	            if (response.solvedBy != null)
 	    	            {
@@ -212,15 +217,16 @@
 			    	    	    	
 									var suggestion = response.suggestion;
 			    	    	        var msg = "";
-			    	    	        msg = msg + response.makingSuggestion + " made the suggestion: ";  	
+			    	    	        msg = response.makingSuggestion + " suggests the crime was commited in the " + suggestion[0] + " by " + suggestion[1] + " using the " + suggestion[2] + ".";
+			    	    	        //msg = msg + response.makingSuggestion + " made the suggestion: ";  	
 			    	    	        
-			    	    	        $.each(suggestion, function(key, value){
-			    	    	        	msg = msg + " " + value;
-			    	    	        });
+			    	    	        //$.each(suggestion, function(key, value){
+			    	    	        //	msg = msg + " " + value;
+			    	    	        //});
 			    	    	        msg = msg + "\n";
 									
 			    	    	        if (disprovingCard != null){
-			    		    	    	if (response.makingSuggestion ==$.cookie("playerName")){
+			    		    	    	if (response.makingSuggestion == playerName){
 			    		    	    		msg = response.whoCanDisprove + " showed you " + disprovingCard;
 			    		    	    		$("#gameMessages").text( msg ).css("color", "black");
 			    				    		$("#endTurnButton").attr("disabled", false); 
@@ -228,23 +234,23 @@
 									}
 									else {
 				    	    	    	//If the suggestion cant be disproven
-				    		    	    if (response.whoCanDisprove == null){
+				    		    	    if (suggestionResponse.canBeDisproven == false){
 				    		    	    	//let everyone know what the suggestion was and by whom
-				    		    	    	msg = msg + "\tIt could not be disproven";
+				    		    	    	msg = msg + "\nIt could not be disproven";
 				    		    	    	$("#gameMessages").text( msg ).css("color", "black");
 				    		    	    	
 				    		    	    	//and unlock the suggestors end turn button
-				    		    	    	if (response.makingSuggestion ==$.cookie("playerName")){
+				    		    	    	if (response.makingSuggestion == playerName){
 				    				    		$("#endTurnButton").attr("disabled", true); 
 				    		    	    	}
 				    		    	    }
 				    	    	        //or if it can be disproven
 				    		    	    else {
 				    		    	    	//let everyone know who can disrpove it
-				    		    	    	msg = msg + "\tIt can be disproven by " + response.whoCanDisprove;
+				    		    	    	msg = msg + "\nIt can be disproven by " + response.whoCanDisprove;
 				    		    	    	$("#gameMessages").text( msg ).css("color", "black");
 				    		    	    	//and then take the player that can disrpove it to the disprove method
-				    		    	    	if (response.whoCanDisprove == $.cookie("playerName")){
+				    		    	    	if (response.whoCanDisprove == playerName){
 				    		    	    		disprove();
 				    		    	    	}
 				    		    	    }	
@@ -263,7 +269,7 @@
 	    	            
 	    	            //if we got here then the game is still active if it's our players turn
 	    	            //wait for thier action
-	    	            var playerName = $.cookie("playerName");
+	    	            //var playerName = $.cookie("playerName");
 	    	            //to get here ther game is still active, this player can not disprove (or nothing to disprove)
 	    	            //and it's now this players turn
 	    	            if (whoseTurn == playerName) {

@@ -25,7 +25,7 @@
 		<p>Welcome to the game of ClueLess!</p>
 		
 		Your name: <input type="text" name="playerName" id="playerName" value="">
-		<div id="playerNameResponse]"></div>
+		<div id="playerNameResponse"></div>
 		
 		<h2>Choose to play as:</h2>
 		<input type="radio" name="suspect" id="Miss Scarlet" value="Miss Scarlet">Miss Scarlet<br>

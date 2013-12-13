@@ -274,6 +274,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 			
 			// check to see if the player can disprove the suggestion 
 			if (cardsInHand.contains(room) || cardsInHand.contains(suspect) || cardsInHand.contains(weapon)) {
+				suggestionModel.setCanBeDisproven(true);
 				clueLessModel.setWhoCanDisprove(nextPlayerName);
 				
 				// grab all the cards the player can disprove the suggestion with
@@ -291,7 +292,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 	@Override
 	public SuggestionModel disproveSuggestion(String card) {
 		suggestionModel.setDisprovingCard(card);
-		clueLessModel.setWhoCanDisprove(null);
+		suggestionModel.setCanBeDisproven(false);
 		
 		return suggestionModel;
 	}
