@@ -190,10 +190,9 @@
 	    	            //check to see if game has been won
 	    	            if (response.solvedBy != null)
 	    	            {
-	    	            	var wonBy = "";
-	    	            	wonBy = wonBy + response.solvedBy + "has won the game!"
-	    	            	$("#gameMessages").text(msg).css("color", "green");
-	    	            	//jump to end game function, lock the board, something
+	    	            	var solvedBy = "";
+	    	            	solvedBy = solvedBy + response.solvedBy; 
+							endGame(solvedBy);
 	    	            }
 	    	            
 	    	            //check for accusation messages
@@ -704,6 +703,20 @@
 	  	 $("#weaponList").hide();
 	     $("#accuseButton").hide();
 	     $("#suggestButton").hide();
+	}
+	
+	function endTurn(solvedBy){
+    	var wonBy = "";
+    	wonBy = wonBy + response.solvedBy + "has won the game!";
+    	$("#gameMessages").text(wonBy).css("color", "green");
+    	if (solvedBy ==  $.cookie("playerName")){
+    		alert("You have won the game!");    		
+    	}
+    	else{
+    		alert("You have lost!\nThe murder was solved by + " + solvedBy);
+    	}
+
+    	//jump to end game function, lock the board, something
 	}
   //end bracket for ready	
   });
