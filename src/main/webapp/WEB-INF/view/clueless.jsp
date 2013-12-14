@@ -373,7 +373,7 @@
 	                    		ctx.fillStyle= "#8E4585";
 	                        	ctx.fillRect(50,25,25,25);
 	                    		break;
-	                        case "rope":
+	                        case "Rope":
 			                	ctx.strokeStyle="black";
 	                        	ctx.strokeText("r",0,75);
 	                        case "Revolver":
