@@ -334,124 +334,123 @@
     };
 
     function drawTokens() {
-        $.ajax({url: "${pageContext.request.contextPath}/v1",
-        	type: "GET",
-            success: function(response){
-            var rooms = response.rooms;
-            $.each(rooms, function (outterIndex, outterValue)
-           	{
-            	var room = outterIndex;
-            	var tokens = response.rooms[room].tokens;
-				$.each(tokens, function (innerIndex, innerValue) 
-				{
-	 				var token = innerIndex;
-	 				if (token !== 0){
-	 				var c=document.getElementById(room);
-		        	var ctx=c.getContext("2d");
-		            ctx.font="25px Arial";
-		            switch(token)
-		            {
-	                 	case "Colonel Mustard":
-	                    	ctx.fillStyle="#FFCC11";
-	               			ctx.fillRect(0,0,25,25);
-	                    	break;
-	                    case "Miss Scarlet":
-	                    	ctx.fillStyle= "#8C1717";
-	                        ctx.fillRect(25,0,25,25);
-	                    	break;
-	                   	case "Mrs. White":
-	                    	ctx.fillStyle= "#FFE9E9";
-	                        ctx.fillRect(50,0,25,25);
-	                    	break;
-	                  	case "Mr. Green":
-	                    	ctx.fillStyle= "#99CC32";
-	                    	ctx.fillRect(0,25,25,25);
-	                    	break;
-	                    case "Mrs. Peacock":
-	                    	ctx.fillStyle= "#016795";
-	                   		ctx.fillRect(25,25,25,25);
-	                    	break;
-	                 	case "Professor Plum": 
-	                    	ctx.fillStyle= "#8E4585";
-	                      	ctx.fillRect(50,25,25,25);
-	                    	break;
-	                 	case "Rope":
-			            	ctx.strokeStyle="black";
-	                      	ctx.strokeText("r",0,75);
-	                      	break;
-	                 	case "Revolver":
-			            	ctx.strokeStyle="black";
-	                       	ctx.strokeText("R",0,100);
-	                    	break;
-	                   	case "Candlestick":
-			                ctx.strokeStyle="black";
-	                        ctx.strokeText("C",25,75);
-	                    	break;
-	                    case "LeadPipe":
-			                ctx.strokeStyle="black";
-	                        ctx.strokeText("L",25,100);
-	                       	break;
-	                    case "Knife":
-			                ctx.strokeStyle="black";
-	                        ctx.strokeText("K",50,75);
-	                        break;
-	                   	case "Wrench":
-			                ctx.strokeStyle="black";
-	                        ctx.strokeText("W",50,100);
-	                      	break;
-	                    default:
-	                    	var bar = "test";
-		                }
-	 					}
-					}); 					
-			});
-            
-            var theHallways= response.hallways;
-			$.each(theHallways, function (outterIndex, outterValue)
-            {
-            	var hallway = outterIndex;
-             		if (response.hallways[hallway].token != null)
-             		{
-        				var playerTokens = response.hallways[hallway].token;
-             	        var d=document.getElementById(hallway);
-        	            var ctx=d.getContext("2d");
-        	            ctx.font="25px Arial";
-						switch(playerTokens)
-        	            {
-                        	case "Colonel Mustard":
-                               ctx.fillStyle="#FFCC11";
-                               ctx.fillRect(0,0,25,25);
-                               break;
-                            case "Miss Scarlet":
-                            		ctx.fillStyle= "#8C1717";
-                                	ctx.fillRect(25,0,25,25);
-                            		break;
-                      	     case "Mrs. White":
-                            		ctx.fillStyle= "#FFE9E9";
-                                	ctx.fillRect(50,0,25,25);
-                            		break;
-                            case "Mr. Green":
-                            		ctx.fillStyle= "#99CC32";
-                                	ctx.fillRect(0,25,25,25);
-                            		break;
-                            case "Mrs. Peacock":
-                            		ctx.fillStyle= "#016795";
-                                	ctx.fillRect(25,25,25,25);
-                            		break;
-                            case "Professor Plum": 
-                            		ctx.fillStyle= "#8E4585";
-                                	ctx.fillRect(50,25,25,25);
-                            		break;
-                        	default:
-                            		var foo = "test";
-        	               }
-        			}
-        		});
-			}, 
-            dataType: "json", 
-            timeout: 30000 
-		});
-	};
+        $.ajax({
+            url: "${pageContext.request.contextPath}/v1",
+            type: "GET",
+            success: function (response) {
+                var rooms = response.rooms;
+                $.each(rooms, function (outterIndex, outterValue) {
+                    var room = outterIndex;
+                    var tokens = response.rooms[room].tokens;
+                    if (tokens !== 0) {
+                        $.each(tokens, function (innerIndex, innerValue) {
+                            var token = innerValue;
+                            //alert(room + " " + token);
+                            var c = document.getElementById(room);
+                            var ctx = c.getContext("2d");
+                            ctx.font = "20px Arial";
+                            switch (token) {
+                                case "Colonel Mustard":
+                                    ctx.fillStyle = "#FFCC11";
+                                    ctx.fillRect(0, 0, 25, 25);
+                                    break;
+                                case "Miss Scarlet":
+                                    ctx.fillStyle = "#8C1717";
+                                    ctx.fillRect(25, 0, 25, 25);
+                                    break;
+                                case "Mrs. White":
+                                    ctx.fillStyle = "#FFE9E9";
+                                    ctx.fillRect(50, 0, 25, 25);
+                                    break;
+                                case "Mr. Green":
+                                    ctx.fillStyle = "#99CC32";
+                                    ctx.fillRect(0, 25, 25, 25);
+                                    break;
+                                case "Mrs. Peacock":
+                                    ctx.fillStyle = "#016795";
+                                    ctx.fillRect(25, 25, 25, 25);
+                                    break;
+                                case "Professor Plum":
+                                    ctx.fillStyle = "#8E4585";
+                                    ctx.fillRect(50, 25, 25, 25);
+                                    break;
+                                case "Rope":
+                                    ctx.strokeStyle = "black";
+                                    ctx.strokeText("r", 25, 50);
+                                    break;
+                                case "Revolver":
+                                    ctx.strokeStyle = "black";
+                                    ctx.strokeText("R", 50, 50);
+                                    break;
+                                case "Candlestick":
+                                    ctx.strokeStyle = "black";
+                                    ctx.strokeText("C", 75, 50);
+                                    break;
+                                case "LeadPipe":
+                                    ctx.strokeStyle = "black";
+                                    ctx.strokeText("L", 25, 75);
+                                    break;
+                                case "Knife":
+                                    ctx.strokeStyle = "black";
+                                    ctx.strokeText("K", 50, 75);
+                                    break;
+                                case "Wrench":
+                                    ctx.strokeStyle = "black";
+                                    ctx.strokeText("W", 75, 75);
+                                    break;
+                                default:
+                                    ctx.strokeStyle = "black";
+                            }
+                        });
+
+                        var theHallways = response.hallways;
+            			$.each(theHallways, function (outterIndex, outterValue)
+                        {
+                        	var hallway = outterIndex;
+                         		if (response.hallways[hallway].token != null)
+                         		{
+                    				var playerTokens = response.hallways[hallway].token;
+                         	        var d=document.getElementById(hallway);
+                    	            var ctx=d.getContext("2d");
+                    	            ctx.font="25px Arial";
+            						switch(playerTokens)
+                    	            {
+                                    	case "Colonel Mustard":
+                                           ctx.fillStyle="#FFCC11";
+                                           ctx.fillRect(0,0,25,25);
+                                           break;
+                                        case "Miss Scarlet":
+                                        		ctx.fillStyle= "#8C1717";
+                                            	ctx.fillRect(25,0,25,25);
+                                        		break;
+                                  	     case "Mrs. White":
+                                        		ctx.fillStyle= "#FFE9E9";
+                                            	ctx.fillRect(50,0,25,25);
+                                        		break;
+                                        case "Mr. Green":
+                                        		ctx.fillStyle= "#99CC32";
+                                            	ctx.fillRect(0,25,25,25);
+                                        		break;
+                                        case "Mrs. Peacock":
+                                        		ctx.fillStyle= "#016795";
+                                            	ctx.fillRect(25,25,25,25);
+                                        		break;
+                                        case "Professor Plum": 
+                                        		ctx.fillStyle= "#8E4585";
+                                            	ctx.fillRect(50,25,25,25);
+                                        		break;
+                                    	default:
+                                        		var foo = "test";
+                    	               }
+                    			}
+                    		});
+                    }
+                });
+            },
+            dataType: "json",
+            timeout: 30000
+        });
+    };
 
     $("#moveButton").click(function() {
 		  var e = document.getElementById("movablelocationList");
