@@ -396,7 +396,7 @@
                                     break;
                                 case "Wrench":
                                     ctx.strokeStyle = "black";
-                                    ctx.strokeText("W", 75, 80);
+                                    ctx.strokeText("W", 75, 0);
                                     break;
                                 default:
                                     ctx.strokeStyle = "black";
@@ -540,6 +540,7 @@
 	   	}
 		
 		//clear the UI once disprove method is completed
+		$("#disprovableCardsList").empty().append('<option id="aaa" value="aaa">-Select a card-</option>');
 		resetUI();
 	});
 
@@ -728,7 +729,6 @@
        		this.checked = false;
 		 });
 	     $("#movablelocationList").empty().append('<option id="aaa" value="aaa">-Movable Locations-</option>');
-	     $("#disprovableCardsList").empty().append('<option id="aaa" value="aaa">-Select a card-</option>');
 		 hideUI();
 	}
     
