@@ -376,27 +376,27 @@
                                     break;
                                 case "Rope":
                                     ctx.strokeStyle = "black";
-                                    ctx.strokeText("r", 25, 50);
+                                    ctx.strokeText("r", 25, 60);
                                     break;
                                 case "Revolver":
                                     ctx.strokeStyle = "black";
-                                    ctx.strokeText("R", 50, 50);
+                                    ctx.strokeText("R", 50, 60);
                                     break;
                                 case "Candlestick":
                                     ctx.strokeStyle = "black";
-                                    ctx.strokeText("C", 75, 50);
+                                    ctx.strokeText("C", 75, 60);
                                     break;
                                 case "LeadPipe":
                                     ctx.strokeStyle = "black";
-                                    ctx.strokeText("L", 25, 75);
+                                    ctx.strokeText("L", 25, 80);
                                     break;
                                 case "Knife":
                                     ctx.strokeStyle = "black";
-                                    ctx.strokeText("K", 50, 75);
+                                    ctx.strokeText("K", 50, 80);
                                     break;
                                 case "Wrench":
                                     ctx.strokeStyle = "black";
-                                    ctx.strokeText("W", 75, 75);
+                                    ctx.strokeText("W", 75, 80);
                                     break;
                                 default:
                                     ctx.strokeStyle = "black";
