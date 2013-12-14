@@ -338,20 +338,74 @@
         $.ajax({url: "${pageContext.request.contextPath}/v1",
         	type: "GET",
             success: function(response){
-            	$.each(response["players"], function (index, value) {
-                	var whichSuspect = value.suspect;  //returns character name
-                    if (value.location === null){
-                    	var whichRooms = "tokensNotInPlay";
-                    } else {
-                    	var whichRooms = value.location;
-                    }   
-                    var c=document.getElementById(whichRooms);
-                    var ctx=c.getContext("2d");
-                	ctx.strokeStyle="black";
-                    //I don't know why but I can't get or set color by function returns or variables.
-                    //It's little things like this that really make you hate a language.
-					
-                    switch(whichSuspect){
+			$.each(response["rooms"], function (outterIndex, outterValue)
+				{
+					var room = outterValue;
+					if (response.rooms[room].tokens!= null){ 
+						var tokens = response.rooms[room].tokens;
+						$.each(tokens, function (innerIndex, innerValue) 
+						{
+							var token = innerValue;
+		                    var c=document.getElementById(room);
+		                    var ctx=c.getContext("2d");
+		                    ctx.font="25px Arial";
+		                    switch(token){
+	                        case "Colonel Mustard":
+	                        	ctx.fillStyle="#FFCC11";
+	                        	ctx.fillRect(0,0,25,25);
+	                        	break;
+	                        case "Miss Scarlet":
+	                    		ctx.fillStyle= "#8C1717";
+	                        	ctx.fillRect(25,0,25,25);
+	                    		break;
+	                        case "Mrs. White":
+	                    		ctx.fillStyle= "#FFE9E9";
+	                        	ctx.fillRect(50,0,25,25);
+	                    		break;
+	                        case "Mr. Green":
+	                    		ctx.fillStyle= "#99CC32";
+	                        	ctx.fillRect(0,25,25,25);
+	                    		break;
+	                        case "Mrs. Peacock":
+	                    		ctx.fillStyle= "#016795";
+	                        	ctx.fillRect(25,25,25,25);
+	                    		break;
+	                        case "Professor Plum": 
+	                    		ctx.fillStyle= "#8E4585";
+	                        	ctx.fillRect(50,25,25,25);
+	                    		break;
+	                        case "rope":
+			                	ctx.strokeStyle="black";
+	                        	ctx.strokeText("r",0,75);
+	                        case "Revolver":
+			                	ctx.strokeStyle="black";
+	                        	ctx.strokeText("R",0,100);
+	                        case "Candlestick":
+			                	ctx.strokeStyle="black";
+	                        	ctx.strokeText("C",25,75);
+	                        case "LeadPipe":
+			                	ctx.strokeStyle="black";
+	                        	ctx.strokeText("L",25,100);
+	                        case "Knife":
+			                	ctx.strokeStyle="black";
+	                        	ctx.strokeText("K",50,75);
+	                        case "Wrench":
+			                	ctx.strokeStyle="black";
+	                        	ctx.strokeText("W",50,100);
+	                    	default:
+	                    		alert("Error token not found");
+	                   	}
+						}); 
+					}					
+				});
+			$.each(response["hallways"], function (outterIndex, outterValue)
+					{
+						if(response.hallways[hallway].token != null){
+						var hallway = outterValue;
+						var tokens = response.hallways[hallway].token;
+	                    var c=document.getElementById(hallway);
+	                    var ctx=c.getContext("2d");
+	                    switch(token){
                         case "Colonel Mustard":
                         	ctx.fillStyle="#FFCC11";
                         	ctx.fillRect(0,0,25,25);
@@ -377,10 +431,10 @@
                         	ctx.fillRect(50,25,25,25);
                     		break;
                     	default:
-                    		alert("player not found");
-                   	}
-                });
-                //need a loop to also draw weapons....
+                    		alert("Error token not found");
+	                    }
+						}
+					});
 			}, 
             dataType: "json", 
             timeout: 30000 
