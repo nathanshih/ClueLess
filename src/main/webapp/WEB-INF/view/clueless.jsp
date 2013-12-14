@@ -347,7 +347,7 @@
 							$.each(tokens, function (innerIndex, innerValue) 
 							{
 	 							var token = innerIndex;
-		                		/* alert(room + " " + token); */
+		                		alert(room + " " + token);
 	 							var c=document.getElementById(room);
 		                    	var ctx=c.getContext("2d");
 		                    	ctx.font="25px Arial";
@@ -408,9 +408,9 @@
 					}					
 				});
             
-            var theHallways= response.hallways;
+            var theHallways = response.hallways;
             
-         	$.each(theHallways, function (outterIndex, outterValue)
+/*          	$.each(theHallways, function (outterIndex, outterValue)
             {
             	var hallway = outterIndex;
              		if (response.hallways[theHallways].token != null)
@@ -449,7 +449,7 @@
                             		var = test;
         	               }
         			}
-        		});
+        		}); */
 			}, 
             dataType: "json", 
             timeout: 30000 
