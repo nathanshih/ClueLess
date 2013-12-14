@@ -77,7 +77,10 @@
   	<p>Messages:<p>
 	<textarea id="gameMessages" rows="6" cols="90" readonly></textarea>
   		
-  		<br>You are playing as: <input type="text" name="playerSuspectToken" id="playerSuspectToken" readonly><br>
+  		<br>
+  		You are playing as: <input type="text" name="playerSuspectToken" id="playerSuspectToken" readonly>
+  		You are currently in: <input type="text" name="playerLocation" id="playerLocation" size="30" readonly>
+  		<br>
   		
 		<div id="radioButtons">
 			<input type="radio" name="turnActionGroup" id="moveRB" value="moveRB" >Move
@@ -175,7 +178,14 @@
 	    	            var response = response;
 	    	            var playerName = $.cookie("playerName");
 	    	            
-	    	            $("#playerSuspectToken").val(response.players[playerName].suspect);
+	    	            var playerSuspectToken = response.players[playerName].suspect;
+	    	            $("#playerSuspectToken").val(playerSuspectToken);
+	    	            var playerLocation = response.players[playerName].location;
+	    	            if (playerLocation == null) {
+	    	            	$("#playerLocation").val(playerSuspectToken + "'s starting square");
+	    	            } else {
+	    	            	$("#playerLocation").val(playerLocation);
+	    	            }
 	    	            
 	    	            //check to see if game has been won
 	    	            if (response.solvedBy != null)
@@ -218,16 +228,11 @@
 									var suggestion = response.suggestion;
 			    	    	        var msg = "";
 			    	    	        msg = response.makingSuggestion + " suggests the crime was commited in the " + suggestion[0] + " by " + suggestion[1] + " using the " + suggestion[2] + ".";
-			    	    	        //msg = msg + response.makingSuggestion + " made the suggestion: ";  	
-			    	    	        
-			    	    	        //$.each(suggestion, function(key, value){
-			    	    	        //	msg = msg + " " + value;
-			    	    	        //});
 			    	    	        msg = msg + "\n";
 									
 			    	    	        if (disprovingCard != null){
 			    		    	    	if (response.makingSuggestion == playerName){
-			    		    	    		msg = response.whoCanDisprove + " showed you " + disprovingCard;
+			    		    	    		msg = response.whoCanDisprove + " showed you the card " + disprovingCard;
 			    		    	    		$("#gameMessages").text( msg ).css("color", "black");
 			    				    		$("#endTurnButton").attr("disabled", false); 
 			    		    	    	}
@@ -241,7 +246,7 @@
 				    		    	    	
 				    		    	    	//and unlock the suggestors end turn button
 				    		    	    	if (response.makingSuggestion == playerName){
-				    				    		$("#endTurnButton").attr("disabled", true); 
+				    				    		$("#endTurnButton").attr("disabled", false); 
 				    		    	    	}
 				    		    	    }
 				    	    	        //or if it can be disproven
@@ -455,7 +460,7 @@
 	$("#disproveButton").click(function() {
 		var f = document.getElementById("disprovableCardsList");
 		var selectedCard = f.options[f.selectedIndex].value;
-		alert("You selected " + selectedCard + "to disprove the suggestion");
+		alert("You selected the card " + selectedCard + " to disprove the suggestion");
 		if (selectedCard == "aaa") {
 			alert("You need to select a one of the disprovable cards");
 		}
@@ -488,7 +493,7 @@
 					success: function(response) {
 						var suggest = 'suggestRB';
 						$("input[type=radio][value=" + suggest + "]").prop("disabled",true);
-						if (response.disprovableCards === null){
+						if (response.disprovingCard == null){
 							$("#gameMessages").text("No one could disprove your suggestion").css("color", "black");
 						}
 						else{
