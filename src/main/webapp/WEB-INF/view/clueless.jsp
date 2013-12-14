@@ -337,103 +337,119 @@
         $.ajax({url: "${pageContext.request.contextPath}/v1",
         	type: "GET",
             success: function(response){
-			$.each(response["rooms"], function (outterIndex, outterValue)
-				{
-					var room = outterValue;
-					if (response.rooms[room].tokens.length > 0){ 
-						var tokens = response.rooms[room].tokens;
-						$.each(tokens, function (innerIndex, innerValue) 
-						{
-							var token = innerValue;
-		                    var c=document.getElementById(room);
-		                    var ctx=c.getContext("2d");
-		                    ctx.font="25px Arial";
-		                    switch(token){
-	                        case "Colonel Mustard":
-	                        	ctx.fillStyle="#FFCC11";
-	                        	ctx.fillRect(0,0,25,25);
-	                        	break;
-	                        case "Miss Scarlet":
-	                    		ctx.fillStyle= "#8C1717";
-	                        	ctx.fillRect(25,0,25,25);
-	                    		break;
-	                        case "Mrs. White":
-	                    		ctx.fillStyle= "#FFE9E9";
-	                        	ctx.fillRect(50,0,25,25);
-	                    		break;
-	                        case "Mr. Green":
-	                    		ctx.fillStyle= "#99CC32";
-	                        	ctx.fillRect(0,25,25,25);
-	                    		break;
-	                        case "Mrs. Peacock":
-	                    		ctx.fillStyle= "#016795";
-	                        	ctx.fillRect(25,25,25,25);
-	                    		break;
-	                        case "Professor Plum": 
-	                    		ctx.fillStyle= "#8E4585";
-	                        	ctx.fillRect(50,25,25,25);
-	                    		break;
-	                        case "Rope":
-			                	ctx.strokeStyle="black";
-	                        	ctx.strokeText("r",0,75);
-	                        case "Revolver":
-			                	ctx.strokeStyle="black";
-	                        	ctx.strokeText("R",0,100);
-	                        case "Candlestick":
-			                	ctx.strokeStyle="black";
-	                        	ctx.strokeText("C",25,75);
-	                        case "LeadPipe":
-			                	ctx.strokeStyle="black";
-	                        	ctx.strokeText("L",25,100);
-	                        case "Knife":
-			                	ctx.strokeStyle="black";
-	                        	ctx.strokeText("K",50,75);
-	                        case "Wrench":
-			                	ctx.strokeStyle="black";
-	                        	ctx.strokeText("W",50,100);
-	                    	default:
-	                    		alert("Error token not found");
-	                   	}
+            var rooms = response.rooms;
+            $.each(rooms, function (outterIndex, outterValue)
+            	    {
+            			var room = outterIndex;
+            			var tokens = response.rooms[room].tokens;
+					    if (response.rooms[room].tokens.length != 0)
+					    {     
+							$.each(tokens, function (innerIndex, innerValue) 
+							{
+	 							var token = innerIndex;
+		                		/* alert(room + " " + token); */
+	 							var c=document.getElementById(room);
+		                    	var ctx=c.getContext("2d");
+		                    	ctx.font="25px Arial";
+		                    	switch(token)
+		                    	{
+	                        	case "Colonel Mustard":
+	                        		ctx.fillStyle="#FFCC11";
+	                        		ctx.fillRect(0,0,25,25);
+	                        		break;
+	                        	case "Miss Scarlet":
+	                    			ctx.fillStyle= "#8C1717";
+	                        		ctx.fillRect(25,0,25,25);
+	                    			break;
+	                        	case "Mrs. White":
+	                    			ctx.fillStyle= "#FFE9E9";
+	                        		ctx.fillRect(50,0,25,25);
+	                    			break;
+	                        	case "Mr. Green":
+	                    			ctx.fillStyle= "#99CC32";
+	                        		ctx.fillRect(0,25,25,25);
+	                    			break;
+	                        	case "Mrs. Peacock":
+	                    			ctx.fillStyle= "#016795";
+	                   				ctx.fillRect(25,25,25,25);
+	                    			break;
+	                 	       case "Professor Plum": 
+	                    			ctx.fillStyle= "#8E4585";
+	                     		   	ctx.fillRect(50,25,25,25);
+	                    			break;
+	                 	       case "Rope":
+			                		ctx.strokeStyle="black";
+	                      		  	ctx.strokeText("r",0,75);
+	                      		  	break;
+	                 	       case "Revolver":
+			               			ctx.strokeStyle="black";
+	                       		 	ctx.strokeText("R",0,100);
+	                       		 	break;
+	                      	   case "Candlestick":
+			                		ctx.strokeStyle="black";
+	                        		ctx.strokeText("C",25,75);
+	                        		break;
+	                     	   case "LeadPipe":
+			                		ctx.strokeStyle="black";
+	                        		ctx.strokeText("L",25,100);
+	                        		break;
+	                     	   case "Knife":
+			                		ctx.strokeStyle="black";
+	                        		ctx.strokeText("K",50,75);
+	                        		break;
+	                    	    case "Wrench":
+			                		ctx.strokeStyle="black";
+	                        		ctx.strokeText("W",50,100);
+	                        		break;
+	                    		default:
+	                    			ctx.strokeStyle="black";
+		                    	}
 						}); 
 					}					
 				});
-			$.each(response["hallways"], function (outterIndex, outterValue)
-					{
-						if(response.hallways[hallway].token != null){
-						var hallway = outterValue;
-						var tokens = response.hallways[hallway].token;
-	                    var c=document.getElementById(hallway);
-	                    var ctx=c.getContext("2d");
-	                    switch(token){
-                        case "Colonel Mustard":
-                        	ctx.fillStyle="#FFCC11";
-                        	ctx.fillRect(0,0,25,25);
-                        	break;
-                        case "Miss Scarlet":
-                    		ctx.fillStyle= "#8C1717";
-                        	ctx.fillRect(25,0,25,25);
-                    		break;
-                        case "Mrs. White":
-                    		ctx.fillStyle= "#FFE9E9";
-                        	ctx.fillRect(50,0,25,25);
-                    		break;
-                        case "Mr. Green":
-                    		ctx.fillStyle= "#99CC32";
-                        	ctx.fillRect(0,25,25,25);
-                    		break;
-                        case "Mrs. Peacock":
-                    		ctx.fillStyle= "#016795";
-                        	ctx.fillRect(25,25,25,25);
-                    		break;
-                        case "Professor Plum": 
-                    		ctx.fillStyle= "#8E4585";
-                        	ctx.fillRect(50,25,25,25);
-                    		break;
-                    	default:
-                    		alert("Error token not found");
-	                    }
-						}
-					});
+            
+            var theHallways= response.hallways;
+            
+         	$.each(theHallways, function (outterIndex, outterValue)
+            {
+            	var hallway = outterIndex;
+             		if (response.hallways[theHallways].token != null)
+             		{
+        				var playerTokens = response.hallways[hallway].token;
+             	        var c=document.getElementById(hallway);
+        	            var ctx=c.getContext("2d");
+        	            ctx.font="25px Arial";
+        	            switch(playerTokens)
+        	            {
+                        	case "Colonel Mustard":
+                               ctx.fillStyle="#FFCC11";
+                               ctx.fillRect(0,0,25,25);
+                               break;
+                                case "Miss Scarlet":
+                            		ctx.fillStyle= "#8C1717";
+                                	ctx.fillRect(25,0,25,25);
+                            		break;
+                                case "Mrs. White":
+                            		ctx.fillStyle= "#FFE9E9";
+                                	ctx.fillRect(50,0,25,25);
+                            		break;
+                                case "Mr. Green":
+                            		ctx.fillStyle= "#99CC32";
+                                	ctx.fillRect(0,25,25,25);
+                            		break;
+                                case "Mrs. Peacock":
+                            		ctx.fillStyle= "#016795";
+                                	ctx.fillRect(25,25,25,25);
+                            		break;
+                                case "Professor Plum": 
+                            		ctx.fillStyle= "#8E4585";
+                                	ctx.fillRect(50,25,25,25);
+                            		break;
+                            	default:
+                            		var = test;
+        	               }
+        			}
+        		});
 			}, 
             dataType: "json", 
             timeout: 30000 
@@ -537,21 +553,19 @@
 			  var g = document.getElementById("weaponList");
 			  var selectedWeapon = g.options[g.selectedIndex].id;
 
-			  
-			  	$.ajax({url: "${pageContext.request.contextPath}/v1",
+ 			  $.ajax({url: "${pageContext.request.contextPath}/v1",
 					type: "GET",
 					success: function(response)
 					{
-						
 						  var playerName = $.cookie("playerName");
-						  var location = repsonse.players[playerName].location;
+						  var location = response.players[playerName].location;
 						  var canSuggest = response.players[playerName].canSuggest;
 						  
 						  if (selectedSuspect == "aaa" || selectedWeapon == "aaa"){
 							  alert("You need to select a suspect and a weapon before you can make an suggestion");
 						  }
 						  
-						 else if( location == "Hallway1" || location == "Hallway2" || location == "Hallway3" 
+						else if( location == "Hallway1" || location == "Hallway2" || location == "Hallway3" ||
 							  location == "Hallway4" || location == "Hallway5" || location == "Hallway6" ||
 							  location == "Hallway7" || location == "Hallway8" || location == "Hallway9" ||
 							  location == "Hallway10" || location == "Hallway11" || location == "Hallway10")
@@ -718,7 +732,7 @@
        		this.checked = false;
 		 });
 	     $("#movablelocationList").empty().append('<option id="aaa" value="aaa">-Movable Locations-</option>');
-	     $("#disprovableCardsList").empty().appnd('<option id="aaa" value="aaa">-Select a card-</option>');
+	     $("#disprovableCardsList").empty().append('<option id="aaa" value="aaa">-Select a card-</option>');
 		 hideUI();
 	}
     
