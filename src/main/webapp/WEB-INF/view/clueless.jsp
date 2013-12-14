@@ -342,8 +342,11 @@
             	    {
             			var room = outterIndex;
             			var tokens = response.rooms[room].tokens;
-					    if (response.rooms[room].tokens.length != 0)
-					    {     
+					    if (response.rooms[room].tokens == 0)
+					    	{
+					    	 var test = "test;"
+					    	}
+					    else{     
 							$.each(tokens, function (innerIndex, innerValue) 
 							{
 	 							var token = innerIndex;
@@ -409,8 +412,7 @@
 				});
             
             var theHallways = response.hallways;
-            
-/*          	$.each(theHallways, function (outterIndex, outterValue)
+/* 			$.each(theHallways, function (outterIndex, outterValue)
             {
             	var hallway = outterIndex;
              		if (response.hallways[theHallways].token != null)
@@ -425,28 +427,28 @@
                                ctx.fillStyle="#FFCC11";
                                ctx.fillRect(0,0,25,25);
                                break;
-                                case "Miss Scarlet":
-                            		ctx.fillStyle= "#8C1717";
-                                	ctx.fillRect(25,0,25,25);
-                            		break;
-                                case "Mrs. White":
-                            		ctx.fillStyle= "#FFE9E9";
-                                	ctx.fillRect(50,0,25,25);
-                            		break;
-                                case "Mr. Green":
-                            		ctx.fillStyle= "#99CC32";
-                                	ctx.fillRect(0,25,25,25);
-                            		break;
-                                case "Mrs. Peacock":
-                            		ctx.fillStyle= "#016795";
-                                	ctx.fillRect(25,25,25,25);
-                            		break;
-                                case "Professor Plum": 
-                            		ctx.fillStyle= "#8E4585";
-                                	ctx.fillRect(50,25,25,25);
-                            		break;
-                            	default:
-                            		var = test;
+                            case "Miss Scarlet":
+                           		ctx.fillStyle= "#8C1717";
+                                ctx.fillRect(25,0,25,25);
+                            	break;
+                            case "Mrs. White":
+                            	ctx.fillStyle= "#FFE9E9";
+                                ctx.fillRect(50,0,25,25);
+                            	break;
+                            case "Mr. Green":
+                           		ctx.fillStyle= "#99CC32";
+                               	ctx.fillRect(0,25,25,25);
+                           		break;
+                            case "Mrs. Peacock":
+                           		ctx.fillStyle= "#016795";
+                               	ctx.fillRect(25,25,25,25);
+                           		break;
+                      	     case "Professor Plum": 
+                           		ctx.fillStyle= "#8E4585";
+                               	ctx.fillRect(50,25,25,25);
+                            	break;
+                            default:
+                            	var = test;
         	               }
         			}
         		}); */
