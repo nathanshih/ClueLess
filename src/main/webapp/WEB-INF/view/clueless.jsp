@@ -342,11 +342,7 @@
             	    {
             			var room = outterIndex;
             			var tokens = response.rooms[room].tokens;
-					    if (response.rooms[room].tokens == 0)
-					    	{
-					    	 var test = "test;"
-					    	}
-					    else{     
+					    if (response.rooms[room].tokens != 0)
 							$.each(tokens, function (innerIndex, innerValue) 
 							{
 	 							var token = innerIndex;
