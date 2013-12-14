@@ -341,7 +341,7 @@
 				{
 					var room = outterValue;
 					if (response.rooms[room].tokens.length > 0){ 
-						var tokens = response.rooms[room].togkens;
+						var tokens = response.rooms[room].tokens;
 						$.each(tokens, function (innerIndex, innerValue) 
 						{
 							var token = innerValue;
