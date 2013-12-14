@@ -541,6 +541,8 @@
 		
 		//clear the UI once disprove method is completed
 		$("#disprovableCardsList").empty().append('<option id="aaa" value="aaa">-Select a card-</option>');
+		 $("#disprovableCardsList").hide();
+		 $("#disproveButton").hide();
 
 	});
 
@@ -735,8 +737,6 @@
 	function hideUI(){
 	     $("#movablelocationList").hide();
 	     $("#moveButton").hide();
-		 $("#disprovableCardsList").hide();
-		 $("#disproveButton").hide();
 	     $("#locationList").hide();
 	  	 $("#suspectList").hide();
 	  	 $("#weaponList").hide();
