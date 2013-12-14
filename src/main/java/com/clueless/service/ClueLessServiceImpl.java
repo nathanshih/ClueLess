@@ -49,7 +49,6 @@ public class ClueLessServiceImpl implements ClueLessService {
 	public ClueLessServiceImpl() {
 		clueLessModel = ClueLessModel.getInstance();
 		solutionModel = SolutionModel.getInstance();
-		deck = new ArrayList<Card>(Card.TOTAL);
 		players = clueLessModel.getPlayers();
 		rooms = clueLessModel.getRooms();
 		hallways = clueLessModel.getHallways();
@@ -261,7 +260,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 		
 		// if exists, find a player who can disprove the suggestion
 		String nextPlayerName = playerName;
-		while (clueLessModel.getWhoCanDisprove() == null) {
+		while (!suggestionModel.isCanBeDisproven()) {
 			nextPlayerName = getNextPlayerName(nextPlayerName);
 			
 			// no players can disprove so exit loop
@@ -408,6 +407,7 @@ public class ClueLessServiceImpl implements ClueLessService {
 	
 	private void createSuspectTokens() {
 		suspectTokens = new ArrayList<SuspectToken>(SuspectToken.TOTAL);
+		
 		suspectTokens.add(new SuspectToken(SuspectToken.COLONEL_MUSTARD));
 		suspectTokens.add(new SuspectToken(SuspectToken.MISS_SCARLET));
 		suspectTokens.add(new SuspectToken(SuspectToken.MR_GREEN));
@@ -417,9 +417,12 @@ public class ClueLessServiceImpl implements ClueLessService {
 	}
 	
 	private void createDeck() {
+		deck = new ArrayList<Card>(Card.TOTAL);
+		
 		for (int i=0;i<Card.NUM_ROOMS;i++) deck.add(new Card(Card.TYPE_ROOM,i));
 		for (int i=0;i<Card.NUM_SUSPECTS;i++) deck.add(new Card(Card.TYPE_SUSPECT,i));
 		for (int i=0;i<Card.NUM_WEAPONS;i++) deck.add(new Card(Card.TYPE_WEAPON,i));
+		
 		Collections.shuffle(deck);
 	}
 	
