@@ -63,7 +63,7 @@
       			<td width="100" height="96" align="center"><canvas id="Kitchen" width="100" height="96"/></td>
     		</tr>
   	  	</table>
-		<canvas id="padCanvas" width="152" height="500" style="background: url(http://i.imgur.com/B1K3vHh.png) no-repeat center center;"></canvas>
+	<%-- 	<canvas id="padCanvas" width="152" height="500" style="background: url(http://i.imgur.com/B1K3vHh.png) no-repeat center center;"></canvas> --%>
 	</div>
 	<div id="lobbyAndCards">
 		<p>Cards in hand:<p>
@@ -192,7 +192,7 @@
 	    	            {
 	    	            	var solvedBy = "";
 	    	            	solvedBy = solvedBy + response.solvedBy; 
-							endGame(solvedBy);
+	    	            	endGame(solvedBy);
 	    	            }
 	    	            
 	    	            //check for accusation messages
@@ -340,8 +340,8 @@
 			$.each(response["rooms"], function (outterIndex, outterValue)
 				{
 					var room = outterValue;
-					if (response.rooms[room].tokens!= null){ 
-						var tokens = response.rooms[room].tokens;
+					if (response.rooms[room].tokens.length > 0){ 
+						var tokens = response.rooms[room].togkens;
 						$.each(tokens, function (innerIndex, innerValue) 
 						{
 							var token = innerValue;
@@ -536,31 +536,60 @@
 			  var selectedSuspect = f.options[f.selectedIndex].id;
 			  var g = document.getElementById("weaponList");
 			  var selectedWeapon = g.options[g.selectedIndex].id;
-			  if (selectedSuspect == "aaa" || selectedWeapon == "aaa"){
-				  alert("You need to select a suspect and a weapon before you can make an suggestion");
-			  }
-			  else{
-				$.ajax({type: "POST",
-					url: "${pageContext.request.contextPath}/v1",
-					data: "action=suggestion" + "&suspect=" + selectedSuspect  + "&weapon=" + selectedWeapon,
-					success: function(response) {
-						var suggest = 'suggestRB';
-						$("input[type=radio][value=" + suggest + "]").prop("disabled",true);
-						if (response.disprovingCard == null){
-							$("#gameMessages").text("No one could disprove your suggestion").css("color", "black");
-						}
-						else{
-				    		var msg = "";
-				    		msg = msg + "A player can disprove your suggestion\n";
-				    		$("#gameMessages").text(msg).css("color", "black");
-				    		//unlock this in the cofunction under poll
-				    		$("#endTurnButton").attr("disabled", true); 
-						}
-					},
-		  			timeout: 30000,
-					dataType: "json"
-				});
-			  }
+
+			  
+			  	$.ajax({url: "${pageContext.request.contextPath}/v1",
+					type: "GET",
+					success: function(response)
+					{
+						
+						  var playerName = $.cookie("playerName");
+						  var location = repsonse.players[playerName].location;
+						  var canSuggest = response.players[playerName].canSuggest;
+						  
+						  if (selectedSuspect == "aaa" || selectedWeapon == "aaa"){
+							  alert("You need to select a suspect and a weapon before you can make an suggestion");
+						  }
+						  
+						 else if( location == "Hallway1" || location == "Hallway2" || location == "Hallway3" 
+							  location == "Hallway4" || location == "Hallway5" || location == "Hallway6" ||
+							  location == "Hallway7" || location == "Hallway8" || location == "Hallway9" ||
+							  location == "Hallway10" || location == "Hallway11" || location == "Hallway10")
+						  {
+							alert("You can not suggest from the hallways"); 
+						  }
+						  //cant suggest becuase of flag in object
+						  else if (canSuggest != true) {
+							alert("You can not make a suggestion at this time, you need to exit this room");
+						  }
+						  
+						  else{
+							$.ajax({type: "POST",
+								url: "${pageContext.request.contextPath}/v1",
+								data: "action=suggestion" + "&suspect=" + selectedSuspect  + "&weapon=" + selectedWeapon,
+								success: function(response) {
+									var suggest = 'suggestRB';
+									$("input[type=radio][value=" + suggest + "]").prop("disabled",true);
+									if (response.disprovingCard == null){
+										$("#gameMessages").text("No one could disprove your suggestion").css("color", "black");
+									}
+									else{
+							    		var msg = "";
+							    		msg = msg + "A player can disprove your suggestion\n";
+							    		$("#gameMessages").text(msg).css("color", "black");
+							    		//unlock this in the cofunction under poll
+							    		 
+									}
+								},
+					  			timeout: 30000,
+								dataType: "json"
+							});
+						  }
+						
+					}, 
+					dataType: "json", 
+					timeout: 30000 
+			  	});
 		});
 
 	$("input:radio[name=turnActionGroup]").click(function(){
@@ -705,9 +734,9 @@
 	     $("#suggestButton").hide();
 	}
 	
-	function endTurn(solvedBy){
+	function endGame(solvedBy){
     	var wonBy = "";
-    	wonBy = wonBy + response.solvedBy + "has won the game!";
+    	wonBy = wonBy + solvedBy + "has won the game!";
     	$("#gameMessages").text(wonBy).css("color", "green");
     	if (solvedBy ==  $.cookie("playerName")){
     		alert("You have won the game!");    		
