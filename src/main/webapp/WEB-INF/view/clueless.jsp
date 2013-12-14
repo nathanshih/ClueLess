@@ -101,8 +101,8 @@
        		<option id="BillardRoom" value="BillardRoom">Billard Room</option>
 	        <option id="DiningRoom" value="DiningRoom">Dining Room</option>
 	        <option id="Conservatory" value="Conservatory">Conservatory</option>
-	        <option id="Ballroom" value="Ballroom">Ball Room</option>
-        	<option id="Kitchen" value="Kitchen">Kitchen</option> -->   
+	        <option id="Ballroom" value="Ballroom">Ballroom</option>
+        	<option id="Kitchen" value="Kitchen">Kitchen</option>   
     	</select>
     	
 	    <select id="suspectList" name="suspectList">
@@ -112,15 +112,15 @@
       	  	<option id="Mrs. White" value="Mrs. White">Mrs. White</option>
       	  	<option id="Mr. Green" value="Mr. Green">Mr. Green</option>
       	  	<option id="Mrs. Peacock" value="Mrs. Peacock">Mrs. Peacock</option>
-       	 	<option is="Professor Plum" value="Professor Plum">Professor Plum</option>    
+       	 	<option id="Professor Plum" value="Professor Plum">Professor Plum</option>    
     	</select>
    
 		<select id="weaponList" name="weaponList">
         	<option id="aaa" value="aaa">-Select a Weapon-</option>   
 			<option id="Rope" value="Rope">Rope</option>
-        	<option id="Lead Pipe"value="Lead Pipe">Lead Pipe</option>
-        	<option id="Knife"value="Knife">Knife</option>
-        	<option id="Wrench"value="Wrench">Wrench</option>
+        	<option id="LeadPipe" value="LeadPipe">Lead Pipe</option>
+        	<option id="Knife" value="Knife">Knife</option>
+        	<option id="Wrench" value="Wrench">Wrench</option>
         	<option id="Candlestick" value="Candlestick">Candlestick</option>
         	<option id="Revolver" value="Revolver">Revolver</option>    
     	</select>
